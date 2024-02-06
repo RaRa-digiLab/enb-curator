@@ -1,2 +1,6 @@
 .curator_env
+data/raw/*.xml
+
+src/python/__pycache__
+
 notebooks/.ipynb_checkpoints
