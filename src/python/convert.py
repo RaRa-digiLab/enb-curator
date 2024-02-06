@@ -467,7 +467,7 @@ if __name__ == "__main__":
 
     import sys
     key = sys.argv[1]
-    marc_threshold = sys.argv[2]
+    marc_threshold = float(sys.argv[2])
 
     print(f"Converting {key} to dataframe")
     df = oai_to_dataframe(f"{read_data_path}/{key}.xml", marc_threshold=marc_threshold, replace_columns=False)
