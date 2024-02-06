@@ -197,6 +197,8 @@ def harvest_oai(key: str, savepath: str) -> None:
 
 if __name__ == "__main__":
 
-    key = "erb_books"
+    import sys
+
+    key = sys.argv[1]
     print(f"Harvesting {collections[key]['title']}")
     harvest_oai(key=key, savepath=f"../../data/raw/{key}.xml")
