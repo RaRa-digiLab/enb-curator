@@ -1,18 +1,28 @@
 import json
 from tqdm import tqdm
+from pathlib import Path
 import requests
 from lxml import etree
 from lxml.etree import ElementTree as ET
+
+# Path to the current script
+current_script_path = Path(__file__)
+
+# Path to the project root (assuming the current script is in project_root/src/python)
+project_root = current_script_path.parent.parent.parent
+
+# Path to the collections.json file in the config directory
+collections_file_path = project_root / "config" / "collections.json"
+
+with open(collections_file_path, "r", encoding="utf8") as f:
+    collections = json.load(f)
+
 
 
 ns = {"oai": "http://www.openarchives.org/OAI/2.0/",
       "xsi": "http://www.w3.org/2001/XMLSchema-instance"}
 for key, value in ns.items():
     etree.register_namespace(key, value)
-
-
-with open("../../config/collections.json", "r", encoding="utf8") as f:
-    collections = json.load(f)
 
 
 def update_cursor(token: str, step: int):
