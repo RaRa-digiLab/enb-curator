@@ -1,5 +1,7 @@
 .curator_env
+
 data/raw/*.xml
+data/interim/*.tsv
 
 src/python/__pycache__
 
