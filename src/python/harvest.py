@@ -7,10 +7,10 @@ from lxml.etree import ElementTree as ET
 
 # Path to the current script
 current_script_path = Path(__file__)
-
-# Path to the project root (assuming the current script is in project_root/src/python)
+# Path to the project root
 project_root = current_script_path.parent.parent.parent
-
+# Path to write directory
+write_data_path = project_root / "data" / "raw"
 # Path to the collections.json file in the config directory
 collections_file_path = project_root / "config" / "collections.json"
 
@@ -211,4 +211,4 @@ if __name__ == "__main__":
 
     key = sys.argv[1]
     print(f"Harvesting {collections[key]['title']}")
-    harvest_oai(key=key, savepath=f"../../data/raw/{key}.xml")
+    harvest_oai(key=key, savepath=f"{write_data_path}/{key}.xml")
