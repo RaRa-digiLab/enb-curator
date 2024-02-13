@@ -2,7 +2,9 @@
 
 data/raw/*.xml
 data/interim/*.tsv
+data/interim/*.parquet
 
 src/python/__pycache__
 
 notebooks/.ipynb_checkpoints
+notebooks/test.ipynb
