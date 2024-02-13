@@ -16,7 +16,7 @@ read_data_path = project_root / "data" / "raw"
 # Path to write directory
 write_data_path = project_root / "data" / "interim"
 # Path to the collections.json file in the config directory
-column_names_file_path = project_root / "config" / "collections.json"
+column_names_file_path = project_root / "config" / "marc_columns_dict.json"
 
 with open(column_names_file_path, "r", encoding="utf8") as f:
     marc_columns_dict = json.load(f)
