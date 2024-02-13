@@ -374,9 +374,9 @@ if __name__ == "__main__":
     df = df.convert_dtypes()
 
     ### salvestamine
-    savepath = f"{write_data_path}/{key}.parquet"
+    savepath = f"{write_data_path}/{key}_cleaned.parquet"
     print(f"Saving cleaned file to {savepath}")
-    df.to_parquet(f"{write_data_path}/{key}_cleaned.parquet")
+    df.to_parquet(savepath)
     
     print("Finished!")
 
