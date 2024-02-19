@@ -312,14 +312,14 @@ if __name__ == "__main__":
 
     ### 245$n: osa number
     print("245$a: cleaning and harmonizing part numeration")
-    df["title_part_nr"] = df["245$n"].apply(clean_245n)
-    df = df.drop("245$n", axis=1)
+    df["title_part_nr_cleaned"] = df["245$n"].apply(clean_245n)
+    # df = df.drop("245$n", axis=1)
 
     ### 260, 264: avaldamisinfo
     add_260abc_264abc(df)
     print("260$c: cleaning publishing date")
     df[["publishing_year_cleaned", "publishing_decade"]] = df["260$c"].apply(clean_260c).to_list()
-    df = df.drop(["260$a", "260$b", "260$c", "264$a", "264$b", "264$c"], axis=1)
+    df = df.drop(["264$a", "264$b", "264$c"], axis=1)
 
     ### 300$a:lehekülgede arv
     print("300$a: extracting page counts")
