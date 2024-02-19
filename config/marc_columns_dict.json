@@ -165,6 +165,7 @@
     "700$p": "added_person_work_part_name",
     "700$r": "added_person_musical_key",
     "700$t": "added_person_work_title",
+    "710": "corporate_unit",
     "710$a": "added_corporate_name",
     "710$b": "added_corporate_sub_unit",
     "710$e": "added_corporate_relator_term",

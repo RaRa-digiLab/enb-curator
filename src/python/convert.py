@@ -117,28 +117,34 @@ class MARCrecordParser():
         return dates
 
     def handle_person_subfields(self, subfields: dict):
+        name = None
+        dates = None
+        role = None
+        info = None
+        title = None
+
         if "a" in subfields.keys():
             name = subfields["a"].rstrip(" ,:.;")
-        else:
-            name = None
         if "d" in subfields.keys():
             dates = " (" + self.clean_person_dates(subfields["d"]) + ")"
-        else:
-            dates = None
         if "e" in subfields.keys():
             role = " [" + subfields["e"].rstrip(" ,:.;") + "]"
-        else:
-            role = None
         if "i" in subfields.keys():
             info = subfields["i"].rstrip(" ,:.;") + ": "
-        else:
-            info = None
         if "t" in subfields.keys():
             title = ': "' + subfields["t"].rstrip(" ,:.;") + '"'
-        else:
-            title = None
         
         return f'{info or ""}{name or ""}{dates or ""}{role or ""}{title or ""}'
+    
+    def handle_corporate_subfields(self, subfields: dict):
+        corporate_unit = None
+        corporate_sub_unit = None
+        if "a" in subfields.keys():
+            corporate_unit = subfields["a"].rstrip(" ,:.;")
+        if "b" in subfields.keys():
+            corporate_sub_unit = " [" + subfields["b"].rstrip(" ,:.;") + "]"
+
+        return f'{corporate_unit or ""}{corporate_sub_unit or ""}'
 
     def clean_field(self, value):
         if value.startswith("http"):
@@ -183,6 +189,9 @@ class MARCrecordParser():
                     if path in ["100", "600", "700"]:
                         person_string = self.handle_person_subfields(subfields)
                         self.append_field(path, person_string)
+                    elif path in ["710"]:
+                        corporate_string = self.handle_corporate_subfields(subfields)
+                        self.append_field(path, corporate_string)
                     else:
                         for key, subval in subfields.items():
                             subpath = path + "$" + key
