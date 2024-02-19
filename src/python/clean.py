@@ -292,8 +292,10 @@ def clean_534c(entry, pattern=PATTERN_534c):
             matchgroups = match.groupdict()
             if matchgroups["year"]:
                 year = int(matchgroups["year"])
-            place = matchgroups["place"]
-            publisher = matchgroups["publisher"]
+            if matchgroups["place"]:
+                place = matchgroups["place"]
+            if matchgroups["publisher"]:
+                publisher = matchgroups["publisher"]
             if matchgroups["range"]:
                 year = int(matchgroups["range"].split("-")[0])
 
