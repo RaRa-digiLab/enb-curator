@@ -174,12 +174,23 @@ def clean_300a(entry: str, pattern=PATTERN_300a):
     if type(entry) == str:
         match = re.search(pattern, entry)
         if match:
-            groups = match.groupdict()
             lk = None
-            if groups["arv"]:
-                if groups["uhik"]:
-                    if groups["uhik"] in ["l", "lk", "lehekülge", "nummerdamata lehekülge"]:
-                        lk = int(groups["arv"].lstrip("[").strip("]"))
+            groups = match.groupdict()
+            if groups["uhik"]:
+                if groups["uhik"] in ["l", "lk", "lehte", "lehekülg", "lehekülge", "nummerdamata lehekülge"]:
+                    if groups["vahemik"]:
+                        start, end = groups["vahemik"].split("-")
+                        start = "".join([char for char in start if char.isnumeric()])
+                        lk = int(end) - int(start)
+                    elif groups["arv"]:
+                        lk = int(groups["arv"])
+                    elif groups["sulud"]:
+                        lk = int(groups["sulud"].lstrip("[").strip("]"))
+            elif groups["vahemik"]:
+                start, end = groups["vahemik"].split("-")
+                start = "".join([char for char in start if char.isnumeric()])
+                lk = int(end) - int(start)
+
             return lk
 
 
