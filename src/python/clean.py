@@ -18,6 +18,7 @@ read_data_path = project_root / "data" / "raw"
 write_data_path = project_root / "data" / "interim"
 columns_to_keep_file_path = project_root / "config" / "marc_columns_to_keep.json"
 column_names_file_path = project_root / "config" / "marc_columns_dict.json"
+column_order_file_path = project_root / "config" / "marc_columns_order.json"
 
 
 def load_converted_data(key: str):
@@ -361,7 +362,7 @@ if __name__ == "__main__":
     ### 260, 264: avaldamisinfo
     add_260abc_264abc(df)
     print("260$c: cleaning publishing date")
-    df[["publishing_year_cleaned", "publishing_decade"]] = df["260$c"].apply(clean_260c).to_list()
+    df[["publication_date_cleaned", "publication_decade"]] = df["260$c"].apply(clean_260c).to_list()
     df = df.drop(["264$a", "264$b", "264$c"], axis=1)
 
     ### 300$a:lehekülgede arv
@@ -413,7 +414,12 @@ if __name__ == "__main__":
     ### tulpade ümber nimetamine
     with open(column_names_file_path) as f:
         column_names = json.load(f)
-    df = df.rename(columns=column_names)
+        df = df.rename(columns=column_names)
+
+    ### tulpade järjekord
+    with open(column_order_file_path) as f:
+        column_order = json.load(f)["columns"]
+        df = df[column_order]
 
     ### formaatimine
     df = df.convert_dtypes()
