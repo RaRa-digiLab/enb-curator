@@ -1,6 +1,8 @@
 import re
 
 PATTERN_245n = re.compile(r"(?:([Nn]r\.?\s)|Album\s|Triloogia\s)?(?P<n>(?P<araabia>\d{1,2})|(?P<rooma>\b(?=[MDCLXVI]+\b)(M{0,4}(CM|CD|D?C{0,3})(XC|XL|L?X{0,3})(IX|IV|V?I{0,3}))\b)|(?P<arvsna>(?P<a1>[Ee]{1,2}[sd]{1,2}i?m[eaä]n{1,2}e)|(?P<a2>[Tt][eõö]ine)|(?P<a3>[Kk]olmas)|(?P<a4>[Nn]eljas)|(?P<a5>[VWvw]i{1,2}es)|(?P<a6>[Kk]u{1,2}es)|(?P<a7>[Ss]eitsmes)|(?P<a8>[Kk]ah{1,2}eksas)|(?P<a9>[Üü]h{1,2}eksas)|(?P<a11>([Üü](ks|he)teist)|(?P<a12>[Kk]a(ks|he)teist))?(?P<a10>[Kk]ümnes))|(?P<AB>A|B))(\.)?\s?(?P<p>(?:\[?)([A-zöõäü]+)(?:\.?\]?))?")
+PATTERN_250a_num = re.compile(r"\b(?P<num>\d{1,2}(st|nd|rd|th)?)(?!\d{1,3}\.(\saasta))\b")
+PATTERN_250a_word = re.compile(r"(?P<arvsna>(?P<a1>[Ee]{1,2}[sd]{1,2}i?m[eaä]n{1,2}e)|(?P<a2>[Tt][eõö]ine)|(?P<a3>[Kk]olma[sšt])|(?P<a4>[Nn]elja[st])|(?P<a5>[VWvw]i{1,2}e[st])|(?P<a6>[Kk]u{1,2}e[st])|(?P<a7>[Ss]eitsme[st])|(?P<a8>[Kk]ah{1,2}eksa(ma)?[st])|(?P<a9>[Üü]h{1,2}eksa(ma)?[st])|(?P<a11>([Üü](ks|he)teist)|(?P<a12>[Kk]a(ks|he)teist))?(?P<a10>[Kk]ümne(ma)?[st]))")
 PATTERN_260c = re.compile(r"(?:c|(?P<copyright>©)|tsens(eeritud|\.)\s*)?((?P<year>\d{4})(?:\.0)?(?:\?)?|(?P<decade>\d{3}-\?)|(?P<century>\d{2}--\?))")
 PATTERN_300a = re.compile(r"(([IVXL]+,?\s)|(1\s(voldik|võrgu(väljaanne|ressurss))\s\())?(?P<vahemik>(?:[Ll]k\.?\s)?\d{1,4}\-\d{1,4})?(?P<arv>\b\d{1,4})?,?(\s*)?(?P<sulud>\[\d+\])?\s*(?P<uhik>lk|l\b|(nummerdamata\s)?lehte|lehekülge?|voldik|CD-ROM|(võrgu(väljaanne|ressurss)|e-raamat))?")
 PATTERN_533d = re.compile(r"^(\d{4}(-\d{4})?)(\;\s\d{4}(-\d{4})?)*")

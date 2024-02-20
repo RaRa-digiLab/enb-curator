@@ -7,22 +7,23 @@ import pandas as pd
 import isbnlib
 from urllib.parse import urlparse
 
-from regex_patterns import PATTERN_245n, PATTERN_260c, PATTERN_300a, PATTERN_533d, PATTERN_534c
+from regex_patterns import PATTERN_245n, PATTERN_250a_num, PATTERN_250a_word, PATTERN_260c, PATTERN_300a, PATTERN_533d, PATTERN_534c
 
 MIN_YEAR = 1500
 MAX_YEAR = 2024
 
 current_script_path = Path(__file__)
 project_root = current_script_path.parent.parent.parent
-read_data_path = project_root / "data" / "interim"
+read_data_path = project_root / "data" / "raw"
 write_data_path = project_root / "data" / "interim"
 columns_to_keep_file_path = project_root / "config" / "marc_columns_to_keep.json"
 column_names_file_path = project_root / "config" / "marc_columns_dict.json"
 
 
 def load_converted_data(key: str):
-    """Impordib toorandmed pärast XML-ist TSV-sse konverteerimist."""
-    df = pd.read_csv(f"{read_data_path}/{key}.tsv", sep="\t", encoding="utf8", low_memory=False)
+    """Impordib tabeliks teisendatud andmed."""
+    #df = pd.read_csv(f"{read_data_path}/{key}_converted.tsv", sep="\t", encoding="utf8", low_memory=False)
+    df = pd.read_parquet(f"{read_data_path}/{key}_converted.parquet")
 
     # allesjäetavate tulpade nimed tulevad välisest failist
     with open(columns_to_keep_file_path, "r", encoding="utf8") as f:
@@ -111,6 +112,31 @@ def clean_245n(entry: str, pattern=PATTERN_245n):
                 p = ''
 
             return n+p
+        
+
+def clean_250a(entry, pattern_num=PATTERN_250a_num, pattern_word=PATTERN_250a_word):
+    """Eraldab editsiooniandmete väljalt kordustrüki arvu."""
+    if type(entry) == str:
+        tr = None
+        # Neljas trükk, Wiies trükk jne
+        if re.search(pattern_word, entry):
+            for key, val in re.search(pattern_word, entry).groupdict().items():
+                if re.search("a\d{1,2}", key):
+                    if val is not None:
+                        tr = int(key.lstrip("a"))
+                        break
+        # 2. tr, 1. trükk jne
+        elif re.search(pattern_num, entry):
+            tr = int(''.join([char for char in re.search(pattern_num, entry).groupdict()["num"] if char.isnumeric()]))
+        # Esmatrükk, esitrüll
+        elif re.search(r"[Es](sma|si)", entry):
+            tr = 1
+        # vaikimisi eeldame, et muud väärtused tähistavad teist trükki
+        # (parandatud väljaanne, täiendatud trükk, ümbertrükk vms)    
+        else:
+            tr = 2
+
+        return tr
 
 
 def add_260abc_264abc(df):
@@ -328,6 +354,10 @@ if __name__ == "__main__":
     df["title_part_nr_cleaned"] = df["245$n"].apply(clean_245n)
     # df = df.drop("245$n", axis=1)
 
+    ### 250$a: editsiooniandmed
+    print("250$a: cleaning edition statement")
+    df["edition_n"] = df["250$a"].apply(clean_250a)
+
     ### 260, 264: avaldamisinfo
     add_260abc_264abc(df)
     print("260$c: cleaning publishing date")
@@ -381,7 +411,9 @@ if __name__ == "__main__":
     df = df.drop("856$u", axis=1)
 
     ### tulpade ümber nimetamine
-    ### kood siia, kui kõik tulbad on üle käidud
+    with open(column_names_file_path) as f:
+        column_names = json.load(f)
+    df = df.rename(columns=column_names)
 
     ### formaatimine
     df = df.convert_dtypes()
