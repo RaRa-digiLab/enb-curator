@@ -1,8 +1,8 @@
 .curator_env
 
 data/raw/*.xml
-data/interim/*.tsv
-data/interim/*.parquet
+data/converted/*.parquet
+data/cleaned/*.parquet
 
 src/python/__pycache__
 
