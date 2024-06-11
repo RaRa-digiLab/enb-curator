@@ -1,6 +1,6 @@
 # Kureeritud ERB
 
-#### Esialgne toru kirjeldus
+### Esialgne toru kirjeldus
 
 0. **MARC21XML andmed OAI-PMH liideses**
 
@@ -24,9 +24,12 @@
 
 5. **Lingitud (lõplikud?) andmed**: `data/linked/`
 
-#### Meelespea
+### Meelespea
 
 &#9758; säilitame modulaarsust (iga asja jaoks oma funktsioon)
+
 &#9758; dokumenteerime käigu pealt (inglise keeles)
+
 &#9758; vaheastmetena kasutame `.parquet` faile
-&#9758; olulist abiinfot hoiame `config` kaustas, et hiljem oleks lihtne protsessi uuendada
+
+&#9758; olulist abiinfot hoiame `config` kaustas
