@@ -1,3 +1,5 @@
-### Raw MARC21XML files
+### Raw files
 
-This directory contains raw files as harvested by the `./src/python/harvest.py` script. The files are ignored by git.
+This directory contains raw files harvested with `./src/python/harvest.py`.
+
+The files are ignored by git.
