@@ -145,6 +145,17 @@ class MARCrecordParser():
             corporate_sub_unit = " [" + subfields["b"].rstrip(" ,:.;") + "]"
 
         return f'{corporate_unit or ""}{corporate_sub_unit or ""}'
+    
+    def handle_keyword_subfields(self, subfields: dict):
+        keyword = None
+        keyword_id = None
+        if "a" in subfields.keys():
+            keyword = subfields["a"].strip(".")
+            if "0" in subfields.keys():
+                keyword_link = subfields["0"]
+                keyword_id = keyword_link.split("id/")[-1].strip(".")  # specific to EMS links in the ENB
+
+        return f'{keyword} [{keyword_id or ""}]'
 
     def clean_field(self, value):
         if value.startswith("http"):
@@ -182,20 +193,32 @@ class MARCrecordParser():
         for field in self.fields:
             path, value = next(iter(field.items()))
             if path[0] == "9":
+                # skip these fields - not needed in ENB
                 pass
             else:
                 if type(value) == dict:
                     subfields = self.join_subfields_list(value["subfields"])
+
                     if path in ["100", "600", "700"]:
+                        # person fields exception
                         person_string = self.handle_person_subfields(subfields)
                         self.append_field(path, person_string)
+
                     elif path in ["710"]:
+                        # corporate field exception
                         corporate_string = self.handle_corporate_subfields(subfields)
                         self.append_field(path, corporate_string)
+
+                    elif path in ["650", "651", "655"]:
+                        # keyword fields exception
+                        keyword_string = self.handle_keyword_subfields(subfields)
+                        self.append_field(path, keyword_string)                        
+
                     else:
                         for key, subval in subfields.items():
                             subpath = path + "$" + key
                             self.append_field(subpath, subval)
+
                 elif type(value) == str:
                     self.append_field(path, value)
 
