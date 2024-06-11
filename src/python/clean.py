@@ -14,8 +14,8 @@ MAX_YEAR = 2024
 
 current_script_path = Path(__file__)
 project_root = current_script_path.parent.parent.parent
-read_data_path = project_root / "data" / "raw"
-write_data_path = project_root / "data" / "interim"
+read_data_path = project_root / "data" / "converted"
+write_data_path = project_root / "data" / "cleaned"
 columns_to_keep_file_path = project_root / "config" / "marc_columns_to_keep.json"
 column_names_file_path = project_root / "config" / "marc_columns_dict.json"
 column_order_file_path = project_root / "config" / "marc_columns_order.json"
@@ -24,11 +24,12 @@ column_order_file_path = project_root / "config" / "marc_columns_order.json"
 def load_converted_data(key: str):
     """Impordib tabeliks teisendatud andmed."""
     #df = pd.read_csv(f"{read_data_path}/{key}_converted.tsv", sep="\t", encoding="utf8", low_memory=False)
-    df = pd.read_parquet(f"{read_data_path}/{key}_converted.parquet")
+    df = pd.read_parquet(f"{read_data_path}/{key}.parquet")
 
     # allesjäetavate tulpade nimed tulevad välisest failist
     with open(columns_to_keep_file_path, "r", encoding="utf8") as f:
         columns = json.load(f)["columns"]
+        columns = [col for col in columns if col in df.columns]
     
     # jätkame vaid oluliste tulpadega    
     df = df[columns]
@@ -343,63 +344,75 @@ if __name__ == "__main__":
     df = load_converted_data(key=key)
 
     ### 020$a: ISBN
-    print("020$a: validating ISBN codes")
-    df["isbn"] = df["020$a"].apply(validate_020)
-    df = df.drop("020$a", axis=1)
+    if "020$a" in df.columns:
+        print("020$a: validating ISBN codes")
+        df["isbn"] = df["020$a"].apply(validate_020)
+        df = df.drop("020$a", axis=1)
 
     ### keeled
     ### kood siia...
 
     ### 245$n: osa number
-    print("245$a: cleaning and harmonizing part numeration")
-    df["title_part_nr_cleaned"] = df["245$n"].apply(clean_245n)
-    # df = df.drop("245$n", axis=1)
+    if "245$n" in df.columns:
+        print("245$n: cleaning and harmonizing part numeration")
+        df["title_part_nr_cleaned"] = df["245$n"].apply(clean_245n)
+        # df = df.drop("245$n", axis=1)
 
     ### 250$a: editsiooniandmed
-    print("250$a: cleaning edition statement")
-    df["edition_n"] = df["250$a"].apply(clean_250a)
+    if "250$a" in df.columns:
+        print("250$a: cleaning edition statement")
+        df["edition_n"] = df["250$a"].apply(clean_250a)
 
     ### 260, 264: avaldamisinfo
-    add_260abc_264abc(df)
-    print("260$c: cleaning publishing date")
-    df[["publication_date_cleaned", "publication_decade"]] = df["260$c"].apply(clean_260c).to_list()
-    df = df.drop(["264$a", "264$b", "264$c"], axis=1)
+    if all([col in df.columns for col in ["260$a", "260$b", "260$c","264$a", "264$b", "264$c"]]):
+        add_260abc_264abc(df)
+        df = df.drop(["264$a", "264$b", "264$c"], axis=1)
+    if all([col in df.columns for col in ["260$a", "260$b", "260$c"]]):   
+        print("260$c: cleaning publishing date")
+        df[["publication_date_cleaned", "publication_decade"]] = df["260$c"].apply(clean_260c).to_list()
+        
+    ### 300$a: lehekülgede arv
+    if "300$a" in df.columns:
+        print("300$a: extracting page counts")
+        df["page_count"] = df["300$a"].apply(clean_300a)
+        df = df.drop("300$a", axis=1)
 
-    ### 300$a:lehekülgede arv
-    print("300$a: extracting page counts")
-    df["page_count"] = df["300$a"].apply(clean_300a)
-    df = df.drop("300$a", axis=1)
-
-    ### 300$b: lllustratsioonide olemasolu
-    print("300$b: filtering illustrations")
-    df["illustrated"] = df["300$b"].apply(clean_300b)
-    df = df.drop("300$b", axis=1)
+    ### 300$b: illustratsioonide olemasolu
+    if "300$b" in df.columns:
+        print("300$b: filtering illustrations")
+        df["illustrated"] = df["300$b"].apply(clean_300b)
+        df = df.drop("300$b", axis=1)
 
     ### 300$c: füüsilised mõõtmed
-    print("300$c: extracting physical dimensions")
-    df["physical_size"] = df["300$c"].apply(clean_300c)
-    df = df.drop("300$c", axis=1)
+    if "300$c" in df.columns:
+        print("300$c: extracting physical dimensions")
+        df["physical_size"] = df["300$c"].apply(clean_300c)
+        df = df.drop("300$c", axis=1)
 
     ### 500$a: üldmärkused (tiraaž, hind, kirjastiil)
-    print("500$a: extracting print run, price, typeface")
-    df[["print_run", "price", "typeface"]] = df["500$a"].apply(clean_500a).to_list()
-    df = df.drop("500$a", axis=1)
+    if "500$a" in df.columns:
+        print("500$a: extracting print run, price, typeface")
+        df[["print_run", "price", "typeface"]] = df["500$a"].apply(clean_500a).to_list()
+        df = df.drop("500$a", axis=1)
 
     ### 504$a: bibliograafia & register
-    print("504$a: filtering bibliographies/registers")
-    df["bibliography_register"] = df["504$a"].apply(clean_504a)
-    df = df.drop("504$a", axis=1)
+    if "504$a" in df.columns:
+        print("504$a: filtering bibliographies/registers")
+        df["bibliography_register"] = df["504$a"].apply(clean_504a)
+        df = df.drop("504$a", axis=1)
 
     ### 533: digitaalne repro
-    print("533$a: filtering digital reproductions")
-    df["digitized"] = df["533$a"].apply(clean_533a)
-    df["digitized_year"] = df["533$d"].apply(clean_533d)
-    df = df.drop(["533$a", "533$d"], axis=1)
+    if "533$a" in df.columns and "533$d" in df.columns: 
+        print("533$a: filtering digital reproductions")
+        df["digitized"] = df["533$a"].apply(clean_533a)
+        df["digitized_year"] = df["533$d"].apply(clean_533d)
+        df = df.drop(["533$a", "533$d"], axis=1)
 
     ### 534$c: algupärandi märkus
-    print("534$c: extracting original distribution info")
-    df[["original_distribution_year", "original_distribution_place", "original_distribution_publisher"]] = df["534$c"].apply(clean_534c).to_list()
-    df = df.drop("534$c", axis=1)
+    if "534$c" in df.columns:
+        print("534$c: extracting original distribution info")
+        df[["original_distribution_year", "original_distribution_place", "original_distribution_publisher"]] = df["534$c"].apply(clean_534c).to_list()
+        df = df.drop("534$c", axis=1)
 
     ### 534$l: autoriõiguse märge
     ### kood siia...
@@ -408,8 +421,9 @@ if __name__ == "__main__":
     ### kood siia
 
     ### 856$u: elektrooniline juurdepääs
-    df["access_uri"] = df["856$u"].apply(clean_856u)
-    df = df.drop("856$u", axis=1)
+    if "856$u" in df.columns:
+        df["access_uri"] = df["856$u"].apply(clean_856u)
+        df = df.drop("856$u", axis=1)
 
     ### tulpade ümber nimetamine
     with open(column_names_file_path) as f:
@@ -419,18 +433,15 @@ if __name__ == "__main__":
     ### tulpade järjekord
     with open(column_order_file_path) as f:
         column_order = json.load(f)["columns"]
+        column_order = [col for col in column_order if col in df.columns]
         df = df[column_order]
 
     ### formaatimine
     df = df.convert_dtypes()
 
     ### salvestamine
-    savepath = f"{write_data_path}/{key}_cleaned.parquet"
+    savepath = f"{write_data_path}/{key}.parquet"
     print(f"Saving cleaned file to {savepath}")
     df.to_parquet(savepath)
     
     print("Finished!")
-
-
-
-

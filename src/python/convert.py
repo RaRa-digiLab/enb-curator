@@ -14,7 +14,7 @@ project_root = current_script_path.parent.parent.parent
 # Path to read directory
 read_data_path = project_root / "data" / "raw"
 # Path to write directory
-write_data_path = project_root / "data" / "interim"
+write_data_path = project_root / "data" / "converted"
 # Path to the collections.json file in the config directory
 column_names_file_path = project_root / "config" / "marc_columns_dict.json"
 
@@ -480,4 +480,4 @@ if __name__ == "__main__":
 
     print(f"Converting {key} to dataframe")
     df = oai_to_dataframe(f"{read_data_path}/{key}.xml", marc_threshold=marc_threshold, replace_columns=False)
-    df.to_csv(f"{write_data_path}/{key}.tsv", sep="\t", encoding="utf8", index=False)
+    df.to_parquet(f"{write_data_path}/{key}.parquet")
