@@ -156,6 +156,15 @@ class MARCrecordParser():
                 keyword_id = keyword_link.split("id/")[-1].strip(".")  # specific to EMS links in the ENB
 
         return f'{keyword} [{keyword_id or ""}]'
+    
+    def handle_control_field_008(self, value):
+        if type(value) == str:
+            if len(value) in range(38, 41):
+                publication_place = value[15:18]
+                language = value[35:38]
+
+                return publication_place, language
+        return (None, None)
 
     def clean_field(self, value):
         if value.startswith("http"):
@@ -173,7 +182,7 @@ class MARCrecordParser():
             return value
 
     def append_field(self, field, value):
-        if self.return_control_fields == False and field in ["006", "007", "008"]:
+        if self.return_control_fields == False and field in ["006", "007"]:
             pass
         else:
             try:
@@ -212,15 +221,26 @@ class MARCrecordParser():
                     elif path in ["650", "651", "655"]:
                         # keyword fields exception
                         keyword_string = self.handle_keyword_subfields(subfields)
-                        self.append_field(path, keyword_string)                        
+                        self.append_field(path, keyword_string)                      
 
                     else:
+                        # standard approach for all other fields
                         for key, subval in subfields.items():
                             subpath = path + "$" + key
                             self.append_field(subpath, subval)
 
                 elif type(value) == str:
-                    self.append_field(path, value)
+                    if path in ["008"]:
+                        # 008 control field exception
+                        publication_place, language = self.handle_control_field_008(value)
+                        self.append_field("008$place", publication_place)
+                        self.append_field("008$language", language)  
+
+                    else:
+                        # skip other control fields than 008
+                        if self.return_control_fields == False and path in ["006", "007"]:
+                            pass
+                        self.append_field(path, value)
 
         self.sort_marc_paths()
         return self.marc_paths
