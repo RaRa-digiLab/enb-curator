@@ -386,8 +386,8 @@ def read_marc_records_stream(filepath):
         yield record_xml
 
 
-def marc_to_dataframe(records_stream, columns_dict, min_filled_ratio, rename_columns):
-    total_records = 13288  # Adjust the total if needed
+def marc_to_dataframe(records_stream, num_records,columns_dict, min_filled_ratio, rename_columns):
+    total_records = num_records
     manager = multiprocessing.Manager()
     queue = manager.Queue()
 
@@ -422,21 +422,49 @@ def get_namespaces():
             "dc" : "http://purl.org/dc/elements/1.1/"}
 
 
-def detect_format(filepath):
-    """Detects whether a parsed XML file is in OAI-PMH or EDM format"""
+def inspect_records(filepath):
+    """
+    Inspects the XML file to detect its format and count the number of records.
+
+    Parameters:
+    -----------
+    filepath : str
+        The path to the input XML file.
+
+    Returns:
+    --------
+    tuple
+        A tuple containing the format ('marc' or 'edm') and the number of records.
+
+    Raises:
+    -------
+    ValueError
+        If the file format cannot be determined.
+    """
     ns = get_namespaces()
     context = etree.iterparse(filepath, events=("start",), tag=["{http://www.loc.gov/MARC21/slim}record", 
                                                                 "{http://www.europeana.eu/schemas/edm/}ProvidedCHO"])
     
+    record_count = 0
+    detected_format = None
+
     for event, elem in context:
         if elem.tag == "{http://www.loc.gov/MARC21/slim}record":
-            print("Detected MARC format. Proceeding to convert.")
-            return "marc"
+            if detected_format is None:
+                print("Detected MARC format. Counting records.")
+                detected_format = "marc"
+            record_count += 1
         elif elem.tag == "{http://www.europeana.eu/schemas/edm/}ProvidedCHO":
-            print("Detected EDM format. Proceeding to convert.")
-            return "edm"
+            if detected_format is None:
+                print("Detected EDM format. Counting records.")
+                detected_format = "edm"
+            record_count += 1
 
-    raise ValueError("Cannot determine data format. The OAI-PMH ListRecords response must be made up of either EDM or MARC21XML records.")
+    if detected_format is None:
+        raise ValueError("Cannot determine data format. The OAI-PMH ListRecords response must be made up of either EDM or MARC21XML records.")
+
+    return detected_format, record_count
+
 
 
 def oai_to_dataframe(filepath: str, min_filled_ratio: float=0.1, rename_columns: bool=False) -> pd.DataFrame:
@@ -472,7 +500,8 @@ def oai_to_dataframe(filepath: str, min_filled_ratio: float=0.1, rename_columns:
 
     """
 
-    format = detect_format(filepath)
+    format, num_records = inspect_records(filepath)
+    print("Proceeding to convert...")
     if format == "edm":
         with open(filepath, "r", encoding="utf8") as f:
             tree = etree.parse(f)
@@ -483,6 +512,7 @@ def oai_to_dataframe(filepath: str, min_filled_ratio: float=0.1, rename_columns:
     elif format == "marc":
         records_stream = read_marc_records_stream(filepath)
         df = marc_to_dataframe(records_stream=records_stream,
+                               num_records=num_records,
                                columns_dict=marc_columns_dict,
                                min_filled_ratio=min_filled_ratio,
                                rename_columns=rename_columns).convert_dtypes()
