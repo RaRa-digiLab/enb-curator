@@ -540,7 +540,7 @@ def oai_to_dict(filepath: str):
     """
     f = open(filepath, "r", encoding="utf8")
     tree = etree.parse(f)
-    format = detect_format(tree)
+    format, num_records = inspect_records(tree)
     if format == "edm":
         xml_records = read_edm_records(tree)
         f.close()
