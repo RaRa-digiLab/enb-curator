@@ -467,7 +467,7 @@ def inspect_records(filepath):
 
 
 
-def oai_to_dataframe(filepath: str, min_filled_ratio: float=0.1, rename_columns: bool=False) -> pd.DataFrame:
+def oai_to_dataframe(filepath: str, min_filled_ratio: float=0.05, rename_columns: bool=False) -> pd.DataFrame:
     """
     Converts an OAI-PMH file to a pandas DataFrame.
 
