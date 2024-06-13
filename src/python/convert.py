@@ -196,7 +196,7 @@ class MARCrecordParser():
                 # skip these fields - not needed in ENB
                 pass
             else:
-                if type(value) == dict:
+                if isinstance(value, dict):
                     subfields = self.join_subfields_list(value["subfields"])
 
                     if path in ["100", "600", "700"]:
@@ -220,7 +220,7 @@ class MARCrecordParser():
                             subpath = path + "$" + key
                             self.append_field(subpath, subval)
 
-                elif type(value) == str:
+                elif isinstance(value, str):
                     # control fields
                     if self.return_control_fields == False:
                         pass
@@ -341,12 +341,12 @@ def read_edm_records(source):
     Input: filepath or lxml.etree._ElementTree object
     Output: list"""
 
-    if type(source) == str:
+    if isinstance(source, str):
         if source.lower().endswith(".xml"):
             tree = etree.parse(source)
         else:
             raise ValueError("Invalid path to file. Must be in .xml format.")
-    elif type(source) == etree._ElementTree:
+    elif isinstance(source, etree._ElementTree):
         tree = source
     else:
         raise ValueError("Source must be either path to XML file or lxml.etree._ElementTree")
