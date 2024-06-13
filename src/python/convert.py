@@ -8,7 +8,8 @@ import json
 import re
 import io
 from tqdm import tqdm
-from concurrent.futures import ProcessPoolExecutor
+import multiprocessing
+from concurrent.futures import ProcessPoolExecutor, as_completed
 
 # Path to the current script
 current_script_path = Path(__file__)
@@ -370,6 +371,11 @@ def parse_marcxml_record(record_xml):
     return {}
 
 
+def parse_record_with_queue(record_xml, queue):
+    result = parse_marcxml_record(record_xml)
+    queue.put(1)
+    return result
+
 def read_marc_records_stream(filepath):
     context = etree.iterparse(filepath, events=("end",), tag="{http://www.loc.gov/MARC21/slim}record")
     for event, elem in context:
@@ -381,8 +387,24 @@ def read_marc_records_stream(filepath):
 
 
 def marc_to_dataframe(records_stream, columns_dict, min_filled_ratio, rename_columns):
+    total_records = 13288  # Adjust the total if needed
+    manager = multiprocessing.Manager()
+    queue = manager.Queue()
+
+    results = []
+
     with ProcessPoolExecutor() as executor:
-        results = list(tqdm(executor.map(parse_marcxml_record, records_stream), total=13288))  # Adjust the total if needed
+        futures = [executor.submit(parse_record_with_queue, record, queue) for record in records_stream]
+        with tqdm(total=total_records) as pbar:
+            completed = 0
+            while completed < total_records:
+                queue.get()
+                pbar.update(1)
+                completed += 1
+
+            for future in as_completed(futures):
+                results.append(future.result())
+
     df = pd.DataFrame.from_records(results)
     column_population = df.notna().sum() / len(df)  # how populated the columns are
     df = df[column_population.loc[column_population > min_filled_ratio].index].copy()
