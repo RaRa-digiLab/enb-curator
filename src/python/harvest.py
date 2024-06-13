@@ -92,7 +92,7 @@ def request_records(collection_URL=None, token=None):
         return ListRecords
     
 
-def get_collection(URL):
+def get_collection(URL, verbose=True):
     """
     Requests all records of a given OAI-PMH collection URL, and returns them as a list of xml ElementTree elements,
     together with the request metadata (e.g. the resumptionToken).
@@ -119,12 +119,15 @@ def get_collection(URL):
     else:   # token can be none in the case of a small collection that is returned in the initial request
         cursor_step, collection_size = 1000, len(ListRecords)
 
-    progress_bar = tqdm(total=collection_size, initial=cursor_step)
+    if verbose:
+        print("Collecting records from OAI-PMH")
+        progress_bar = tqdm(total=collection_size, initial=cursor_step)
     while token is not None: # continue requesting until there is no more resumptionToken, i.e. the end of the collection is reached
         ListRecords = request_records(token=token)
         all_records += ListRecords[:-1] # (leave out the last element, the resumptionToken)
         token = update_cursor(token, step=cursor_step) # update the cursor
-        progress_bar.update(len(ListRecords)-1)
+        if progress_bar:
+            progress_bar.update(len(ListRecords)-1)
     progress_bar.close()
 
     return all_records, request_metadata
@@ -150,7 +153,7 @@ def write_start_of_string(metadata: dict) -> str:
     return xml_string
 
 
-def write_records(ListRecords: list, metadata: dict, savepath: str) -> None:
+def write_records(ListRecords: list, metadata: dict, savepath: str, verbose: bool = True) -> None:
     """
     Writes OAI-PMH XML records to a file.
 
@@ -161,6 +164,9 @@ def write_records(ListRecords: list, metadata: dict, savepath: str) -> None:
     
     Returns: None
     """
+    if verbose:
+        print(f"Writing {len(ListRecords)} records to {savepath}")
+        progress_bar = tqdm(total=len(ListRecords))
     with open(savepath, "a", encoding="utf8") as f: 
         f.write(write_start_of_string(metadata))
         f.write("<ListRecords>")
@@ -171,6 +177,8 @@ def write_records(ListRecords: list, metadata: dict, savepath: str) -> None:
                                             pretty_print=True,
                                             ).decode()
             f.write(entry_as_string)
+            if progress_bar:
+                progress_bar.update(1)
         f.write("</ListRecords>")
         f.write("</OAI-PMH>")
 
