@@ -6,6 +6,9 @@ import pandas as pd
 from pathlib import Path
 import json
 import re
+import io
+from tqdm import tqdm
+from concurrent.futures import ProcessPoolExecutor
 
 # Path to the current script
 current_script_path = Path(__file__)
@@ -357,12 +360,34 @@ def read_edm_records(source):
     return records
 
 
-def marc_to_dataframe(records, columns_dict, min_filled_ratio, rename_columns):
-    df = pd.DataFrame.from_records((MARCrecordParser(record).parse() for record in records))
-    column_population = df.notna().sum() / len(df) # how populated the columns are
+def parse_marcxml_record(record_xml):
+    handler = MyContentHandler()
+    record_xml_file = io.StringIO(record_xml)  # Convert the XML string to a file-like object
+    parse_xml(record_xml_file, handler=handler)
+    if handler.records:
+        record = handler.records[0]
+        return MARCrecordParser(record).parse()
+    return {}
+
+
+def read_marc_records_stream(filepath):
+    context = etree.iterparse(filepath, events=("end",), tag="{http://www.loc.gov/MARC21/slim}record")
+    for event, elem in context:
+        record_xml = etree.tostring(elem, encoding="unicode")
+        elem.clear()
+        while elem.getprevious() is not None:
+            del elem.getparent()[0]
+        yield record_xml
+
+
+def marc_to_dataframe(records_stream, columns_dict, min_filled_ratio, rename_columns):
+    with ProcessPoolExecutor() as executor:
+        results = list(tqdm(executor.map(parse_marcxml_record, records_stream), total=13288))  # Adjust the total if needed
+    df = pd.DataFrame.from_records(results)
+    column_population = df.notna().sum() / len(df)  # how populated the columns are
     df = df[column_population.loc[column_population > min_filled_ratio].index].copy()
     if rename_columns:
-        df.columns = [columns_dict[col] if col in columns_dict.keys() else col for col in df.columns]
+        df.columns = [columns_dict[col] if col in columns_dict else col for col in df.columns]
     return df
 
 
@@ -375,20 +400,21 @@ def get_namespaces():
             "dc" : "http://purl.org/dc/elements/1.1/"}
 
 
-def detect_format(tree):
-    """Detects whether a parsed XML tree is in OAI-PMH or EDM format"""
+def detect_format(filepath):
+    """Detects whether a parsed XML file is in OAI-PMH or EDM format"""
     ns = get_namespaces()
-    if tree.find("./oai:ListRecords/oai:record/oai:metadata/marc:*", namespaces=ns) is not None:
-        print("Detected MARC format in OAI-PMH protocol. Proceeding to convert.")
-        return "marc"
-    elif tree.find("./marc:record", namespaces=ns) is not None:
-        print("Detected MARC format without OAI-PMH protocol. Attempting to convert...")
-        return "marc"
-    elif tree.find("./oai:ListRecords/oai:record/oai:metadata/rdf:RDF/edm:*", namespaces=ns) is not None:
-        print("Detected EDM format. Proceeding to convert.")
-        return "edm"
-    else:
-        raise ValueError("Cannot determine data format. The OAI-PMH ListRecords response must be made up of either EDM or MARC21XML records.")
+    context = etree.iterparse(filepath, events=("start",), tag=["{http://www.loc.gov/MARC21/slim}record", 
+                                                                "{http://www.europeana.eu/schemas/edm/}ProvidedCHO"])
+    
+    for event, elem in context:
+        if elem.tag == "{http://www.loc.gov/MARC21/slim}record":
+            print("Detected MARC format. Proceeding to convert.")
+            return "marc"
+        elif elem.tag == "{http://www.europeana.eu/schemas/edm/}ProvidedCHO":
+            print("Detected EDM format. Proceeding to convert.")
+            return "edm"
+
+    raise ValueError("Cannot determine data format. The OAI-PMH ListRecords response must be made up of either EDM or MARC21XML records.")
 
 
 def oai_to_dataframe(filepath: str, min_filled_ratio: float=0.1, rename_columns: bool=False) -> pd.DataFrame:
@@ -424,23 +450,23 @@ def oai_to_dataframe(filepath: str, min_filled_ratio: float=0.1, rename_columns:
 
     """
 
-    f = open(filepath, "r", encoding="utf8")
-    tree = etree.parse(f)
-    format = detect_format(tree)
+    format = detect_format(filepath)
     if format == "edm":
-        xml_records = read_edm_records(tree)
-        f.close()
-        dc_records = (DCrecordParser(record).parse() for record in xml_records)
-        df = pd.DataFrame.from_records(dc_records).convert_dtypes()
+        with open(filepath, "r", encoding="utf8") as f:
+            tree = etree.parse(f)
+            xml_records = read_edm_records(tree)
+            dc_records = (DCrecordParser(record).parse() for record in xml_records)
+            df = pd.DataFrame.from_records(dc_records).convert_dtypes()
         return df
     elif format == "marc":
-        f.close()
-        marc_records = read_marc_records(filepath)
-        df = marc_to_dataframe(records=marc_records,
+        records_stream = read_marc_records_stream(filepath)
+        df = marc_to_dataframe(records_stream=records_stream,
                                columns_dict=marc_columns_dict,
                                min_filled_ratio=min_filled_ratio,
                                rename_columns=rename_columns).convert_dtypes()
         return df
+    else:
+        raise ValueError("Unsupported format")
     
 
 def oai_to_dict(filepath: str):
