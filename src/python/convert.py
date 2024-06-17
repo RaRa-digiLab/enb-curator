@@ -99,7 +99,7 @@ class MARCrecordParser():
             Parse the fields in the MARC record and return a dictionary of the paths and values of the fields.
     """
 
-    def __init__(self, record: Record):
+    def __init__(self, record: Record, duplicate_field_sep: str = "; "):
         self.fields = record.as_dict()["fields"]
         self.marc_paths = {}
         self.duplicate_field_sep = "; "
@@ -264,7 +264,7 @@ class DCrecordParser():
         self.fields = record.iterfind("./oai:metadata/rdf:RDF/edm:ProvidedCHO/dc:*",
                                       namespaces=self.namespaces)
         self.dc_fields = {}
-        self.sep = "; "
+        self.duplicate_field_sep = "; "
 
     def extract_year(self, date):
         """
@@ -316,7 +316,7 @@ class DCrecordParser():
                     if lang is not None:
                         tag = tag + "_" + lang 
                     if tag in self.dc_fields.keys():
-                        self.dc_fields[tag] += self.sep + text
+                        self.dc_fields[tag] += self.duplicate_field_sep + text
                     else:
                         self.dc_fields[tag] = text
 
