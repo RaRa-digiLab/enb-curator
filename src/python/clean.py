@@ -7,7 +7,7 @@ import pandas as pd
 import isbnlib
 from urllib.parse import urlparse
 
-from regex_patterns import PATTERN_245n, PATTERN_250a_num, PATTERN_250a_word, PATTERN_260c, PATTERN_300a, PATTERN_533d, PATTERN_534c
+from regex_patterns import PATTERN_245n, PATTERN_250a, PATTERN_260c, PATTERN_300a, PATTERN_533d, PATTERN_534c
 
 MIN_YEAR = 1500
 MAX_YEAR = 2024
@@ -116,29 +116,34 @@ def clean_245n(entry: str, pattern=PATTERN_245n):
             return n+p
         
 
-def clean_250a(entry, pattern_num=PATTERN_250a_num, pattern_word=PATTERN_250a_word):
+def clean_250a(entry, pattern=PATTERN_250a):
     """Eraldab editsiooniandmete väljalt kordustrüki arvu."""
     if type(entry) == str:
-        tr = None
-        # Neljas trükk, Wiies trükk jne
-        if re.search(pattern_word, entry):
-            for key, val in re.search(pattern_word, entry).groupdict().items():
-                if re.search("a\d{1,2}", key):
-                    if val is not None:
-                        tr = int(key.lstrip("a"))
-                        break
-        # 2. tr, 1. trükk jne
-        elif re.search(pattern_num, entry):
-            tr = int(''.join([char for char in re.search(pattern_num, entry).groupdict()["num"] if char.isnumeric()]))
-        # Esmatrükk, esitrüll
-        elif re.search(r"[Es](sma|si)", entry):
-            tr = 1
-        # vaikimisi eeldame, et muud väärtused tähistavad teist trükki
-        # (parandatud väljaanne, täiendatud trükk, ümbertrükk vms)    
-        else:
-            tr = 2
+        match = re.search(pattern, entry)
+        if match:
+            groups = match.groupdict()
+            n = None
+            tr = None
 
-        return tr
+            if groups["n"]:
+                if groups["araabia"]:
+                    n = groups["araabia"]
+                    n = "".join([char for char in n if char.isnumeric()])
+                elif groups["arvsna"]:
+                    for key, val in groups.items():
+                        if re.search("a\d{1,2}", key):
+                            if val is not None:
+                                n = key.lstrip("a")
+                                break
+            if groups["tr"]:
+                tr = groups["tr"]
+                if n is None:
+                    n = "+"
+            if n or tr:
+                return f"{n or ''} [{tr or ''}]"
+            
+            return "+"
+        return None
 
 
 def add_260abc_264abc(df):
