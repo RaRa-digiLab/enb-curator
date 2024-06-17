@@ -362,11 +362,7 @@ def clean_856u(entry):
         return "; ".join([url.strip().lstrip() for url in entry_split if is_valid_url(url.strip().lstrip())])
 
 
-if __name__ == "__main__":
-
-    key = sys.argv[1]
-    print("Loading data")
-    df = load_converted_data(key=key)
+def clean_dataframe(df):
 
     ### 008: kontrollväli
     if "008" in df.columns:
@@ -456,6 +452,20 @@ if __name__ == "__main__":
         df["access_uri"] = df["856$u"].apply(clean_856u)
         df = df.drop("856$u", axis=1)
 
+    ### formaatimine
+    df = df.convert_dtypes()
+
+    return df
+
+
+if __name__ == "__main__":
+
+    key = sys.argv[1]
+    print("Loading data")
+    df = load_converted_data(key=key)
+
+    df = clean_dataframe(df)
+
     ### tulpade ümber nimetamine
     with open(column_names_file_path) as f:
         column_names = json.load(f)
@@ -466,9 +476,6 @@ if __name__ == "__main__":
         column_order = json.load(f)["columns"]
         column_order = [col for col in column_order if col in df.columns]
         df = df[column_order]
-
-    ### formaatimine
-    df = df.convert_dtypes()
 
     ### salvestamine
     savepath = f"{write_data_path}/{key}.parquet"
