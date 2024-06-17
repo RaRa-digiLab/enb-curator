@@ -63,6 +63,26 @@ def is_valid_url(url):
     return bool(parsed_url.scheme and parsed_url.netloc)
 
 
+def clean_008(entry):
+    """Eraldab kontrollväljalt vajalikud andmed."""
+    if type(entry) == str:
+        if len(entry) in range(38, 41):
+            publication_date = entry[7:11]
+            publication_place = entry[15:18]
+            publication_language = entry[35:38]
+            literary_form = entry[33]
+
+            # check if fiction
+            is_fiction = None
+            if literary_form in [0, "0", "e", "i", "s"]:
+                is_fiction = False
+            elif literary_form in [1, "1", "d", "f", "h", "j", "p"]:
+                is_fiction = True
+
+            return publication_date, publication_place, publication_language, is_fiction
+    return None, None, None, None
+
+
 def validate_020(entry):
     """Kontrollib ja puhastab ISBN koode."""
     try:
@@ -347,6 +367,12 @@ if __name__ == "__main__":
     key = sys.argv[1]
     print("Loading data")
     df = load_converted_data(key=key)
+
+    ### 008: kontrollväli
+    if "008" in df.columns:
+        print("008: cleaning and harmonizing control field 008")
+        df[["publication_date_control", "publication_place_control", "language_control", "is_fiction"]] = df["008"].apply(clean_008).to_list()
+        df = df.drop("008", axis=1)
 
     ### 020$a: ISBN
     if "020$a" in df.columns:
