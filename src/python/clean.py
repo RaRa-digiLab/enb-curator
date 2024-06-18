@@ -7,7 +7,10 @@ import pandas as pd
 import isbnlib
 from urllib.parse import urlparse
 
-from regex_patterns import PATTERN_245n, PATTERN_250a, PATTERN_260c, PATTERN_300a, PATTERN_533d, PATTERN_534c
+if __name__ == "__main__":
+    from regex_patterns import PATTERN_245n, PATTERN_250a, PATTERN_260c, PATTERN_300a, PATTERN_533d, PATTERN_534c
+else:
+    from src.python.regex_patterns import PATTERN_245n, PATTERN_250a, PATTERN_260c, PATTERN_300a, PATTERN_533d, PATTERN_534c
 
 MIN_YEAR = 1500
 MAX_YEAR = 2024
@@ -70,9 +73,9 @@ def clean_008(entry):
             publication_date = entry[7:11]
             publication_place = entry[15:18]
             publication_language = entry[35:38]
-            literary_form = entry[33]
+            literary_form = entry[33] # only for books - change for other material!
 
-            # check if fiction
+            # check if fiction (only for books)
             is_fiction = None
             if literary_form in [0, "0", "e", "i", "s"]:
                 is_fiction = False
@@ -458,14 +461,7 @@ def clean_dataframe(df):
     return df
 
 
-if __name__ == "__main__":
-
-    key = sys.argv[1]
-    print("Loading data")
-    df = load_converted_data(key=key)
-
-    df = clean_dataframe(df)
-
+def organize_columns(df, column_names_file_path=column_names_file_path, column_order_file_path=column_order_file_path):
     ### tulpade ümber nimetamine
     with open(column_names_file_path) as f:
         column_names = json.load(f)
@@ -476,6 +472,21 @@ if __name__ == "__main__":
         column_order = json.load(f)["columns"]
         column_order = [col for col in column_order if col in df.columns]
         df = df[column_order]
+
+    return df
+
+
+if __name__ == "__main__":
+
+    key = sys.argv[1]
+    print("Loading data")
+    df = load_converted_data(key=key)
+
+    print("Cleaning dataframe")
+    df = clean_dataframe(df)
+
+    print("Organizing columns")
+    df = organize_columns(df)
 
     ### salvestamine
     savepath = f"{write_data_path}/{key}.parquet"
