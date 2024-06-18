@@ -6,14 +6,14 @@ import numpy as np
 import pandas as pd
 import isbnlib
 from urllib.parse import urlparse
+from datetime import datetime
 
 if __name__ == "__main__":
+    # when using this script from command line
     from regex_patterns import PATTERN_245n, PATTERN_250a, PATTERN_260c, PATTERN_300a, PATTERN_533d, PATTERN_534c
 else:
+    # when using the clean_dataframe function as imported
     from src.python.regex_patterns import PATTERN_245n, PATTERN_250a, PATTERN_260c, PATTERN_300a, PATTERN_533d, PATTERN_534c
-
-MIN_YEAR = 1500
-MAX_YEAR = 2024
 
 current_script_path = Path(__file__)
 project_root = current_script_path.parent.parent.parent
@@ -23,6 +23,8 @@ columns_to_keep_file_path = project_root / "config" / "marc_columns_to_keep.json
 column_names_file_path = project_root / "config" / "marc_columns_dict.json"
 column_order_file_path = project_root / "config" / "marc_columns_order.json"
 
+MIN_YEAR = 1500
+MAX_YEAR = datetime.now().year
 
 def load_converted_data(key: str):
     """Impordib tabeliks teisendatud andmed."""
