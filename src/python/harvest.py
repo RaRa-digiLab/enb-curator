@@ -167,7 +167,7 @@ def write_records(ListRecords: list, metadata: dict, savepath: str, verbose: boo
     if verbose:
         print(f"Writing {len(ListRecords)} records to {savepath}")
         progress_bar = tqdm(total=len(ListRecords))
-    with open(savepath, "a", encoding="utf8") as f: 
+    with open(savepath, "w", encoding="utf8") as f: 
         f.write(write_start_of_string(metadata))
         f.write("<ListRecords>")
         for entry in ListRecords:
