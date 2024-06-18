@@ -177,12 +177,18 @@ def add_260abc_264abc(df):
 
 
 def clean_260c(entry, pattern=PATTERN_260c, min_year=MIN_YEAR, max_year=MAX_YEAR):
-    """Teeb toorest ilmumisaasta kirjest puhastatud aastaarvu ja kümnendi (int)."""
+    """Funktsioon võtab sisse välja 260$c ehk ilmumisaasta kirje ning tagastab aasta ning kümnendi arvulisel kujul."""
     output_year = None
     output_decade = None
 
     if type(entry) != str:
-        entry = str(entry)
+        if isinstance(entry, list):
+            entry = "; ".join(entry)
+        else:
+            try:
+                entry = str(entry)
+            except:
+                return None, None
 
     # 2022; 2022    
     if ";" in entry:
@@ -203,7 +209,10 @@ def clean_260c(entry, pattern=PATTERN_260c, min_year=MIN_YEAR, max_year=MAX_YEAR
         if len(years) == 1:
             output_year = int(years[0])
         else:
-            output_year = min([int(y) for y in years])
+            try:
+                output_year = min([int(y) for y in years])
+            except ValueError:
+                return None, None
 
     else:
         match = re.search(pattern, entry)
