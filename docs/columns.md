@@ -170,7 +170,7 @@ Kas jätta?
 
 **MARC source**: 710\$a, 710\$b
 
-The corporate_unit field is combined from two MARC subfields that contain the corporate unit and subordinate unit, respectively. The latter are enclosed in square brackets after the name of the main organization (e. g. `Eesti Põllumajanduse Akadeemia [Maaparanduse kateeder]`).
+The corporate_unit field is combined from two MARC subfields that contain the corporate unit and subordinate unit, respectively (see `MARCrecordParser.handle_corporate_subfields()` in `.src/python/convert.py`). The latter are enclosed in square brackets after the name of the main organization (e. g. `Eesti Põllumajanduse Akadeemia [Maaparanduse kateeder]`).
 
 ## series_statement
 
@@ -251,6 +251,79 @@ Languages are marked with three letter codes from the MARC code list(mostly over
 **MARC source**: 546\$a
 
 Textual information on the language(s) of the work.
+
+## is_fiction
+
+*bool: Whether the work is considered fiction*
+
+**MARC source**: 008
+
+Generic identification of whether or not the item is a work of fiction. Only applies to books.
+
+## udc
+
+*str: Universal Decimal Classification number of the work*
+
+**MARC source**: 080\$a
+
+The Universal Decimal Classification (UDC) is a bibliographic and library classification system that organizes all fields of knowledge into a hierarchical structure of numerical codes. It is widely used in libraries and information services to facilitate the retrieval and management of information.
+
+## topic_keyword
+
+*str: Keywords about the topic, theme or contents of the work and their thesaurus links*
+
+**MARC source**: 650\$a, 650\$0
+
+The topic_keyword field is combined from two MARC subfields that contain the keyword and its thesaurus link, respectively (see `MARCrecordParser.handle_keyword_subfields()` in `.src/python/convert.py`). Most of the keywords come from the [Estonian Subject Thesaurus](https://ems.elnet.ee/index.php) (EMS), a universal controlled vocabulary for indexing and searching various library material.
+
+EMS identifers are added in square brackets after the relevant keyword (`õigusajalugu [EMS010783]`, `loodusvarad [EMS004541]` etc.). The keywords can be accessed as linked data in the EMS by prepending `https://ems.elnet.ee/id/` to the identifier (e. g. `õigusajalugu [EMS010783]` -> `https://ems.elnet.ee/id/EMS010783`).
+
+## genre_keyword
+
+*str: Keywords about the genre of the work and their thesaurus links*
+
+**MARC source**: 655\$a, 655\$0
+
+The genre_keyword field is combined from two MARC subfields that contain the keyword and its thesaurus link, respectively (see `MARCrecordParser.handle_keyword_subfields()` in `.src/python/convert.py`). Most of the keywords come from the [Estonian Subject Thesaurus](https://ems.elnet.ee/index.php) (EMS), a universal controlled vocabulary for indexing and searching various library material.
+
+EMS identifers are added in square brackets after the relevant keyword (`mälestused [EMS009112]`, `muinasjutud [EMS009202]` etc.). The keywords can be accessed as linked data in the EMS by prepending `https://ems.elnet.ee/id/` to the identifier (e. g. `mälestused [EMS009112]` -> `https://ems.elnet.ee/id/EMS009112`).
+
+## geographic_keyword
+
+*str: Keywords about geographic locations that are the subject of the work and their thesaurus links*
+
+**MARC source**: 651\$a, 651\$0
+
+The geographic_keyword field is combined from two MARC subfields that contain the keyword and its thesaurus link, respectively (see `MARCrecordParser.handle_keyword_subfields()` in `.src/python/convert.py`). Most of the keywords come from the [Estonian Subject Thesaurus](https://ems.elnet.ee/index.php) (EMS), a universal controlled vocabulary for indexing and searching various library material.
+
+EMS identifers are added in square brackets after the relevant keyword (`Eesti (riik) [EMS131705]`, `Põlvamaa [EMS131732]` etc.). The keywords can be accessed as linked data in the EMS by prepending `https://ems.elnet.ee/id/` to the identifier (e. g. `Eesti (riik) [EMS131705]` -> `https://ems.elnet.ee/id/EMS131705`).
+
+## chronological_keyword
+
+*str: Keywords about time periods that are the subject of the work*
+
+**MARC source**: 648\$a
+
+Chronological keywords mark the relevant century, decade, year or other period that the work is about (`20. sajandi 2. pool`, `1980-ndad`, `1989`, etc.).
+
+## corporate_keyword
+
+*str: Organizations that are the subject of the work or related to the work but not directly responsible for its publication*
+
+**MARC source**: 610\$a
+
+## person_keyword
+
+*str: Persons that are the subject of the work or related to the work but not directly responsible for its publication*
+
+**MARC source**: 600\$a, 600\$d, 600\$e, 600\$t
+
+The person_keyword field is preprocessed during conversion from MARC21XML to tabular data (see `MARCrecordParser.handle_person_subfields()` in `.src/python/convert.py`).
+
+Subfields a, d, e of the MARC field 600 are standardized as `Petersen, Wilhelm (1854-1933) [omanik]`. In the case of books, "owner" is the only role (650\$e); it is mostyl used for older/rare books.
+
+The subfield t can be used to mark another work, authored by the person marked in the person_keyword field (e.g. `Vilde, Eduard (1865-1933): "Mahtra sõda"` for a work that mentions or treats "Mahtra sõda" by E. Vilde).
+
 
 
 
