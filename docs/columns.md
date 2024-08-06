@@ -324,7 +324,74 @@ Subfields a, d, e of the MARC field 600 are standardized as `Petersen, Wilhelm (
 
 The subfield t can be used to mark another work, authored by the person marked in the person_keyword field (e.g. `Vilde, Eduard (1865-1933): "Mahtra sõda"` for a work that mentions or treats "Mahtra sõda" by E. Vilde).
 
+## page_count
 
+*int: Number of pages*
 
+**MARC source**: 300\$a
 
+Page counts are extracted from the physical description field using a regular expression.
 
+## illustrated
+
+*bool: Whether the work contains illustrations*
+
+**MARC source**: 300\$b
+
+## physical_size
+
+*int: Height of the work in cm (rounded up)*
+
+**MARC source**: 300\$c
+
+Physical size is measured from the vertical dimension of the publication and always rounded up (`20,1 cm` -> `21 cm`). The listed size always refers to the height, even if the book's width is greater than its height.
+
+## print_run
+
+*int: Total number of copies of the work or its given edition that were produced*
+
+**MARC source**: 500\$a
+
+## price
+
+*str: Price marked on publications with a fixed price*
+
+**MARC source**: 500\$a
+
+## typeface
+
+*str: Whether the work uses Roman type (a) or Fraktur (f)*
+
+**MARC source**: 500\$a
+
+## bibliography_register
+
+*str: Whether the work contains a bibliography (b), a register (r) or both (br)*
+
+## copyright_status
+
+*str: Known copyright status of the work*
+
+**MARC source**: 542\$l
+
+Most works do not have a marked copyright status because the field is still being updated in the ENB.
+
+## digitized
+
+*bool: Whether the work has been digitized*
+
+**MARC source**: 533\$a
+
+## digitized_year
+
+*str: When the work has been digitized*
+
+**MARC source**: 533\$d
+
+Note: the common entry `2019-2021` corresponds to the mass digitization project that took place during these years.
+
+## access_uri
+
+**MARC source**: 856\$u
+
+Access to the digitized version of the work.
