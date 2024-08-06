@@ -334,7 +334,7 @@ def clean_533a(entry):
         return False
     
 
-def clean_533d(entry, pattern=PATTERN_533d, min_year=2000, max_year=MAX_YEAR):
+def clean_533d(entry, pattern=PATTERN_533d):
     """Eraldab ja puhastab digiteerimise aasta."""
     if type(entry) != str:
         entry = str(entry)
@@ -343,8 +343,7 @@ def clean_533d(entry, pattern=PATTERN_533d, min_year=2000, max_year=MAX_YEAR):
         year = match.string
         if re.match(r"\d{4}(\.0|\w+)", year):
             year = year[:4]
-        if year in range(min_year, max_year):
-            return year
+        return year
         
 
 def clean_534c(entry, pattern=PATTERN_534c):
@@ -440,11 +439,16 @@ def clean_dataframe(df):
         df = df.drop("504$a", axis=1)
 
     ### 533: digitaalne repro
-    if "533$a" in df.columns and "533$d" in df.columns: 
+    if "533$a" in df.columns: 
         print("533$a: filtering digital reproductions")
         df["digitized"] = df["533$a"].apply(clean_533a)
+        df = df.drop("533$a", axis=1)
+
+    ### 533$d: digiteerimise aasta
+    if "533$d" in df.columns:
+        print("533$d: extracting digitization year")
         df["digitized_year"] = df["533$d"].apply(clean_533d)
-        df = df.drop(["533$a", "533$d"], axis=1)
+        df = df.drop("533$d", axis=1)
 
     ### 534$c: algupärandi märkus
     if "534$c" in df.columns:
