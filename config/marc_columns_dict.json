@@ -19,7 +19,7 @@
     "040$c": "transcribing_agency",
     "040$d": "modifying_agency",
     "040$e": "description_conventions",
-    "041$a": "language",
+    "041$a": "language_additional",
     "041$b": "summary_or_abstract_language",
     "041$d": "singing_or_speaking_language",
     "041$f": "table_of_contents_language",

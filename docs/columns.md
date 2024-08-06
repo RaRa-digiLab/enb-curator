@@ -216,18 +216,42 @@ A regular expression is used to extract the place of the original edition from t
 
 A regular expression is used to extract the place of the original edition from the original version note field (e. g. `Tartu : Eesti Kirjanduse Selts, 1933` -> `Eesti Kirjanduse Selts`). See also fields original_distribution_year and original_distribution_place.
 
-## language_control NB ümber nimetada!!
+## language
 
-*str: Language code of the work as marked in the control field of the record*
+*str: Main language of the work as marked in the control field of the record*
 
 **MARC source**: 008
 
-Languages are marked with three letter codes from the MARC code list for languages (mostly overlaps with ISO standard): [https://www.loc.gov/marc/languages/language_name.html](https://www.loc.gov/marc/languages/language_name.html)
+Languages are marked with three letter codes from the MARC code list(mostly overlaps with the ISO standard): [https://www.loc.gov/marc/languages/language_name.html](https://www.loc.gov/marc/languages/language_name.html)
 
-## language NB ümber nimetada!!
+## language_additional
 
 *str: Language code of the work as marked in the relevant data field of the record*
 
 **MARC source**: 041\$a
+
+The language_additional field is used if the work contains more than one language (parallel text, summaries etc.). In the case of translated works, in which the field contains the target language (see language_original for the source language). Detailed comments about the entries can be found in the language_note field.
+
+Languages are marked with three letter codes from the MARC code list (mostly overlaps with the ISO standard): [https://www.loc.gov/marc/languages/language_name.html](https://www.loc.gov/marc/languages/language_name.html)
+
+## language_original
+
+*str: Original language of the work*
+
+**MARC soruce**: 041\$h
+
+In the case of translated works, the source language is marked on the language _original field (see language_additional for the target language).
+
+Languages are marked with three letter codes from the MARC code list(mostly overlaps with the ISO standard): [https://www.loc.gov/marc/languages/language_name.html](https://www.loc.gov/marc/languages/language_name.html)
+
+## language_note
+
+*str: Comments about the use of the language and language_additional fields*
+
+**MARC source**: 546\$a
+
+Textual information on the language(s) of the work.
+
+
 
 

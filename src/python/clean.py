@@ -381,7 +381,7 @@ def clean_dataframe(df):
     ### 008: kontrollväli
     if "008" in df.columns:
         print("008: cleaning and harmonizing control field 008")
-        df[["publication_date_control", "publication_place_control", "language_control", "is_fiction"]] = df["008"].apply(clean_008).to_list()
+        df[["publication_date_control", "publication_place_control", "language", "is_fiction"]] = df["008"].apply(clean_008).to_list()
         df = df.drop("008", axis=1)
 
     ### 020$a: ISBN
@@ -389,9 +389,6 @@ def clean_dataframe(df):
         print("020$a: validating ISBN codes")
         df["isbn"] = df["020$a"].apply(validate_020)
         df = df.drop("020$a", axis=1)
-
-    ### keeled
-    ### kood siia...
 
     ### 245$n: osa number
     if "245$n" in df.columns:
