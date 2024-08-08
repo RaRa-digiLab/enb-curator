@@ -50,6 +50,7 @@
     "245$h": "title_medium",
     "245$p": "title_part_name",
     "245$n": "title_part_nr",
+    "246": "title_varform",
     "246$a": "title_varform",
     "246$b": "title_varform_remainder",
     "246$f": "title_varform_date_or_nr",

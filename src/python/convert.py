@@ -160,6 +160,16 @@ class MARCrecordParser():
                 keyword_id = keyword_link.split("id/")[-1].strip(".")  # specific to EMS links in the ENB
 
         return f'{keyword} [{keyword_id or ""}]'
+    
+    def handle_title_varform_subfields(self, subfields: dict):
+        title = None
+        note = None
+        if "a" in subfields.keys():
+            title = subfields["a"].rstrip(" ,:.;")
+        if "g" in subfields.keys():
+            note = " [" + subfields["g"].rstrip(" ,:.;") + "]"
+
+        return f'{title or ""}{note or ""}'
 
     def clean_field(self, value):
         if value.startswith("http"):
@@ -216,7 +226,12 @@ class MARCrecordParser():
                     elif path in ["650", "651", "655"]:
                         # keyword fields exception
                         keyword_string = self.handle_keyword_subfields(subfields)
-                        self.append_field(path, keyword_string)                      
+                        self.append_field(path, keyword_string)
+
+                    elif path in ["246"]:
+                        # title varform exception
+                        title_varform_string = self.handle_title_varform_subfields(subfields)
+                        self.append_field(path, title_varform_string)
 
                     else:
                         # standard approach for all other fields
