@@ -24,7 +24,7 @@ if __name__ == "__main__":
         import pandas as pd
         erb_est = pd.read_parquet("data/converted/erb_books.parquet")
         erb_non = pd.read_parquet("data/converted/erb_non_estonian.parquet")
-        df = pd.concat([erb_est, erb_non])
+        df = pd.concat([erb_est, erb_non]).reset_index(drop=True)
         del(erb_est, erb_non) # free up RAM
 
         # clean and filter the converted dataframe
@@ -32,7 +32,6 @@ if __name__ == "__main__":
         df = clean_dataframe(df)
         df = organize_columns(df)
         df.to_parquet(f"data/cleaned/{key}.parquet")
-        
         
     else:
         # harvest and save the raw XML file
