@@ -102,7 +102,7 @@ This field can contain a parallel title marked on the publication, a commonly re
 Original titles were marked together with everything else in 246\$a before 2022, after which 240\$a and 130\$a are used. This columns draws from all three MARC fields.
 
 ---
-### uncontrolled_related_title
+### title_freeform
 
 *str: Freeform title that may also contain information about awards, provenance, etc.*
 

@@ -176,7 +176,7 @@
     "711$a": "added_meeting_name",
     "711$c": "added_entry_meeting_location",
     "711$d": "added_meeting_date",
-    "740$a": "uncontrolled_related_title",
+    "740$a": "title_freeform",
     "740$h": "uncontrolled_related_title_medium",
     "740$n": "uncontrolled_related_title_part_nr",
     "740$p": "uncontrolled_related_title_part_name",
