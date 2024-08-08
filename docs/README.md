@@ -90,16 +90,16 @@ Using regex, title part are converted to Arabic numerals with the name of the un
 
 **MARC source**: 246\$a
 
-This field can contain a parallel title marked on the publication, a commonly referred part of a longer title or the title in another language. For titles in the old Estonian orthography (generally pre-20th century), the field can contain the title in modern orthography.
+This field can contain a parallel title marked on the publication, a commonly referred part of a longer title, or titles in the old Estonian orthography (generally pre-20th century), the field can contain the title in modern orthography. Titles in the original language are removed from 246$a and added to the title_original column.
 
 ---
-### title_varform_info
+### title_original
 
-*str: Additional information about the title_varform field*
+*str: Title in the original language for translated works*
 
-**MARC source**: 246\$g
+**MARC source**: 246\$a, 240\$a, 130\$a
 
-!!!!!NB!!!!! koguda originaalpealkirjad siit ja 130, 240
+Original titles were marked together with everything else in 246\$a before 2022, after which 240\$a and 130\$a are used. This columns draws from all three MARC fields.
 
 ---
 ### uncontrolled_related_title
