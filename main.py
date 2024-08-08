@@ -26,6 +26,7 @@ if __name__ == "__main__":
         erb_non = pd.read_parquet("data/converted/erb_non_estonian.parquet")
         df = pd.concat([erb_est, erb_non]).reset_index(drop=True)
         del(erb_est, erb_non) # free up RAM
+        df.to_parquet(f"data/converted/{key}.parquet")
 
         # clean and filter the converted dataframe
         print("\nCleaning dataframe")
