@@ -139,7 +139,36 @@ def clean_245n(entry: str, pattern=PATTERN_245n):
                 p = ''
 
             return n+p
-        
+
+
+def extract_original_titles(df):
+    """Extracts the original title from the fields 246 (combined from 260$a and 260$g during conversion), 240$a and 130$a"""
+    def handle_246(x):
+        """Extracts the original title from the 246 field (always followed by the language in square brackets)"""
+        if isinstance(x, str):
+            processed_values = [val.rsplit(" [", maxsplit=1)[0] for val in x.split("; ") if re.search(r"\[.+\]$", val)]
+            result = "; ".join(processed_values)
+            return result if result else pd.NA
+        else:
+            return pd.NA
+
+    # Add values from 246 to a new column
+    df["title_original"] = pd.NA
+    df["title_original"] = df["246"].apply(handle_246)
+
+    # Where 246 did not provide an original title, use 240 and then 130
+    df["title_original"] = df["title_original"].fillna(df["240$a"]).fillna(df["130$a"])
+
+    return df["title_original"]
+
+
+def clean_246(entry):
+    """Removes original titles from the 246 field and keeps other varform titles. Use after extract_original_titles()"""
+    if isinstance(entry, str):
+        return "; ".join([val for val in entry.split("; ") if not re.search(r"\[.+\]$", val)])
+    else:
+        return pd.NA
+    
 
 def clean_250a(entry, pattern=PATTERN_250a):
     """Eraldab editsiooniandmete väljalt kordustrüki arvu."""
@@ -394,6 +423,13 @@ def clean_dataframe(df):
         print("245$n: cleaning and harmonizing part numeration")
         df["title_part_nr_cleaned"] = df["245$n"].apply(clean_245n)
         # df = df.drop("245$n", axis=1)
+
+    ### 246, 130$a, 240$a: originaali pealkiri ja lisapealkirjad
+    if all([col in df.columns for col in ["246", "130$a", "240$a"]]):
+        print("Extracting original titles")
+        df["title_original"] = extract_original_titles(df)
+        df["title_varform"] = df["246"].apply(clean_246)
+        df = df.drop(["246", "130$a", "240$a"], axis=1)  
 
     ### 250$a: editsiooniandmed
     if "250$a" in df.columns:
