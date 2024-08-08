@@ -1,6 +1,7 @@
 {
     "columns": [
         "id",
+        "date_entered",
         "isbn",
         "creator",
         "contributor",

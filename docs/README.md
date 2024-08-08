@@ -12,6 +12,15 @@ RaRa Digilab 2024 etc
 **MARC source**: 001
 
 ---
+### date_entered
+
+*datetime: Date of the original creation of the record*
+
+**MARC source**: 008
+
+Date when the MARC record was first created. Impossible and missing dates are removed.
+
+---
 ### isbn
 
 *str: International Standard Book Number identifier*

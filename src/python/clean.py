@@ -72,20 +72,44 @@ def clean_008(entry):
     """Eraldab kontrollväljalt vajalikud andmed."""
     if type(entry) == str:
         if len(entry) in range(38, 41):
+            date_entered = entry[0:6]
             publication_date = entry[7:11]
             publication_place = entry[15:18]
             publication_language = entry[35:38]
-            literary_form = entry[33] # only for books - change for other material!
+            literary_form = entry[33]
 
-            # check if fiction (only for books)
+            # check if fiction
             is_fiction = None
             if literary_form in [0, "0", "e", "i", "s"]:
                 is_fiction = False
             elif literary_form in [1, "1", "d", "f", "h", "j", "p"]:
                 is_fiction = True
 
-            return publication_date, publication_place, publication_language, is_fiction
-    return None, None, None, None
+            return date_entered, publication_date, publication_place, publication_language, is_fiction
+    return None, None, None, None, None
+
+
+def clean_entry_dates(dates):
+    """Cleans the entry dates from the 008 control field. Use after clean_008()"""
+    def parse_entry_dates(date):
+        """Convert a date in the format YYMMDD to YYYY-MM-DD"""
+        if isinstance(date, str):
+            if re.match("\d{6}", date):
+                year = int(date[:2])
+                if year >= 70:  # Assuming no overlap and 1970 is the threshold
+                    return '19' + date[:2] + "-" + date[2:4] + "-" + date[4:6]
+                else:
+                    return '20' + date[:2] + "-" + date[2:4] + "-" + date[4:6]
+        return None
+
+    dates = dates.apply(parse_entry_dates)
+    dates = pd.to_datetime(dates, errors='coerce')
+
+    # anything greater than the current date must be an insertion error
+    today = pd.Timestamp.today().normalize()
+    dates.loc[dates > today] = pd.NaT
+
+    return dates
 
 
 def validate_020(entry):
@@ -409,8 +433,10 @@ def clean_dataframe(df):
     ### 008: kontrollväli
     if "008" in df.columns:
         print("008: cleaning and harmonizing control field 008")
-        df[["publication_date_control", "publication_place_control", "language", "is_fiction"]] = df["008"].apply(clean_008).to_list()
+        df[["date_entered","publication_date_control", "publication_place_control", "language", "is_fiction"]] = df["008"].apply(clean_008).to_list()
         df = df.drop("008", axis=1)
+        ### sisestuskuupäev
+        df["date_entered"] = clean_entry_dates(df["date_entered"])
 
     ### 020$a: ISBN
     if "020$a" in df.columns:
