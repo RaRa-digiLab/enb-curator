@@ -10,10 +10,10 @@ from datetime import datetime
 
 if __name__ == "__main__":
     # when using this script from command line
-    from regex_patterns import PATTERN_245n, PATTERN_250a, PATTERN_260c, PATTERN_300a, PATTERN_533d, PATTERN_534c
+    import constants
 else:
     # when using the clean_dataframe function as imported
-    from src.python.regex_patterns import PATTERN_245n, PATTERN_250a, PATTERN_260c, PATTERN_300a, PATTERN_533d, PATTERN_534c
+    from src.python import constants
 
 current_script_path = Path(__file__)
 project_root = current_script_path.parent.parent.parent
@@ -31,13 +31,13 @@ def load_converted_data(key: str):
     #df = pd.read_csv(f"{read_data_path}/{key}_converted.tsv", sep="\t", encoding="utf8", low_memory=False)
     df = pd.read_parquet(f"{read_data_path}/{key}.parquet")
 
-    # allesjäetavate tulpade nimed tulevad välisest failist
-    with open(columns_to_keep_file_path, "r", encoding="utf8") as f:
-        columns = json.load(f)["columns"]
-        columns = [col for col in columns if col in df.columns]
+    # # allesjäetavate tulpade nimed tulevad välisest failist
+    # with open(columns_to_keep_file_path, "r", encoding="utf8") as f:
+    #     columns = json.load(f)["columns"]
+    #     columns = [col for col in columns if col in df.columns]
     
-    # jätkame vaid oluliste tulpadega    
-    df = df[columns]
+    # # jätkame vaid oluliste tulpadega    
+    # df = df[columns]
     return df
 
 
@@ -131,7 +131,7 @@ def validate_020(entry):
         print(f"Could not process", entry)
 
 
-def clean_245n(entry: str, pattern=PATTERN_245n):
+def clean_245n(entry: str, pattern=constants.PATTERN_245n):
     """Harmoniseerib pealkirja osanumbri alamvälja."""
     if type(entry) == str:
         match = re.search(pattern, entry)
@@ -194,7 +194,7 @@ def clean_246(entry):
         return pd.NA
     
 
-def clean_250a(entry, pattern=PATTERN_250a):
+def clean_250a(entry, pattern=constants.PATTERN_250a):
     """Eraldab editsiooniandmete väljalt kordustrüki arvu."""
     if type(entry) == str:
         match = re.search(pattern, entry)
@@ -231,7 +231,7 @@ def add_260abc_264abc(df):
         df[f"260${sub}"] = df[f"260${sub}"].fillna(df[f"264${sub}"])
 
 
-def clean_260c(entry, pattern=PATTERN_260c, min_year=MIN_YEAR, max_year=MAX_YEAR):
+def clean_260c(entry, pattern=constants.PATTERN_260c, min_year=MIN_YEAR, max_year=MAX_YEAR):
     """Funktsioon võtab sisse välja 260$c ehk ilmumisaasta kirje ning tagastab aasta ning kümnendi arvulisel kujul."""
     output_year = None
     output_decade = None
@@ -289,7 +289,7 @@ def clean_260c(entry, pattern=PATTERN_260c, min_year=MIN_YEAR, max_year=MAX_YEAR
     return (output_year, output_decade)
 
 
-def clean_300a(entry: str, pattern=PATTERN_300a):
+def clean_300a(entry: str, pattern=constants.PATTERN_300a):
     """Eraldab leheküljenumbrid füüsilise kirjelduse väljalt."""
     if type(entry) == str:
         match = re.search(pattern, entry)
@@ -349,18 +349,18 @@ def clean_500a(entry):
     kirjastiil = None
     if type(entry) == str:
 
-        pattern_500a_tiraaz = re.compile(r"(?P<tiraaz>\d+(\.\d+)?)\s(eks\.?)")
-        match = re.search(pattern_500a_tiraaz, entry)
+        constants.PATTERN_500a_tiraaz = re.compile(r"(?P<tiraaz>\d+(\.\d+)?)\s(eks\.?)")
+        match = re.search(constants.PATTERN_500a_tiraaz, entry)
         if match:
             tiraaz = int(match.groupdict()["tiraaz"].replace('.', ''))
 
-        pattern_500a_hind = re.compile(r"(?P<rubla>\d\s(rbl\.?|rubla))?\s*(?P<kop>\d{1,2}\skop)")
-        match = re.search(pattern_500a_hind, entry)
+        constants.PATTERN_500a_hind = re.compile(r"(?P<rubla>\d\s(rbl\.?|rubla))?\s*(?P<kop>\d{1,2}\skop)")
+        match = re.search(constants.PATTERN_500a_hind, entry)
         if match:
             hind = match.string[match.span()[0]:match.span()[1]]
 
-        pattern_500a_kirjastiil = re.compile(r"(?P<kirjastiil>[Ff]raktuur|[Aa]ntiikva)")
-        match = re.search(pattern_500a_kirjastiil, entry)
+        constants.PATTERN_500a_kirjastiil = re.compile(r"(?P<kirjastiil>[Ff]raktuur|[Aa]ntiikva)")
+        match = re.search(constants.PATTERN_500a_kirjastiil, entry)
         if match:
             kirjastiil = (match.groupdict()["kirjastiil"].lower()[0])
 
@@ -387,7 +387,7 @@ def clean_533a(entry):
         return False
     
 
-def clean_533d(entry, pattern=PATTERN_533d):
+def clean_533d(entry, pattern=constants.PATTERN_533d):
     """Eraldab ja puhastab digiteerimise aasta."""
     if type(entry) != str:
         entry = str(entry)
@@ -399,7 +399,7 @@ def clean_533d(entry, pattern=PATTERN_533d):
         return year
         
 
-def clean_534c(entry, pattern=PATTERN_534c):
+def clean_534c(entry, pattern=constants.PATTERN_534c):
     """Eraldab algupärandi märkusest esmaväljaande aasta, koha ja kirjastuse."""
     year = None
     place = None
@@ -426,6 +426,33 @@ def clean_856u(entry):
     if type(entry) == str:
         entry_split = entry.split("; ")
         return "; ".join([url.strip().lstrip() for url in entry_split if is_valid_url(url.strip().lstrip())])
+    
+
+def extract_person_info(person_str):
+    # Remove any titles enclosed in quotes
+    person_str = re.sub(r': ".*?"', '', person_str)
+
+    # Regular expression patterns
+    constants.PATTERN_with_date = r'^(.+?) \(([\d?]+)?-([\d?]+)?\)$'
+    constants.PATTERN_name_only = r'^(.+?)$'
+
+    # Extract name and birth/death dates
+    match = re.match(constants.PATTERN_with_date, person_str)
+    if match:
+        name, birth_date, death_date = match.groups()
+        birth_date = birth_date.strip() if birth_date else None
+        death_date = death_date.strip() if death_date else None
+        return name.strip(), birth_date, death_date
+    
+    # Handle the case where only the name exists
+    match = re.match(constants.PATTERN_name_only, person_str)
+    if match:
+        name = match.group(1)
+        return name.strip(), None, None
+
+    # Return an error if no pattern matched
+    # print(f"Error: '{person_str}' doesn't match expected patterns.")
+    return None, None, None
 
 
 def clean_books(df):
@@ -529,7 +556,21 @@ def clean_books(df):
     return df
 
 
-def organize_columns(df, column_names_file_path=column_names_file_path, column_order_file_path=column_order_file_path):
+def clean_persons(df):
+
+    ### 100: retrieving name and dates from 100 subfields
+    df[["name", "birth_date", "death_date"]] = df["100"].apply(extract_person_info).to_list()
+    df["birth_date"] = df["birth_date"].astype("Int64", errors="ignore")
+    df["death_date"] = df["death_date"].astype("Int64", errors="ignore")
+
+    ### 375$a: cleaning and harmonizing gender identities
+    df["gender"] = df["375$a"].apply(lambda x: constants.MAPPING_375a.get(x, None))
+    df = df.drop("375$a", axis=1)
+
+    return df
+
+
+def organize_columns(df, collection_type, column_names_file_path=column_names_file_path, column_order_file_path=column_order_file_path):
     ### tulpade ümber nimetamine
     with open(column_names_file_path) as f:
         column_names = json.load(f)
@@ -537,7 +578,7 @@ def organize_columns(df, column_names_file_path=column_names_file_path, column_o
 
     ### tulpade järjekord
     with open(column_order_file_path) as f:
-        column_order = json.load(f)["columns"]
+        column_order = json.load(f)[collection_type]
         column_order = [col for col in column_order if col in df.columns]
         df = df[column_order]
 
@@ -553,11 +594,14 @@ if __name__ == "__main__":
     print("Cleaning dataframe")
     if key in ["erb_books", "erb_non_estonian", "erb_all_books"]:
         df = clean_books(df)
+        df = organize_columns(df, collection_type="books")
     elif key == "nle_persons":
         df = clean_persons(df)
-
-    print("Organizing columns")
-    df = organize_columns(df)
+        df = organize_columns(df, collection_type="nle_persons")
+    else:
+        print("Warning: there is no separate cleaning function for this collection yet. Cleaning will proceed as if the collection were 'erb_books', but the result may be partially incorrect. Please check the cleaning functions in 'clean.py' for reference.")
+        df = clean_books(df)
+        df = organize_columns(df, collection_type="books")
 
     ### salvestamine
     savepath = f"{write_data_path}/{key}.parquet"

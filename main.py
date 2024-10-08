@@ -1,6 +1,6 @@
 from src.python.harvest import harvest_oai, collections
 from src.python.convert import oai_to_dataframe
-from src.python.clean import clean_dataframe, organize_columns
+import src.python.clean as clean
 from datetime import timedelta
 import time
 import sys
@@ -30,10 +30,27 @@ if __name__ == "__main__":
 
         # clean and filter the converted dataframe
         print("\nCleaning dataframe")
-        df = clean_dataframe(df)
-        df = organize_columns(df)
+        df = clean.clean_books(df)
+        df = clean.organize_columns(df, collection_type="books")
         df.to_parquet(f"data/cleaned/{key}.parquet")
         
+
+    elif key == "nle_persons":
+        # harvest and save the raw XML file
+        print(f"\nHarvesting {collections[key]['title']}")
+        harvest_oai(key=key, savepath=f"data/raw/{key}.xml")
+
+        # take the raw XML file, convert it to a dataframe and save it
+        print(f"\nConverting {key} to dataframe")
+        df = oai_to_dataframe(f"data/raw/{key}.xml", rename_columns=False)
+        df.to_parquet(f"data/converted/{key}.parquet")
+
+        # clean and filter the converted dataframe
+        print("\nCleaning dataframe")
+        df = clean.clean_persons(df)
+        df = clean.organize_columns(df, collection_type="nle_persons")
+        df.to_parquet(f"data/cleaned/{key}.parquet")
+
     else:
         # harvest and save the raw XML file
         print(f"\nHarvesting {collections[key]['title']}")
@@ -46,8 +63,9 @@ if __name__ == "__main__":
 
         # clean and filter the converted dataframe
         print("\nCleaning dataframe")
-        df = clean_dataframe(df)
-        df = organize_columns(df)
+        print("Warning: there is no separate cleaning function for this collection yet. Cleaning will proceed as if the collection were 'erb_books', but the result may be partially incorrect. Please check the cleaning functions in 'clean.py' for reference.")
+        df = clean.clean_books(df)
+        df = clean.organize_columns(df, collection_type="books")
         df.to_parquet(f"data/cleaned/{key}.parquet")
         # df.to_csv(f"data/cleaned/{key}.tsv", sep="\t", encoding="utf8", index=False)
 

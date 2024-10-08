@@ -1,5 +1,5 @@
 {
-    "columns": [
+    "books": [
         "id",
         "date_entered",
         "isbn",
@@ -53,5 +53,19 @@
         "digitized",
         "digitized_year",
         "access_uri"
+    ],
+
+    "nle_persons": [
+        "id",
+        "creator",
+        "name",
+        "birth_date",
+        "death_date",
+        "profession",
+        "gender",
+        "name_varform",
+        "geographic_iso",
+        "biographical_info"
     ]
+
 }
