@@ -428,7 +428,7 @@ def clean_856u(entry):
         return "; ".join([url.strip().lstrip() for url in entry_split if is_valid_url(url.strip().lstrip())])
 
 
-def clean_dataframe(df):
+def clean_books(df):
 
     ### 008: kontrollväli
     if "008" in df.columns:
@@ -518,12 +518,6 @@ def clean_dataframe(df):
         df[["original_distribution_year", "original_distribution_place", "original_distribution_publisher"]] = df["534$c"].apply(clean_534c).to_list()
         df = df.drop("534$c", axis=1)
 
-    ### 534$l: autoriõiguse märge
-    ### kood siia...
-
-    ### märksõnad
-    ### kood siia
-
     ### 856$u: elektrooniline juurdepääs
     if "856$u" in df.columns:
         df["access_uri"] = df["856$u"].apply(clean_856u)
@@ -557,7 +551,10 @@ if __name__ == "__main__":
     df = load_converted_data(key=key)
 
     print("Cleaning dataframe")
-    df = clean_dataframe(df)
+    if key in ["erb_books", "erb_non_estonian", "erb_all_books"]:
+        df = clean_books(df)
+    elif key == "nle_persons":
+        df = clean_persons(df)
 
     print("Organizing columns")
     df = organize_columns(df)
