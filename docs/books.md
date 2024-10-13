@@ -179,16 +179,6 @@ The place of publication of the work, normally the city or other populated place
 In 2022, the cataloguing practices at the NLE changed and information previously noted on the MARC field 260 began to be noted on 264. As a result, the publication_place field is concatenated from the respective subfields of these MARC fields.
 
 ---
-### added_intermediate_political_jurisdiction
-
-Kas jätta?
-
----
-### added_city
-
-Kas jätta?
-
----
 ### place_of_manufacture
 
 *str: Place of printing/manufacturing of the work*
@@ -318,6 +308,7 @@ Generic identification of whether or not the item is a work of fiction. Only app
 **MARC source**: 100\$d, 260\$c, 264\$c
 
 A comparison between the death dates in `creator` and `publication_dates_cleaned`. Please note that this takes into account only the main creator of the record - coauthors who may be sometimes found under `contributor` with the role `[autor]` are excluded from the calculation (c.f. `check_if_posthumous` in `clean.py` for more details). Where `is_posthumous` cannot be meaningfully calculated, an empty value is returned.
+
 ---
 ### udc
 
