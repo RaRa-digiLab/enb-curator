@@ -311,6 +311,14 @@ Textual information on the language(s) of the work.
 Generic identification of whether or not the item is a work of fiction. Only applies to books.
 
 ---
+### is_posthumous
+
+*bool: Whether the work is published posthumously*
+
+**MARC source**: 100\$d, 260\$c, 264\$c
+
+A comparison between the death dates in `creator` and `publication_dates_cleaned`. Please note that this takes into account only the main creator of the record - coauthors who may be sometimes found under `contributor` with the role `[autor]` are excluded from the calculation (c.f. `check_if_posthumous` in `clean.py` for more details). Where `is_posthumous` cannot be meaningfully calculated, an empty value is returned.
+---
 ### udc
 
 *str: Universal Decimal Classification number of the work*

@@ -428,8 +428,6 @@ def clean_856u(entry):
         return "; ".join([url.strip().lstrip() for url in entry_split if is_valid_url(url.strip().lstrip())])
     
 
-import re
-
 def extract_person_info(person_str, role=True):
     # Remove any titles enclosed in quotes
     person_str = re.sub(r': ".*?"', '', person_str)
@@ -514,6 +512,47 @@ def extract_person_info(person_str, role=True):
         return (None, None, None, None)
     else:
         return (None, None, None)
+    
+
+def check_if_posthumous(creators, publication_date, contributors=None):
+    if not isinstance(publication_date, int):
+        return None
+    
+    if isinstance(creators, str):
+        creators_list = creators.split("; ")
+    else:
+        creators_list = []
+
+    # option to add contributors whose role is defined as "autor" (may lead to unwanted results in some cases)
+    if isinstance(contributors, str):
+        if "[autor]" in contributors:
+            for c in contributors.split("; "):
+                if extract_person_info(c, role=True)[3] == "autor":
+                    creators_list.append(c)
+
+    if len(creators_list) == 0:
+        return None
+
+    # extract death dates
+    death_dates = [extract_person_info(c, role=True)[2] for c in creators_list]
+
+    # in the case that all death dates are present
+    if all(isinstance(y, int) for y in death_dates):
+        last_death = max(death_dates)
+        return last_death < publication_date
+    
+    # assume that authors marked only by century are published posthumously
+    if any(["saj." in c for c in creators_list]):
+        return True
+    
+    # assume that no author lives longer than 120 years
+    birth_dates = [extract_person_info(c, role=True)[1] for c in creators_list]
+    if all(isinstance(x, int) for x in birth_dates):
+        if all(publication_date - y > 120 for y in birth_dates):
+            return True
+
+    # otherwise, a missing death date is justified and means that one of the authors is/was alive 
+    return False
 
 
 def clean_books(df):
@@ -557,6 +596,8 @@ def clean_books(df):
     if all([col in df.columns for col in ["260$a", "260$b", "260$c"]]):   
         print("260$c: cleaning publishing date")
         df[["publication_date_cleaned", "publication_decade"]] = df["260$c"].apply(clean_260c).to_list()
+        # convert to Int64 right away for check_if_posthumous to work later
+        df[["publication_date_cleaned", "publication_decade"]] = df[["publication_date_cleaned", "publication_decade"]].astype("Int64", errors="ignore")
         
     ### 300$a: lehekülgede arv
     if "300$a" in df.columns:
@@ -610,6 +651,11 @@ def clean_books(df):
     if "856$u" in df.columns:
         df["access_uri"] = df["856$u"].apply(clean_856u)
         df = df.drop("856$u", axis=1)
+
+    ### define poshtumously published records
+    if all([col in df.columns for col in ["100", "publication_date_cleaned"]]):
+        print("Defining posthumously published records")
+        df["is_posthumous"] = df.apply(lambda x: check_if_posthumous(x["100"], x["publication_date_cleaned"]), axis=1)
 
     ### formaatimine
     df = df.convert_dtypes()

@@ -35,6 +35,7 @@
         "language_original",
         "language_note",
         "is_fiction",
+        "is_posthumous",
         "udc",
         "topic_keyword",
         "genre_keyword",
