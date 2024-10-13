@@ -428,31 +428,92 @@ def clean_856u(entry):
         return "; ".join([url.strip().lstrip() for url in entry_split if is_valid_url(url.strip().lstrip())])
     
 
-def extract_person_info(person_str):
+import re
+
+def extract_person_info(person_str, role=True):
     # Remove any titles enclosed in quotes
     person_str = re.sub(r': ".*?"', '', person_str)
 
-    # Regular expression patterns
-    constants.PATTERN_with_date = r'^(.+?) \(([\d?]+)?-([\d?]+)?\)$'
-    constants.PATTERN_name_only = r'^(.+?)$'
+    # Helper function to process individual dates
+    def process_date(date_str):
+        if not date_str:
+            return None, False  # Return None and BC indicator as False
+        date_str = date_str.strip()
+        is_bc = False
 
-    # Extract name and birth/death dates
-    match = re.match(constants.PATTERN_with_date, person_str)
-    if match:
-        name, birth_date, death_date = match.groups()
-        birth_date = birth_date.strip() if birth_date else None
-        death_date = death_date.strip() if death_date else None
-        return name.strip(), birth_date, death_date
-    
-    # Handle the case where only the name exists
-    match = re.match(constants.PATTERN_name_only, person_str)
-    if match:
-        name = match.group(1)
-        return name.strip(), None, None
+        # Remove 'u. ' prefix indicating uncertainty
+        date_str = re.sub(r'^u\. ?', '', date_str)
 
-    # Return an error if no pattern matched
-    # print(f"Error: '{person_str}' doesn't match expected patterns.")
-    return None, None, None
+        # Check for 'e. Kr' (BC dates) and 'p. Kr' (AD dates)
+        bc_match = re.search(r'e\. ?Kr\.?', date_str, re.IGNORECASE)
+        ad_match = re.search(r'p\. ?Kr\.?', date_str, re.IGNORECASE)
+        if bc_match:
+            is_bc = True
+        elif ad_match:
+            is_bc = False  # Explicitly marked as AD
+
+        # Remove 'e. Kr' or 'p. Kr' suffixes
+        date_str = re.sub(r'(e\. ?Kr\.?|p\. ?Kr\.?)', '', date_str, flags=re.IGNORECASE).strip()
+
+        # Convert date string to integer
+        try:
+            date_int = int(date_str)
+            return date_int, is_bc
+        except ValueError:
+            return None, False  # Return None if the date is not a valid integer
+
+    # Regular expression pattern to match the entire string
+    # Matches: Name (birth_date - death_date) [role]
+    pattern = r'^(.+?)\s*\((.*?)\)\s*(?:\[(.+?)\])?$'
+
+    match = re.match(pattern, person_str)
+    if match:
+        name, date_range, role_str = match.groups()
+        name = name.strip()
+        role_str = role_str.strip().lower() if role_str and role else None
+
+        # Split the date range into birth and death dates
+        birth_date_str, _, death_date_str = date_range.partition('-')
+
+        # Process birth and death dates
+        birth_date, birth_is_bc = process_date(birth_date_str)
+        death_date, death_is_bc = process_date(death_date_str)
+
+        # If the death date is BC and the birth date is not explicitly AD, assume birth date is BC
+        if death_is_bc and not birth_is_bc and birth_date is not None:
+            birth_is_bc = True
+            birth_date = -birth_date
+        elif birth_is_bc and birth_date is not None:
+            birth_date = -birth_date
+
+        # If the death date is BC, make it negative
+        if death_is_bc and death_date is not None:
+            death_date = -death_date
+
+        if role:
+            return (name, birth_date, death_date, role_str)
+        else:
+            return (name, birth_date, death_date)
+
+    # Handle cases with only the name and optional role
+    # Matches: Name [role] or Name
+    pattern_name_role = r'^(.+?)\s*(?:\[(.+?)\])?$'
+    match = re.match(pattern_name_role, person_str)
+    if match:
+        name, role_str = match.groups()
+        name = name.strip()
+        role_str = role_str.strip().lower() if role_str and role else None
+
+        if role:
+            return (name, None, None, role_str)
+        else:
+            return (name, None, None)
+
+    # Return None values if no pattern matched
+    if role:
+        return (None, None, None, None)
+    else:
+        return (None, None, None)
 
 
 def clean_books(df):
@@ -559,7 +620,7 @@ def clean_books(df):
 def clean_persons(df):
 
     ### 100: retrieving name and dates from 100 subfields
-    df[["name", "birth_date", "death_date"]] = df["100"].apply(extract_person_info).to_list()
+    df[["name", "birth_date", "death_date"]] = df["100"].apply(extract_person_info, args=(False,)).to_list()
     df["birth_date"] = df["birth_date"].astype("Int64", errors="ignore")
     df["death_date"] = df["death_date"].astype("Int64", errors="ignore")
 
