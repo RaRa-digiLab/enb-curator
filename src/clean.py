@@ -13,10 +13,10 @@ if __name__ == "__main__":
     import constants
 else:
     # when using the clean_dataframe function as imported
-    from src.python import constants
+    from src import constants
 
 current_script_path = Path(__file__)
-project_root = current_script_path.parent.parent.parent
+project_root = current_script_path.parent.parent
 read_data_path = project_root / "data" / "converted"
 write_data_path = project_root / "data" / "cleaned"
 

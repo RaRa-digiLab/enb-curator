@@ -1,6 +1,6 @@
-from src.python.harvest import harvest_oai, collections
-from src.python.convert import oai_to_dataframe
-import src.python.clean as clean
+from src.harvest import harvest_oai, collections
+from src.convert import oai_to_dataframe
+import src.clean as clean
 from datetime import timedelta
 import time
 import sys

@@ -14,7 +14,7 @@ from concurrent.futures import ProcessPoolExecutor, as_completed
 # Path to the current script
 current_script_path = Path(__file__)
 # Path to the project root
-project_root = current_script_path.parent.parent.parent
+project_root = current_script_path.parent.parent
 # Path to read directory
 read_data_path = project_root / "data" / "raw"
 # Path to write directory

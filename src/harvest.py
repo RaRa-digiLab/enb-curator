@@ -7,7 +7,7 @@ from lxml import etree
 # Path to the current script
 current_script_path = Path(__file__)
 # Path to the project root
-project_root = current_script_path.parent.parent.parent
+project_root = current_script_path.parent.parent
 # Path to write directory
 write_data_path = project_root / "data" / "raw"
 # Path to the collections.json file in the config directory
