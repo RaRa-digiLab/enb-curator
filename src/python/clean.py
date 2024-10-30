@@ -19,9 +19,14 @@ current_script_path = Path(__file__)
 project_root = current_script_path.parent.parent.parent
 read_data_path = project_root / "data" / "converted"
 write_data_path = project_root / "data" / "cleaned"
+
 columns_to_keep_file_path = project_root / "config" / "marc_columns_to_keep.json"
 column_names_file_path = project_root / "config" / "marc_columns_dict.json"
 column_order_file_path = project_root / "config" / "marc_columns_order.json"
+
+placenames_file_path = project_root / "config" / "authority_placenames.tsv"
+coordinates_file_path = project_root / "config" / "authority_coordinates.tsv"
+person_links_file_path = project_root / "config" / "authority_person_links.tsv"
 
 MIN_YEAR = 1500
 MAX_YEAR = datetime.now().year
@@ -555,6 +560,73 @@ def check_if_posthumous(creators, publication_date, contributors=None):
     return False
 
 
+def harmonize_placenames(place_column):
+    """Uses an external authority file to map placenames to their harmonized versions, accounting for multiple names in a single cell."""
+    # Load mapping data from file
+    with open(placenames_file_path, "r", encoding="utf8") as f:
+        place_names = pd.read_csv(f, sep="\t", encoding="utf8")
+
+    # Create a dictionary to map original to harmonized names
+    mapping = dict(zip(place_names["original"], place_names["harmonized"]))
+
+    # Split, map, and rejoin using vectorized operations, handling NA values
+    harmonized_placenames = (
+        place_column
+        .apply(lambda x: "; ".join(mapping.get(place, place) for place in x.split("; ")) if pd.notna(x) else x)
+    )
+    
+    return harmonized_placenames
+
+
+def get_coordinates(place_column):
+    """Uses the external authority file to map placenames to their coordinates, handling multiple placenames in a single cell."""
+    # Load mapping data from file
+    with open(coordinates_file_path, "r", encoding="utf8") as f:
+        coordinates = pd.read_csv(f, sep="\t", encoding="utf8")
+    
+    # Create dictionaries to map placename to lat and lon
+    mapping_lat = dict(zip(coordinates["placename"], coordinates["lat"]))
+    mapping_lon = dict(zip(coordinates["placename"], coordinates["lon"]))
+
+    # Define a function to retrieve the first available coordinates from multiple placenames
+    def get_first_coordinates(places):
+        for place in places.split("; "):
+            lat = mapping_lat.get(place)
+            lon = mapping_lon.get(place)
+            if lat is not None and lon is not None:
+                return lat, lon
+        return None, None  # Return None if no valid coordinates are found
+
+    # Apply the function, handling NA values
+    coordinates = place_column.apply(lambda x: get_first_coordinates(x) if pd.notna(x) else (None, None))
+    
+    # Convert the resulting list of tuples into a DataFrame with columns 'lat' and 'lon'
+    coordinates_df = pd.DataFrame(coordinates.tolist(), columns=["lat", "lon"])
+    
+    return coordinates_df
+
+
+def get_person_links(id_column):
+    """Uses the external authority file to add known VIAF and Wikidata links to persons in the dataframe."""
+    # Load mapping data from file
+    with open(person_links_file_path, "r", encoding="utf8") as f:
+        links = pd.read_csv(f, sep="\t", encoding="utf8")
+    
+    # Create dictionaries to map VIAF and Wikidata IDs to person names
+    viaf_mapping = dict(zip(links["rara_id"], links["viaf_id"]))
+    wkp_mapping = dict(zip(links["rara_id"], links["wkp_id"]))
+
+    # Map IDs to VIAF and Wikidata links, defaulting to None if not found
+    viaf_ids = id_column.map(viaf_mapping)
+    wkp_ids = id_column.map(wkp_mapping)
+    
+    # Combine the Series into a DataFrame with 'viaf_id' and 'wkp_id' columns
+    links_df = pd.DataFrame({'viaf_id': viaf_ids, 'wkp_id': wkp_ids})
+    
+    return links_df
+
+
+
 def clean_books(df):
 
     ### 008: kontrollväli
@@ -657,6 +729,17 @@ def clean_books(df):
         print("Defining posthumously published records")
         df["is_posthumous"] = df.apply(lambda x: check_if_posthumous(x["100"], x["publication_date_cleaned"]), axis=1)
 
+    ### harmonize publication_places
+    if "260$a" in df.columns:
+        print("Harmonizing and linking publication places")
+        df["publication_place_harmonized"] = harmonize_placenames(df["260$a"])
+        df[["latitude", "longitude"]] = get_coordinates(df["publication_place_harmonized"])
+
+    if "260$e" in df.columns:
+        print("Harmonizing manufacturing places")
+        df["manufacturing_place_harmonized"] = harmonize_placenames(df["260$e"])
+        # df[["manufacturing_place_lat", "manufacturing_place_lon"]] = add_coordinates(df["manufacturing_place_harmonized"])
+
     ### formaatimine
     df = df.convert_dtypes()
 
@@ -673,6 +756,9 @@ def clean_persons(df):
     ### 375$a: cleaning and harmonizing gender identities
     df["gender"] = df["375$a"].apply(lambda x: constants.MAPPING_375a.get(x, None))
     df = df.drop("375$a", axis=1)
+
+    ### add VIAF and Wikidata links from authority file
+    df[["viaf_id", "wkp_id"]] = get_person_links(df["001"])
 
     return df
 
