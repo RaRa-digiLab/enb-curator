@@ -32,7 +32,7 @@ if __name__ == "__main__":
         print("\nCleaning dataframe")
         df = curate.curate_books(df)
         df = curate.organize_columns(df, collection_type="books")
-        df.to_parquet(f"data/cleaned/{key}.parquet")
+        df.to_parquet(f"data/curated/{key}.parquet")
         
 
     elif key == "nle_persons":
@@ -49,7 +49,7 @@ if __name__ == "__main__":
         print("\nCleaning dataframe")
         df = curate.curate_persons(df)
         df = curate.organize_columns(df, collection_type="nle_persons")
-        df.to_parquet(f"data/cleaned/{key}.parquet")
+        df.to_parquet(f"data/curated/{key}.parquet")
 
     else:
         # harvest and save the raw XML file
@@ -66,8 +66,8 @@ if __name__ == "__main__":
         print("Warning: there is no separate cleaning function for this collection yet. Cleaning will proceed as if the collection were 'erb_books', but the result may be partially incorrect. Please check the cleaning functions in 'clean.py' for reference.")
         df = curate.curate_books(df)
         df = curate.organize_columns(df, collection_type="books")
-        df.to_parquet(f"data/cleaned/{key}.parquet")
-        # df.to_csv(f"data/cleaned/{key}.tsv", sep="\t", encoding="utf8", index=False)
+        df.to_parquet(f"data/curated/{key}.parquet")
+        # df.to_csv(f"data/curated/{key}.tsv", sep="\t", encoding="utf8", index=False)
 
     end_time = time.time()
     elapsed_time = end_time - start_time  # Calculate the elapsed time
