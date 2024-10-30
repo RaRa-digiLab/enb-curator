@@ -1,6 +1,6 @@
 from src.harvest import harvest_oai, collections
 from src.convert import oai_to_dataframe
-import src.clean as clean
+import src.curate as curate
 from datetime import timedelta
 import time
 import sys
@@ -30,8 +30,8 @@ if __name__ == "__main__":
 
         # clean and filter the converted dataframe
         print("\nCleaning dataframe")
-        df = clean.clean_books(df)
-        df = clean.organize_columns(df, collection_type="books")
+        df = curate.curate_books(df)
+        df = curate.organize_columns(df, collection_type="books")
         df.to_parquet(f"data/cleaned/{key}.parquet")
         
 
@@ -47,8 +47,8 @@ if __name__ == "__main__":
 
         # clean and filter the converted dataframe
         print("\nCleaning dataframe")
-        df = clean.clean_persons(df)
-        df = clean.organize_columns(df, collection_type="nle_persons")
+        df = curate.curate_persons(df)
+        df = curate.organize_columns(df, collection_type="nle_persons")
         df.to_parquet(f"data/cleaned/{key}.parquet")
 
     else:
@@ -64,8 +64,8 @@ if __name__ == "__main__":
         # clean and filter the converted dataframe
         print("\nCleaning dataframe")
         print("Warning: there is no separate cleaning function for this collection yet. Cleaning will proceed as if the collection were 'erb_books', but the result may be partially incorrect. Please check the cleaning functions in 'clean.py' for reference.")
-        df = clean.clean_books(df)
-        df = clean.organize_columns(df, collection_type="books")
+        df = curate.curate_books(df)
+        df = curate.organize_columns(df, collection_type="books")
         df.to_parquet(f"data/cleaned/{key}.parquet")
         # df.to_csv(f"data/cleaned/{key}.tsv", sep="\t", encoding="utf8", index=False)
 
