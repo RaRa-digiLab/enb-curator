@@ -642,7 +642,7 @@ def get_person_links(id_column):
     
     return links_df
 
-def clean_books(df):
+def curate_books(df):
 
     ### 008: control field
     print("008: cleaning and harmonizing control field 008")
@@ -741,7 +741,7 @@ def clean_books(df):
 
     return df
 
-def clean_persons(df):
+def curate_persons(df):
 
     ### 100: retrieving name and dates from 100 subfields
     df[["name", "birth_date", "death_date"]] = df["100"].apply(extract_person_info, args=(False,)).to_list()
@@ -778,14 +778,14 @@ if __name__ == "__main__":
 
     print("Cleaning dataframe")
     if key in ["erb_books", "erb_non_estonian", "erb_all_books"]:
-        df = clean_books(df)
+        df = curate_books(df)
         df = organize_columns(df, collection_type="books")
     elif key == "nle_persons":
-        df = clean_persons(df)
+        df = curate_persons(df)
         df = organize_columns(df, collection_type="nle_persons")
     else:
         print("Warning: there is no separate cleaning function for this collection yet. Cleaning will proceed as if the collection were 'erb_books', but the result may be partially incorrect. Please check the cleaning functions in 'clean.py' for reference.")
-        df = clean_books(df)
+        df = curate_books(df)
         df = organize_columns(df, collection_type="books")
 
     ### Saving
