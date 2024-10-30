@@ -18,7 +18,7 @@ else:
 current_script_path = Path(__file__)
 project_root = current_script_path.parent.parent
 read_data_path = project_root / "data" / "converted"
-write_data_path = project_root / "data" / "cleaned"
+write_data_path = project_root / "data" / "curated"
 
 columns_to_keep_file_path = project_root / "config" / "marc_columns_to_keep.json"
 column_names_file_path = project_root / "config" / "marc_columns_dict.json"
