@@ -19,7 +19,11 @@
         "publication_decade",
         "publication_place_control",
         "publication_place",
-        "place_of_manufacture",
+        "publication_place_harmonized",
+        "latitude",
+        "longitude",
+        "manufacturing_place",
+        "manufacturing_place_harmonized",
         "manufacturer",
         "corporate_unit",
         "series_statement",
@@ -64,7 +68,9 @@
         "gender",
         "name_varform",
         "geographic_iso",
-        "biographical_info"
+        "biographical_info",
+        "viaf_id",
+        "wkp_id"
     ]
 
 }

@@ -66,7 +66,7 @@
     "260$a": "publication_place",
     "260$b": "publisher",
     "260$c": "publication_date",
-    "260$e": "place_of_manufacture",
+    "260$e": "manufacturing_place",
     "260$f": "manufacturer",
     "260$g": "date_of_manufacture",
     "264$a": "production_publication_distribution_place",
