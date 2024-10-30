@@ -645,115 +645,96 @@ def get_person_links(id_column):
 def clean_books(df):
 
     ### 008: control field
-    if "008" in df.columns:
-        print("008: cleaning and harmonizing control field 008")
-        df[["date_entered","publication_date_control", "publication_place_control", "language", "is_fiction"]] = df["008"].apply(extract_control_field_008_data).to_list()
-        df = df.drop("008", axis=1)
-        # Entry date
-        df["date_entered"] = clean_entry_dates(df["date_entered"])
+    print("008: cleaning and harmonizing control field 008")
+    df[["date_entered","publication_date_control", "publication_place_control", "language", "is_fiction"]] = df["008"].apply(extract_control_field_008_data).to_list()
+    df = df.drop("008", axis=1)
+    # Entry date
+    df["date_entered"] = clean_entry_dates(df["date_entered"])
 
     ### 020$a: ISBN
-    if "020$a" in df.columns:
-        print("020$a: validating ISBN codes")
-        df["isbn"] = df["020$a"].apply(validate_isbn)
-        df = df.drop("020$a", axis=1)
+    print("020$a: validating ISBN codes")
+    df["isbn"] = df["020$a"].apply(validate_isbn)
+    df = df.drop("020$a", axis=1)
 
     ### 245$n: part number
-    if "245$n" in df.columns:
-        print("245$n: cleaning and harmonizing part numeration")
-        df["title_part_nr_cleaned"] = df["245$n"].apply(clean_title_part_number)
-        # df = df.drop("245$n", axis=1)
+    print("245$n: cleaning and harmonizing part numeration")
+    df["title_part_nr_cleaned"] = df["245$n"].apply(clean_title_part_number)
+    # df = df.drop("245$n", axis=1)
 
     ### 246, 130$a, 240$a: original title and variant titles
-    if all([col in df.columns for col in ["246", "130$a", "240$a"]]):
-        print("Extracting original titles")
-        df["title_original"] = extract_original_titles(df)
-        df["title_varform"] = df["246"].apply(clean_varform_titles)
-        df = df.drop(["246", "130$a", "240$a"], axis=1)  
+    print("Extracting original titles")
+    df["title_original"] = extract_original_titles(df)
+    df["title_varform"] = df["246"].apply(clean_varform_titles)
+    df = df.drop(["246", "130$a", "240$a"], axis=1)  
 
     ### 250$a: edition statement
-    if "250$a" in df.columns:
-        print("250$a: cleaning edition statement")
-        df["edition_n"] = df["250$a"].apply(extract_edition_number)
+    print("250$a: cleaning edition statement")
+    df["edition_n"] = df["250$a"].apply(extract_edition_number)
 
     ### 260, 264: publication info
-    if all([col in df.columns for col in ["260$a", "260$b", "260$c","264$a", "264$b", "264$c"]]):
-        combine_publishing_fields(df)
-        df = df.drop(["264$a", "264$b", "264$c"], axis=1)
-    if all([col in df.columns for col in ["260$a", "260$b", "260$c"]]):   
-        print("260$c: cleaning publishing date")
-        df[["publication_date_cleaned", "publication_decade"]] = df["260$c"].apply(extract_publication_year).to_list()
-        # Convert to Int64 right away for check_if_posthumous to work later
-        df[["publication_date_cleaned", "publication_decade"]] = df[["publication_date_cleaned", "publication_decade"]].astype("Int64", errors="ignore")
-        
+    combine_publishing_fields(df)
+    df = df.drop(["264$a", "264$b", "264$c"], axis=1)
+    print("260$c: cleaning publishing date")
+    df[["publication_date_cleaned", "publication_decade"]] = df["260$c"].apply(extract_publication_year).to_list()
+    # Convert to Int64 right away for check_if_posthumous to work later
+    df[["publication_date_cleaned", "publication_decade"]] = df[["publication_date_cleaned", "publication_decade"]].astype("Int64", errors="ignore")
+    
     ### 300$a: page count
-    if "300$a" in df.columns:
-        print("300$a: extracting page counts")
-        df["page_count"] = df["300$a"].apply(extract_page_count)
-        df = df.drop("300$a", axis=1)
+    print("300$a: extracting page counts")
+    df["page_count"] = df["300$a"].apply(extract_page_count)
+    df = df.drop("300$a", axis=1)
 
     ### 300$b: illustrations
-    if "300$b" in df.columns:
-        print("300$b: filtering illustrations")
-        df["illustrated"] = df["300$b"].apply(has_illustrations)
-        df = df.drop("300$b", axis=1)
+    print("300$b: filtering illustrations")
+    df["illustrated"] = df["300$b"].apply(has_illustrations)
+    df = df.drop("300$b", axis=1)
 
     ### 300$c: physical dimensions
-    if "300$c" in df.columns:
-        print("300$c: extracting physical dimensions")
-        df["physical_size"] = df["300$c"].apply(extract_physical_dimensions)
-        df = df.drop("300$c", axis=1)
+    print("300$c: extracting physical dimensions")
+    df["physical_size"] = df["300$c"].apply(extract_physical_dimensions)
+    df = df.drop("300$c", axis=1)
 
     ### 500$a: general notes (print run, price, typeface)
-    if "500$a" in df.columns:
-        print("500$a: extracting print run, price, typeface")
-        df[["print_run", "price", "typeface"]] = df["500$a"].apply(extract_print_run_price_typeface).to_list()
-        df = df.drop("500$a", axis=1)
+    print("500$a: extracting print run, price, typeface")
+    df[["print_run", "price", "typeface"]] = df["500$a"].apply(extract_print_run_price_typeface).to_list()
+    df = df.drop("500$a", axis=1)
 
     ### 504$a: bibliography & index
-    if "504$a" in df.columns:
-        print("504$a: filtering bibliographies/registers")
-        df["bibliography_register"] = df["504$a"].apply(extract_bibliography_index_info)
-        df = df.drop("504$a", axis=1)
+    print("504$a: filtering bibliographies/registers")
+    df["bibliography_register"] = df["504$a"].apply(extract_bibliography_index_info)
+    df = df.drop("504$a", axis=1)
 
     ### 533$a: digital reproduction
-    if "533$a" in df.columns: 
-        print("533$a: filtering digital reproductions")
-        df["digitized"] = df["533$a"].apply(has_electronic_reproduction)
-        df = df.drop("533$a", axis=1)
+    print("533$a: filtering digital reproductions")
+    df["digitized"] = df["533$a"].apply(has_electronic_reproduction)
+    df = df.drop("533$a", axis=1)
 
     ### 533$d: digitization year
-    if "533$d" in df.columns:
-        print("533$d: extracting digitization year")
-        df["digitized_year"] = df["533$d"].apply(extract_digitization_year)
-        df = df.drop("533$d", axis=1)
+    print("533$d: extracting digitization year")
+    df["digitized_year"] = df["533$d"].apply(extract_digitization_year)
+    df = df.drop("533$d", axis=1)
 
     ### 534$c: original publication info
-    if "534$c" in df.columns:
-        print("534$c: extracting original distribution info")
-        df[["original_distribution_year", "original_distribution_place", "original_distribution_publisher"]] = df["534$c"].apply(extract_original_publication_info).to_list()
-        df = df.drop("534$c", axis=1)
+    print("534$c: extracting original distribution info")
+    df[["original_distribution_year", "original_distribution_place", "original_distribution_publisher"]] = df["534$c"].apply(extract_original_publication_info).to_list()
+    df = df.drop("534$c", axis=1)
 
     ### 856$u: electronic access
-    if "856$u" in df.columns:
-        df["access_uri"] = df["856$u"].apply(clean_electronic_access_urls)
-        df = df.drop("856$u", axis=1)
+    df["access_uri"] = df["856$u"].apply(clean_electronic_access_urls)
+    df = df.drop("856$u", axis=1)
 
     ### Define posthumously published records
-    if all([col in df.columns for col in ["100", "publication_date_cleaned"]]):
-        print("Defining posthumously published records")
-        df["is_posthumous"] = df.apply(lambda x: check_if_posthumous(x["100"], x["publication_date_cleaned"]), axis=1)
+    print("Defining posthumously published records")
+    df["is_posthumous"] = df.apply(lambda x: check_if_posthumous(x["100"], x["publication_date_cleaned"]), axis=1)
 
     ### Harmonize publication places
-    if "260$a" in df.columns:
-        print("Harmonizing and linking publication places")
-        df["publication_place_harmonized"] = harmonize_placenames(df["260$a"])
-        df[["latitude", "longitude"]] = get_coordinates(df["publication_place_harmonized"])
+    print("Harmonizing and linking publication places")
+    df["publication_place_harmonized"] = harmonize_placenames(df["260$a"])
+    df[["latitude", "longitude"]] = get_coordinates(df["publication_place_harmonized"])
 
-    if "260$e" in df.columns:
-        print("Harmonizing manufacturing places")
-        df["manufacturing_place_harmonized"] = harmonize_placenames(df["260$e"])
-        # df[["manufacturing_place_lat", "manufacturing_place_lon"]] = add_coordinates(df["manufacturing_place_harmonized"])
+    print("Harmonizing manufacturing places")
+    df["manufacturing_place_harmonized"] = harmonize_placenames(df["260$e"])
+    # df[["manufacturing_place_lat", "manufacturing_place_lon"]] = add_coordinates(df["manufacturing_place_harmonized"])
 
     ### Formatting
     df = df.convert_dtypes()
