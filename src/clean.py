@@ -32,21 +32,12 @@ MIN_YEAR = 1500
 MAX_YEAR = datetime.now().year
 
 def load_converted_data(key: str):
-    """Impordib tabeliks teisendatud andmed."""
-    #df = pd.read_csv(f"{read_data_path}/{key}_converted.tsv", sep="\t", encoding="utf8", low_memory=False)
+    """Imports the converted data into a DataFrame."""
     df = pd.read_parquet(f"{read_data_path}/{key}.parquet")
-
-    # # allesjäetavate tulpade nimed tulevad välisest failist
-    # with open(columns_to_keep_file_path, "r", encoding="utf8") as f:
-    #     columns = json.load(f)["columns"]
-    #     columns = [col for col in columns if col in df.columns]
-    
-    # # jätkame vaid oluliste tulpadega    
-    # df = df[columns]
     return df
 
-
 def roman_to_arabic(roman):
+    """Converts a Roman numeral to an Arabic numeral."""
     roman_numerals = {
         'I': 1,
         'V': 5,
@@ -67,14 +58,16 @@ def roman_to_arabic(roman):
         prev_value = value
     return total
 
-
 def is_valid_url(url):
+    """Checks if a URL is valid."""
     parsed_url = urlparse(url)
     return bool(parsed_url.scheme and parsed_url.netloc)
 
+def extract_control_field_008_data(entry):
+    """Extracts necessary data from the control field 008.
 
-def clean_008(entry):
-    """Eraldab kontrollväljalt vajalikud andmed."""
+    MARC field(s): 008
+    """
     if type(entry) == str:
         if len(entry) in range(38, 41):
             date_entered = entry[0:6]
@@ -93,11 +86,10 @@ def clean_008(entry):
             return date_entered, publication_date, publication_place, publication_language, is_fiction
     return None, None, None, None, None
 
-
 def clean_entry_dates(dates):
-    """Cleans the entry dates from the 008 control field. Use after clean_008()"""
+    """Cleans the entry dates from the 008 control field. Use after extract_control_field_008_data()."""
     def parse_entry_dates(date):
-        """Convert a date in the format YYMMDD to YYYY-MM-DD"""
+        """Convert a date in the format YYMMDD to YYYY-MM-DD."""
         if isinstance(date, str):
             if re.match("\d{6}", date):
                 year = int(date[:2])
@@ -110,15 +102,17 @@ def clean_entry_dates(dates):
     dates = dates.apply(parse_entry_dates)
     dates = pd.to_datetime(dates, errors='coerce')
 
-    # anything greater than the current date must be an insertion error
+    # Anything greater than the current date must be an insertion error
     today = pd.Timestamp.today().normalize()
     dates.loc[dates > today] = pd.NaT
 
     return dates
 
+def validate_isbn(entry):
+    """Validates and cleans ISBN codes.
 
-def validate_020(entry):
-    """Kontrollib ja puhastab ISBN koode."""
+    MARC field(s): 020$a
+    """
     try:
         if type(entry) == str:
             entry_split = np.array(entry.split("; "))
@@ -135,9 +129,11 @@ def validate_020(entry):
     except:
         print(f"Could not process", entry)
 
+def clean_title_part_number(entry: str, pattern=constants.PATTERN_245n):
+    """Harmonizes the part number subfield of the title.
 
-def clean_245n(entry: str, pattern=constants.PATTERN_245n):
-    """Harmoniseerib pealkirja osanumbri alamvälja."""
+    MARC field(s): 245$n
+    """
     if type(entry) == str:
         match = re.search(pattern, entry)
         if match:
@@ -169,11 +165,10 @@ def clean_245n(entry: str, pattern=constants.PATTERN_245n):
 
             return n+p
 
-
 def extract_original_titles(df):
-    """Extracts the original title from the fields 246 (combined from 260$a and 260$g during conversion), 240$a and 130$a"""
+    """Extracts the original title from the fields 246 (combined from 260$a and 260$g during conversion), 240$a, and 130$a."""
     def handle_246(x):
-        """Extracts the original title from the 246 field (always followed by the language in square brackets)"""
+        """Extracts the original title from the 246 field (always followed by the language in square brackets)."""
         if isinstance(x, str):
             processed_values = [val.rsplit(" [", maxsplit=1)[0] for val in x.split("; ") if re.search(r"\[.+\]$", val)]
             result = "; ".join(processed_values)
@@ -190,17 +185,21 @@ def extract_original_titles(df):
 
     return df["title_original"]
 
+def clean_varform_titles(entry):
+    """Removes original titles from the 246 field and keeps other variant titles.
 
-def clean_246(entry):
-    """Removes original titles from the 246 field and keeps other varform titles. Use after extract_original_titles()"""
+    MARC field(s): 246
+    """
     if isinstance(entry, str):
         return "; ".join([val for val in entry.split("; ") if not re.search(r"\[.+\]$", val)])
     else:
         return pd.NA
-    
 
-def clean_250a(entry, pattern=constants.PATTERN_250a):
-    """Eraldab editsiooniandmete väljalt kordustrüki arvu."""
+def extract_edition_number(entry, pattern=constants.PATTERN_250a):
+    """Extracts the number of reprints from the edition statement field.
+
+    MARC field(s): 250$a
+    """
     if type(entry) == str:
         match = re.search(pattern, entry)
         if match:
@@ -224,20 +223,25 @@ def clean_250a(entry, pattern=constants.PATTERN_250a):
                     n = "+"
             if n or tr:
                 return f"{n or ''} [{tr or ''}]"
-            
+                
             return "+"
         return None
 
+def combine_publishing_fields(df):
+    """Combines columns 260$a, 260$b, 260$c with columns 264$a, 264$b, 264$c.
 
-def add_260abc_264abc(df):
-    """Kombineerib tulbad 260abc tulpadega 264abc.
-    Seletus: 2022 aastal hakati ilmumisandmeid sisestama 264 väljadele, mistõttu need tuleb varasematega kokku tõsta."""
+    Explanation: In 2022, publishing data started to be entered into field 264, so these need to be combined with earlier data.
+
+    MARC field(s): 260$a, 260$b, 260$c, 264$a, 264$b, 264$c
+    """
     for sub in ["a", "b", "c"]:
         df[f"260${sub}"] = df[f"260${sub}"].fillna(df[f"264${sub}"])
 
+def extract_publication_year(entry, pattern=constants.PATTERN_260c, min_year=MIN_YEAR, max_year=MAX_YEAR):
+    """Extracts the publication year and decade in numerical form from the field 260$c.
 
-def clean_260c(entry, pattern=constants.PATTERN_260c, min_year=MIN_YEAR, max_year=MAX_YEAR):
-    """Funktsioon võtab sisse välja 260$c ehk ilmumisaasta kirje ning tagastab aasta ning kümnendi arvulisel kujul."""
+    MARC field(s): 260$c
+    """
     output_year = None
     output_decade = None
 
@@ -250,7 +254,7 @@ def clean_260c(entry, pattern=constants.PATTERN_260c, min_year=MIN_YEAR, max_yea
             except:
                 return None, None
 
-    # 2022; 2022    
+    # Handle multiple years separated by ";"
     if ";" in entry:
         entry_split = entry.split("; ")
         years = []
@@ -278,10 +282,10 @@ def clean_260c(entry, pattern=constants.PATTERN_260c, min_year=MIN_YEAR, max_yea
         match = re.search(pattern, entry)
         if match:
             groups = match.groupdict()
-            # 2022
+            # Single year
             if groups["year"] is not None:
                 output_year = int(groups["year"])
-            # 196-?
+            # Decade
             elif groups["decade"] is not None:
                 output_decade = int(groups["decade"].strip("?").replace("-", "0"))
 
@@ -293,9 +297,11 @@ def clean_260c(entry, pattern=constants.PATTERN_260c, min_year=MIN_YEAR, max_yea
 
     return (output_year, output_decade)
 
+def extract_page_count(entry: str, pattern=constants.PATTERN_300a):
+    """Extracts page numbers from the physical description field.
 
-def clean_300a(entry: str, pattern=constants.PATTERN_300a):
-    """Eraldab leheküljenumbrid füüsilise kirjelduse väljalt."""
+    MARC field(s): 300$a
+    """
     if type(entry) == str:
         match = re.search(pattern, entry)
         if match:
@@ -318,26 +324,30 @@ def clean_300a(entry: str, pattern=constants.PATTERN_300a):
 
             return lk
 
+def has_illustrations(entry):
+    """Checks whether the work has an illustration note.
 
-def clean_300b(entry):
-    """Kontrollib, kas teosel on illustreerimise märge."""
+    MARC field(s): 300$b
+    """
     if type(entry) == str:
         return True
     else:
         return False
-    
 
-def clean_300c(entry):
-    """Eraldab sentimeetrid füüsilise ulatuse väljast."""
+def extract_physical_dimensions(entry):
+    """Extracts centimeters from the physical extent field.
+
+    MARC field(s): 300$c
+    """
     if type(entry) == str:
         entry = entry.strip().lstrip()
-        # formaat NN cm
+        # Format NN cm
         if re.match("\d{1,3}\s?cm", entry):
             entry = entry.split("cm")[0].strip()
-        # kataloogimisviga cm -> cn
+        # Cataloging error cm -> cn
         elif re.match("\d{1,3}\s?cn", entry):
             entry = entry.split("cn")[0].strip()
-        # kahe mõõdu (NN x NN cm) puhul võtame esimese arvu, kuna teine arv märgitakse vaid siis, kui laius on kõrgusest suurem
+        # For dimensions (NN x NN cm), take the first number
         elif re.match("\d{1,3}\s?[x]\s?\d{1,3}\s?cm", entry):
             entry = entry.split("x")[0].split(" cm")[0].strip()
         
@@ -346,9 +356,11 @@ def clean_300c(entry):
         else:
             return None
 
+def extract_print_run_price_typeface(entry):
+    """Extracts print run, price, and typeface (fraktur/antiqua) from the general notes field.
 
-def clean_500a(entry):
-    """Eraldab tiraaži hinna ja kirjastiili (fraktuur/antiikva) üldmärkuste väljalt."""
+    MARC field(s): 500$a
+    """
     tiraaz = None
     hind = None
     kirjastiil = None
@@ -370,10 +382,12 @@ def clean_500a(entry):
             kirjastiil = (match.groupdict()["kirjastiil"].lower()[0])
 
     return (tiraaz, hind, kirjastiil)        
-        
 
-def clean_504a(entry):
-    """Kontrollib, kas kirje sisaldab bibliograafiat ja/või registrit."""
+def extract_bibliography_index_info(entry):
+    """Checks whether the record contains bibliography and/or index.
+
+    MARC field(s): 504$a
+    """
     if type(entry) == str:
         b = ''
         r = ''
@@ -382,18 +396,22 @@ def clean_504a(entry):
         if re.search("[Rr]egist(er|rit)", entry):
             r = "r"
         return b+r
-    
 
-def clean_533a(entry):
-    """Kontrollib, kas kirjest on olemas elektrooniline reproduktsioon."""
+def has_electronic_reproduction(entry):
+    """Checks whether an electronic reproduction exists from the record.
+
+    MARC field(s): 533$a
+    """
     if type(entry) == str:
         return True
     else:
         return False
-    
 
-def clean_533d(entry, pattern=constants.PATTERN_533d):
-    """Eraldab ja puhastab digiteerimise aasta."""
+def extract_digitization_year(entry, pattern=constants.PATTERN_533d):
+    """Extracts and cleans the digitization year.
+
+    MARC field(s): 533$d
+    """
     if type(entry) != str:
         entry = str(entry)
     match = re.match(pattern, entry)
@@ -402,10 +420,12 @@ def clean_533d(entry, pattern=constants.PATTERN_533d):
         if re.match(r"\d{4}(\.0|\w+)", year):
             year = year[:4]
         return year
-        
 
-def clean_534c(entry, pattern=constants.PATTERN_534c):
-    """Eraldab algupärandi märkusest esmaväljaande aasta, koha ja kirjastuse."""
+def extract_original_publication_info(entry, pattern=constants.PATTERN_534c):
+    """Extracts the year, place, and publisher of the first edition from the original work note.
+
+    MARC field(s): 534$c
+    """
     year = None
     place = None
     publisher = None
@@ -425,13 +445,14 @@ def clean_534c(entry, pattern=constants.PATTERN_534c):
 
     return (year, place, publisher)
 
+def clean_electronic_access_urls(entry):
+    """Cleans electronic access URLs.
 
-def clean_856u(entry):
-    """Puhastab elektroonilise juurdepääsu URLid."""
+    MARC field(s): 856$u
+    """
     if type(entry) == str:
         entry_split = entry.split("; ")
         return "; ".join([url.strip().lstrip() for url in entry_split if is_valid_url(url.strip().lstrip())])
-    
 
 def extract_person_info(person_str, role=True):
     # Remove any titles enclosed in quotes
@@ -517,18 +538,17 @@ def extract_person_info(person_str, role=True):
         return (None, None, None, None)
     else:
         return (None, None, None)
-    
-
+        
 def check_if_posthumous(creators, publication_date, contributors=None):
     if not isinstance(publication_date, int):
         return None
-    
+
     if isinstance(creators, str):
         creators_list = creators.split("; ")
     else:
         creators_list = []
 
-    # option to add contributors whose role is defined as "autor" (may lead to unwanted results in some cases)
+    # Option to add contributors whose role is defined as "autor"
     if isinstance(contributors, str):
         if "[autor]" in contributors:
             for c in contributors.split("; "):
@@ -538,27 +558,26 @@ def check_if_posthumous(creators, publication_date, contributors=None):
     if len(creators_list) == 0:
         return None
 
-    # extract death dates
+    # Extract death dates
     death_dates = [extract_person_info(c, role=True)[2] for c in creators_list]
 
-    # in the case that all death dates are present
+    # In the case that all death dates are present
     if all(isinstance(y, int) for y in death_dates):
         last_death = max(death_dates)
         return last_death < publication_date
-    
-    # assume that authors marked only by century are published posthumously
+
+    # Assume that authors marked only by century are published posthumously
     if any(["saj." in c for c in creators_list]):
         return True
-    
-    # assume that no author lives longer than 120 years
+
+    # Assume that no author lives longer than 120 years
     birth_dates = [extract_person_info(c, role=True)[1] for c in creators_list]
     if all(isinstance(x, int) for x in birth_dates):
         if all(publication_date - y > 120 for y in birth_dates):
             return True
 
-    # otherwise, a missing death date is justified and means that one of the authors is/was alive 
+    # Otherwise, a missing death date is justified and means that one of the authors is/was alive 
     return False
-
 
 def harmonize_placenames(place_column):
     """Uses an external authority file to map placenames to their harmonized versions, accounting for multiple names in a single cell."""
@@ -576,7 +595,6 @@ def harmonize_placenames(place_column):
     )
     
     return harmonized_placenames
-
 
 def get_coordinates(place_column):
     """Uses the external authority file to map placenames to their coordinates, handling multiple placenames in a single cell."""
@@ -605,7 +623,6 @@ def get_coordinates(place_column):
     
     return coordinates_df
 
-
 def get_person_links(id_column):
     """Uses the external authority file to add known VIAF and Wikidata links to persons in the dataframe."""
     # Load mapping data from file
@@ -625,111 +642,109 @@ def get_person_links(id_column):
     
     return links_df
 
-
-
 def clean_books(df):
 
-    ### 008: kontrollväli
+    ### 008: control field
     if "008" in df.columns:
         print("008: cleaning and harmonizing control field 008")
-        df[["date_entered","publication_date_control", "publication_place_control", "language", "is_fiction"]] = df["008"].apply(clean_008).to_list()
+        df[["date_entered","publication_date_control", "publication_place_control", "language", "is_fiction"]] = df["008"].apply(extract_control_field_008_data).to_list()
         df = df.drop("008", axis=1)
-        ### sisestuskuupäev
+        # Entry date
         df["date_entered"] = clean_entry_dates(df["date_entered"])
 
     ### 020$a: ISBN
     if "020$a" in df.columns:
         print("020$a: validating ISBN codes")
-        df["isbn"] = df["020$a"].apply(validate_020)
+        df["isbn"] = df["020$a"].apply(validate_isbn)
         df = df.drop("020$a", axis=1)
 
-    ### 245$n: osa number
+    ### 245$n: part number
     if "245$n" in df.columns:
         print("245$n: cleaning and harmonizing part numeration")
-        df["title_part_nr_cleaned"] = df["245$n"].apply(clean_245n)
+        df["title_part_nr_cleaned"] = df["245$n"].apply(clean_title_part_number)
         # df = df.drop("245$n", axis=1)
 
-    ### 246, 130$a, 240$a: originaali pealkiri ja lisapealkirjad
+    ### 246, 130$a, 240$a: original title and variant titles
     if all([col in df.columns for col in ["246", "130$a", "240$a"]]):
         print("Extracting original titles")
         df["title_original"] = extract_original_titles(df)
-        df["title_varform"] = df["246"].apply(clean_246)
+        df["title_varform"] = df["246"].apply(clean_varform_titles)
         df = df.drop(["246", "130$a", "240$a"], axis=1)  
 
-    ### 250$a: editsiooniandmed
+    ### 250$a: edition statement
     if "250$a" in df.columns:
         print("250$a: cleaning edition statement")
-        df["edition_n"] = df["250$a"].apply(clean_250a)
+        df["edition_n"] = df["250$a"].apply(extract_edition_number)
 
-    ### 260, 264: avaldamisinfo
+    ### 260, 264: publication info
     if all([col in df.columns for col in ["260$a", "260$b", "260$c","264$a", "264$b", "264$c"]]):
-        add_260abc_264abc(df)
+        combine_publishing_fields(df)
         df = df.drop(["264$a", "264$b", "264$c"], axis=1)
     if all([col in df.columns for col in ["260$a", "260$b", "260$c"]]):   
         print("260$c: cleaning publishing date")
-        df[["publication_date_cleaned", "publication_decade"]] = df["260$c"].apply(clean_260c).to_list()
-        # convert to Int64 right away for check_if_posthumous to work later
+        df[["publication_date_cleaned", "publication_decade"]] = df["260$c"].apply(extract_publication_year).to_list()
+        # Convert to Int64 right away for check_if_posthumous to work later
         df[["publication_date_cleaned", "publication_decade"]] = df[["publication_date_cleaned", "publication_decade"]].astype("Int64", errors="ignore")
         
-    ### 300$a: lehekülgede arv
+    ### 300$a: page count
     if "300$a" in df.columns:
         print("300$a: extracting page counts")
-        df["page_count"] = df["300$a"].apply(clean_300a)
+        df["page_count"] = df["300$a"].apply(extract_page_count)
         df = df.drop("300$a", axis=1)
 
-    ### 300$b: illustratsioonide olemasolu
+    ### 300$b: illustrations
     if "300$b" in df.columns:
         print("300$b: filtering illustrations")
-        df["illustrated"] = df["300$b"].apply(clean_300b)
+        df["illustrated"] = df["300$b"].apply(has_illustrations)
         df = df.drop("300$b", axis=1)
 
-    ### 300$c: füüsilised mõõtmed
+    ### 300$c: physical dimensions
     if "300$c" in df.columns:
         print("300$c: extracting physical dimensions")
-        df["physical_size"] = df["300$c"].apply(clean_300c)
+        df["physical_size"] = df["300$c"].apply(extract_physical_dimensions)
         df = df.drop("300$c", axis=1)
 
-    ### 500$a: üldmärkused (tiraaž, hind, kirjastiil)
+    ### 500$a: general notes (print run, price, typeface)
     if "500$a" in df.columns:
         print("500$a: extracting print run, price, typeface")
-        df[["print_run", "price", "typeface"]] = df["500$a"].apply(clean_500a).to_list()
+        df[["print_run", "price", "typeface"]] = df["500$a"].apply(extract_print_run_price_typeface).to_list()
         df = df.drop("500$a", axis=1)
 
-    ### 504$a: bibliograafia & register
+    ### 504$a: bibliography & index
     if "504$a" in df.columns:
         print("504$a: filtering bibliographies/registers")
-        df["bibliography_register"] = df["504$a"].apply(clean_504a)
+        df["bibliography_register"] = df["504$a"].apply(extract_bibliography_index_info)
         df = df.drop("504$a", axis=1)
 
-    ### 533: digitaalne repro
+    ### 533$a: digital reproduction
     if "533$a" in df.columns: 
         print("533$a: filtering digital reproductions")
-        df["digitized"] = df["533$a"].apply(clean_533a)
+        df["digitized"] = df["533$a"].apply(has_electronic_reproduction)
         df = df.drop("533$a", axis=1)
 
-    ### 533$d: digiteerimise aasta
+    ### 533$d: digitization year
     if "533$d" in df.columns:
         print("533$d: extracting digitization year")
-        df["digitized_year"] = df["533$d"].apply(clean_533d)
+        df["digitized_year"] = df["533$d"].apply(extract_digitization_year)
         df = df.drop("533$d", axis=1)
 
-    ### 534$c: algupärandi märkus
+    ### 534$c: original publication info
     if "534$c" in df.columns:
         print("534$c: extracting original distribution info")
-        df[["original_distribution_year", "original_distribution_place", "original_distribution_publisher"]] = df["534$c"].apply(clean_534c).to_list()
+        df[["original_distribution_year", "original_distribution_place", "original_distribution_publisher"]] = df["534$c"].apply(extract_original_publication_info).to_list()
         df = df.drop("534$c", axis=1)
 
-    ### 856$u: elektrooniline juurdepääs
+    ### 856$u: electronic access
     if "856$u" in df.columns:
-        df["access_uri"] = df["856$u"].apply(clean_856u)
+        df["access_uri"] = df["856$u"].apply(clean_electronic_access_urls)
         df = df.drop("856$u", axis=1)
 
-    ### define poshtumously published records
+    ### Define posthumously published records
     if all([col in df.columns for col in ["100", "publication_date_cleaned"]]):
         print("Defining posthumously published records")
         df["is_posthumous"] = df.apply(lambda x: check_if_posthumous(x["100"], x["publication_date_cleaned"]), axis=1)
 
-    ### harmonize publication_places
+    ### Harmonize publication places
     if "260$a" in df.columns:
         print("Harmonizing and linking publication places")
         df["publication_place_harmonized"] = harmonize_placenames(df["260$a"])
@@ -740,11 +755,10 @@ def clean_books(df):
         df["manufacturing_place_harmonized"] = harmonize_placenames(df["260$e"])
         # df[["manufacturing_place_lat", "manufacturing_place_lon"]] = add_coordinates(df["manufacturing_place_harmonized"])
 
-    ### formaatimine
+    ### Formatting
     df = df.convert_dtypes()
 
     return df
-
 
 def clean_persons(df):
 
@@ -757,26 +771,23 @@ def clean_persons(df):
     df["gender"] = df["375$a"].apply(lambda x: constants.MAPPING_375a.get(x, None))
     df = df.drop("375$a", axis=1)
 
-    ### add VIAF and Wikidata links from authority file
+    ### Add VIAF and Wikidata links from authority file
     df[["viaf_id", "wkp_id"]] = get_person_links(df["001"])
 
     return df
 
-
 def organize_columns(df, collection_type, column_names_file_path=column_names_file_path, column_order_file_path=column_order_file_path):
-    ### tulpade ümber nimetamine
+    """Renames columns and orders them according to the specified configuration."""
     with open(column_names_file_path) as f:
         column_names = json.load(f)
         df = df.rename(columns=column_names)
 
-    ### tulpade järjekord
     with open(column_order_file_path) as f:
         column_order = json.load(f)[collection_type]
         column_order = [col for col in column_order if col in df.columns]
         df = df[column_order]
 
     return df
-
 
 if __name__ == "__main__":
 
@@ -796,7 +807,7 @@ if __name__ == "__main__":
         df = clean_books(df)
         df = organize_columns(df, collection_type="books")
 
-    ### salvestamine
+    ### Saving
     savepath = f"{write_data_path}/{key}.parquet"
     print(f"Saving cleaned file to {savepath}")
     df.to_parquet(savepath)
