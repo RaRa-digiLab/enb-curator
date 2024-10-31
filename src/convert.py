@@ -456,9 +456,12 @@ def inspect_records(filepath):
         If the file format cannot be determined.
     """
     ns = get_namespaces()
-    context = etree.iterparse(filepath, events=("start",), tag=["{http://www.loc.gov/MARC21/slim}record", 
-                                                                "{http://www.europeana.eu/schemas/edm/}ProvidedCHO"])
-    
+    record_tags = [
+        "{http://www.loc.gov/MARC21/slim}record",
+        "{http://www.europeana.eu/schemas/edm/}ProvidedCHO",
+    ]
+    context = etree.iterparse(filepath, events=("end",), tag=record_tags)
+
     record_count = 0
     detected_format = None
 
@@ -473,9 +476,15 @@ def inspect_records(filepath):
                 print("Detected EDM format. Counting records.")
                 detected_format = "edm"
             record_count += 1
-
+        # Clear the element to free memory
+        elem.clear()
+        while elem.getprevious() is not None:
+            del elem.getparent()[0]
+    del context
     if detected_format is None:
-        raise ValueError("Cannot determine data format. The OAI-PMH ListRecords response must be made up of either EDM or MARC21XML records.")
+        raise ValueError(
+            "Cannot determine data format. The OAI-PMH ListRecords response must be made up of either EDM or MARC21XML records."
+        )
 
     return detected_format, record_count
 
