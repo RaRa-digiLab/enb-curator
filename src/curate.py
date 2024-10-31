@@ -24,9 +24,9 @@ columns_to_keep_file_path = project_root / "config" / "marc_columns_to_keep.json
 column_names_file_path = project_root / "config" / "marc_columns_dict.json"
 column_order_file_path = project_root / "config" / "marc_columns_order.json"
 
-placenames_file_path = project_root / "config" / "authority_placenames.tsv"
-coordinates_file_path = project_root / "config" / "authority_coordinates.tsv"
-person_links_file_path = project_root / "config" / "authority_person_links.tsv"
+placenames_file_path = project_root / "config" / "authority_input_place_harmonized.tsv"
+coordinates_file_path = project_root / "config" / "authority_input_place_geotagged.tsv"
+person_links_file_path = project_root / "config" / "authority_input_person_links.tsv"
 
 MIN_YEAR = 1500
 MAX_YEAR = datetime.now().year
@@ -586,12 +586,19 @@ def harmonize_placenames(place_column):
         place_names = pd.read_csv(f, sep="\t", encoding="utf8")
 
     # Create a dictionary to map original to harmonized names
-    mapping = dict(zip(place_names["original"], place_names["harmonized"]))
+    place_names = place_names.query("place_harmonized.notna()")
+    mapping = dict(zip(place_names["place_original"], place_names["place_harmonized"]))
 
     # Split, map, and rejoin using vectorized operations, handling NA values
     harmonized_placenames = (
         place_column
         .apply(lambda x: "; ".join(mapping.get(place, place) for place in x.split("; ")) if pd.notna(x) else x)
+    )
+
+    # Remove duplicate placenames within each cell
+    harmonized_placenames = (
+        harmonized_placenames
+        .apply(lambda x: "; ".join(dict.fromkeys(x.split("; "))) if pd.notna(x) else x)
     )
     
     return harmonized_placenames
@@ -603,8 +610,8 @@ def get_coordinates(place_column):
         coordinates = pd.read_csv(f, sep="\t", encoding="utf8")
     
     # Create dictionaries to map placename to lat and lon
-    mapping_lat = dict(zip(coordinates["placename"], coordinates["lat"]))
-    mapping_lon = dict(zip(coordinates["placename"], coordinates["lon"]))
+    mapping_lat = dict(zip(coordinates["place_harmonized"], coordinates["lat"]))
+    mapping_lon = dict(zip(coordinates["place_harmonized"], coordinates["lon"]))
 
     # Define a function to retrieve the first available coordinates from multiple placenames
     def get_first_coordinates(places):
@@ -732,6 +739,7 @@ def curate_books(df):
     if "534$c" in df.columns:
         print("534$c: extracting original distribution info")
         df[["original_distribution_year", "original_distribution_place", "original_distribution_publisher"]] = df["534$c"].apply(extract_original_publication_info).to_list()
+        df["original_distribution_place"] = harmonize_placenames(df["original_distribution_place"])
         df = df.drop("534$c", axis=1)
 
     ### 856$u: electronic access
@@ -752,8 +760,8 @@ def curate_books(df):
 
     if "260$e" in df.columns:
         print("Harmonizing manufacturing places")
-        df["manufacturing_place_harmonized"] = harmonize_placenames(df["260$e"])
-        # df[["manufacturing_place_lat", "manufacturing_place_lon"]] = add_coordinates(df["manufacturing_place_harmonized"])
+        df["manufacturing_place"] = harmonize_placenames(df["260$e"])
+        df = df.drop("260$e", axis=1)
 
     ### Formatting
     df = df.convert_dtypes()
