@@ -5,7 +5,7 @@ PATTERN_250a = r"(?P<n>(?P<araabia>\[?\d{1,2}\]?(\.|-о?[еe]|nd|rd|th|),?)|(?P<
 PATTERN_260c = re.compile(r"(?:c|(?P<copyright>©)|tsens(eeritud|\.)\s*)?((?P<year>\d{4})(?:\.0)?(?:\?)?|(?P<decade>\d{3}-\?)|(?P<century>\d{2}--\?))")
 PATTERN_300a = re.compile(r"(([IVXL]+,?\s)|(1\s(voldik|võrgu(väljaanne|ressurss))\s\())?(?P<vahemik>(?:[Ll]k\.?\s)?\d{1,4}\-\d{1,4})?(?P<arv>\b\d{1,4})?,?(\s*)?(?P<sulud>\[\d+\])?\s*(?P<uhik>lk|l\b|(nummerdamata\s)?lehte|lehekülge?|voldik|CD-ROM|(võrgu(väljaanne|ressurss)|e-raamat))?")
 PATTERN_533d = re.compile(r"^(\d{4}(-\d{4})?)(\;\s\d{4}(-\d{4})?)*")
-PATTERN_534c = re.compile("((?P<place>([A-ZÕÄÖÜ]\w+|[А-Я][а-я]+)(\s\;\s[A-ZÕÄÖÜ]\w+)?)?(\s?\:\s((?P<publisher>((([A-Z&]+\s)?[A-ZÕÄÖÜk]\w+(\s|\-)?)+)|(s\.\s?n\.)|((([A-ZÕÄÖÜ]|[А-Я])\.\s)+([A-ZÕÄÖÜ]\w+|[А-Я][а-я]+)))))?)?(,\s)?c?(?:([IVXLCDM]+\s)+)?((?P<range>\d{4}\-\d{4})|(?P<year>\d{4}))?")
+PATTERN_534c = re.compile(r"((?P<place>([A-ZÕÄÖÜ]\w+|[А-Я][а-я]+)(\s\;\s[A-ZÕÄÖÜ]\w+)?)?(\s?\:\s((?P<publisher>((([A-Z&]+\s)?[A-ZÕÄÖÜk]\w+(\s|\-)?)+)|(s\.\s?n\.)|((([A-ZÕÄÖÜ]|[А-Я])\.\s)+([A-ZÕÄÖÜ]\w+|[А-Я][а-я]+)))))?)?(,\s)?c?(?:([IVXLCDM]+\s)+)?((?P<range>\d{4}\-\d{4})|(?P<year>\d{4}))?")
 
 MAPPING_375a = {'mees': 'mees',
                 'naine': 'naine',
