@@ -23,7 +23,6 @@
         "latitude",
         "longitude",
         "manufacturing_place",
-        "manufacturing_place_harmonized",
         "manufacturer",
         "corporate_unit",
         "series_statement",
