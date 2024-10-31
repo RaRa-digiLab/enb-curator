@@ -290,13 +290,13 @@ class DCrecordParser():
                 return int(date)
             else:
                 return None
-        patterns = [re.compile("(^([\D\s]+)(\d{4})([\D\s]*)$)|(^([\D\s]*)(\d{4})([\D\s]+)$)"),
-                    re.compile("^\d{4}-\d{2}-\d{2}$"),
-                    re.compile("^\d{2}-\d{2}-\d{4}$"),
-                    re.compile("^\d{4}-\d{2}$")]
+        patterns = [re.compile(r"(^([\D\s]+)(\d{4})([\D\s]*)$)|(^([\D\s]*)(\d{4})([\D\s]+)$)"),
+                    re.compile(r"^\d{4}-\d{2}-\d{2}$"),
+                    re.compile(r"^\d{2}-\d{2}-\d{4}$"),
+                    re.compile(r"^\d{4}-\d{2}$")]
         for pattern in patterns:
             if re.match(pattern, date):
-                date = re.findall("\d{4}", date)[0]
+                date = re.findall(r"\d{4}", date)[0]
         if len(date) == 4:
             try:
                 date = int(date)
