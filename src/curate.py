@@ -454,6 +454,15 @@ def clean_electronic_access_urls(entry):
         entry_split = entry.split("; ")
         return "; ".join([url.strip().lstrip() for url in entry_split if is_valid_url(url.strip().lstrip())])
 
+def resolve_multiple_person_ids(entry):
+    if isinstance(entry, str):
+        entry_split = entry.split("; ")
+        if len(entry_split) > 1:
+            valid_ids = [id for id in entry_split if id[0] == "a"]
+            return valid_ids[0]
+
+    return entry        
+
 def extract_person_info(person_str, role=True):
     # Remove any titles enclosed in quotes
     person_str = re.sub(r': ".*?"', '', person_str)
@@ -769,6 +778,9 @@ def curate_books(df):
     return df
 
 def curate_persons(df):
+
+    ### resolve incorrect ids
+    df["id"] = df["001"].apply(resolve_multiple_person_ids)
 
     ### 100: retrieving name and dates from 100 subfields
     df[["name", "birth_date", "death_date"]] = df["100"].apply(extract_person_info, args=(False,)).to_list()
