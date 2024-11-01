@@ -773,7 +773,7 @@ def curate_books(df):
     ### 300$b: illustrations
     if "300$b" in df.columns:
         print("300$b: filtering illustrations")
-        df["illustrated"] = df["300$b"].apply(has_illustrations)
+        df["is_illustrated"] = df["300$b"].apply(has_illustrations)
         df = df.drop("300$b", axis=1)
 
     ### 300$c: physical dimensions
@@ -791,13 +791,13 @@ def curate_books(df):
     ### 504$a: bibliography & index
     if "504$a" in df.columns:
         print("504$a: filtering bibliographies/registers")
-        df["bibliography_register"] = df["504$a"].apply(extract_bibliography_index_info)
+        df["has_bibliography_register"] = df["504$a"].apply(extract_bibliography_index_info)
         df = df.drop("504$a", axis=1)
 
     ### 533$a: digital reproduction
     if "533$a" in df.columns: 
         print("533$a: filtering digital reproductions")
-        df["digitized"] = df["533$a"].apply(has_electronic_reproduction)
+        df["is_digitized"] = df["533$a"].apply(has_electronic_reproduction)
         df = df.drop("533$a", axis=1)
 
     ### 533$d: digitization year
@@ -827,7 +827,7 @@ def curate_books(df):
     if "260$a" in df.columns:
         print("Harmonizing and linking publication places")
         df["publication_place_harmonized"] = harmonize_placenames(df["260$a"])
-        df[["latitude", "longitude"]] = get_coordinates(df["publication_place_harmonized"])
+        df[["publication_place_latitude", "publication_place_longitude"]] = get_coordinates(df["publication_place_harmonized"])
 
     if "260$e" in df.columns:
         print("Harmonizing manufacturing places")

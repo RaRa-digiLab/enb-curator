@@ -390,7 +390,7 @@ The subfield t can be used to mark another work, authored by the person marked i
 Page counts are extracted from the physical description field using a regular expression.
 
 ---
-### illustrated
+### is_illustrated
 
 *bool: Whether the work contains illustrations*
 
@@ -427,7 +427,7 @@ Physical size is measured from the vertical dimension of the publication and alw
 **MARC source**: 500\$a
 
 ---
-### bibliography_register
+### has_bibliography_register
 
 *str: Whether the work contains a bibliography (b), a register (r) or both (br)*
 
@@ -443,7 +443,7 @@ Physical size is measured from the vertical dimension of the publication and alw
 Most works do not have a marked copyright status because the field is still being updated in the ENB.
 
 ---
-### digitized
+### is_digitized
 
 *bool: Whether the work has been digitized*
 
