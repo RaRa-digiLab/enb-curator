@@ -7,6 +7,9 @@ import pandas as pd
 import isbnlib
 from urllib.parse import urlparse
 from datetime import datetime
+from tqdm import tqdm
+import requests
+from requests.exceptions import RequestException
 
 if __name__ == "__main__":
     # when using this script from command line
@@ -639,24 +642,83 @@ def get_coordinates(place_column):
     
     return coordinates_df
 
-def get_person_links(id_column):
-    """Uses the external authority file to add known VIAF and Wikidata links to persons in the dataframe."""
-    # Load mapping data from file
-    with open(person_links_file_path, "r", encoding="utf8") as f:
-        links = pd.read_csv(f, sep="\t", encoding="utf8")
-    
-    # Create dictionaries to map VIAF and Wikidata IDs to person names
-    viaf_mapping = dict(zip(links["rara_id"], links["viaf_id"]))
-    wkp_mapping = dict(zip(links["rara_id"], links["wkp_id"]))
+def get_viaf_and_wkp_ids(id_number):
+    try:
+        jsonld_url = f'https://viaf.org/viaf/sourceID/ERRR|{id_number}/viaf.jsonld'
+        response = requests.get(jsonld_url)
 
-    # Map IDs to VIAF and Wikidata links, defaulting to None if not found
-    viaf_ids = id_column.map(viaf_mapping)
-    wkp_ids = id_column.map(wkp_mapping)
+        if response.status_code == 200:
+            jsonld_data = response.json()
+            viaf_id = next((item.get('identifier', 'NA') for item in jsonld_data.get('@graph', []) if item.get('@type') == "schema:Person"), 'NA')
+            wkp_id = next((url.split('/')[-1] for item in jsonld_data.get('@graph', []) for url in item.get('sameAs', []) if 'wikidata.org' in url), 'NA')
+            return viaf_id, wkp_id
+
+    except RequestException:
+        return None, None
     
-    # Combine the Series into a DataFrame with 'viaf_id' and 'wkp_id' columns
-    links_df = pd.DataFrame({'viaf_id': viaf_ids, 'wkp_id': wkp_ids})
+    return None, None
+
+def update_authority_and_df(input_df, strip_prefix=True):
+    """
+    Updates the external authority file with new ids found in input_df and then uses it to update the dataframe.
+    """
+    # Step 1: Load external authority file and identify new ids
+    try:
+        links = pd.read_csv(person_links_file_path, sep="\t", encoding="utf8")
+        existing_ids = set(links["rara_id"])
+    except Exception as e:
+        print(f"Error loading authority file: {e}")
+        return input_df
+
+    # Step 2: Filter input_df to only include ids not in the authority file
+    missing_entries_df = input_df[~input_df['id'].isin(existing_ids)].copy()[['id']]
+
+    if missing_entries_df.empty:
+        print("No new persons found. The authority file is already up to date.")
+        return input_df
+
+    # Initialize list to hold successful new entries
+    successful_entries = []
+
+    # Iterate through missing entries and update IDs using get_viaf_and_wkp_ids
+    for index, row in tqdm(missing_entries_df.iterrows(), total=len(missing_entries_df), desc=f"Found {len(missing_entries_df)} new persons. Attempting to link..."):
+        if strip_prefix:
+            id_number = row['id'].lstrip("a")
+        else:
+            id_number = row['id']
+        try:
+            #print(id_number)
+            viaf_id, wkp_id = get_viaf_and_wkp_ids(id_number)
+            if viaf_id is not None and wkp_id is not None and (viaf_id != 'NA' or wkp_id != 'NA'):
+                successful_entries.append({'rara_id': row['id'], 'viaf_id': viaf_id, 'wkp_id': wkp_id})
+        except Exception as e:
+            tqdm.write(f"Error linking ID {id_number}: {e}")
+
+    # Step 3: Append the new rows to the authority file and save it (only keep 'rara_id', 'viaf_id', 'wkp_id' columns)
+    updated_links = links  # Default to existing links in case no successful entries are found
+    try:
+        if successful_entries:
+            new_entries_df = pd.DataFrame(successful_entries)
+            updated_links = pd.concat([links, new_entries_df], ignore_index=True)[['rara_id', 'viaf_id', 'wkp_id']]
+            updated_links.to_csv(person_links_file_path, sep="\t", index=False, encoding="utf8")
+            print(f"Successfully linked {len(successful_entries)} new persons. Authority file updated.")
+        else:
+            print("Linking failed for all new persons. Authority file not updated with new entries.")
+    except Exception as e:
+        print(f"Error updating authority file: {e}")
+
+    # Step 4: Use the updated authority file to update the original dataframe like in get_person_links
+    try:
+        viaf_mapping = dict(zip(updated_links["rara_id"], updated_links["viaf_id"]))
+        wkp_mapping = dict(zip(updated_links["rara_id"], updated_links["wkp_id"]))
+
+        # Map IDs to VIAF and Wikidata links, defaulting to None if not found
+        input_df['viaf_id'] = input_df['id'].map(viaf_mapping)
+        input_df['wkp_id'] = input_df['id'].map(wkp_mapping)
+    except Exception as e:
+        print(f"Error updating dataframe with authority links: {e}")
     
-    return links_df
+    return input_df
 
 def curate_books(df):
 
@@ -781,6 +843,7 @@ def curate_persons(df):
 
     ### resolve incorrect ids
     df["id"] = df["001"].apply(resolve_multiple_person_ids)
+    df = df.drop("001", axis=1)
 
     ### 100: retrieving name and dates from 100 subfields
     df[["name", "birth_date", "death_date"]] = df["100"].apply(extract_person_info, args=(False,)).to_list()
@@ -792,7 +855,7 @@ def curate_persons(df):
     df = df.drop("375$a", axis=1)
 
     ### Add VIAF and Wikidata links from authority file
-    df[["viaf_id", "wkp_id"]] = get_person_links(df["001"])
+    df = update_authority_and_df(df, strip_prefix=True)
 
     return df
 
