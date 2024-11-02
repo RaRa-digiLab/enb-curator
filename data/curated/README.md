@@ -1,5 +1,5 @@
-### Cleaned files
+### Curated files
 
-This directory contains MARC21XML records that are converted to tabular format with `./src/python/convert.py` and filtered and cleaned with `./src/python/clean.py`.
+This directory contains MARC21XML records that are filtered, cleaned, harmonized and linked with `./src/python/curate.py`.
 
 The files are ignored by git.
