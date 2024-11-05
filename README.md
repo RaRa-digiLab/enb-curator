@@ -1,35 +1,38 @@
-# Kureeritud ERB
+# ENB Curator
 
-### Esialgne toru kirjeldus
+A modular pipeline for transforming and curating the **Estonian National Bibliography (ENB)** records into a structured, analysis-ready dataset. This project supports large-scale, reproducible data processing to facilitate research into Estonian bibliographic data.
 
-0. **MARC21XML andmed OAI-PMH liideses**
+## Overview
 
-&#8595; `src/python/harvest.py`
+The ENB Curator pipeline is designed for data transformation in three key stages:
+1. **Harvesting** - Retrieves MARC21XML records via OAI-PMH directly from the National Library of Estonia.
+2. **Conversion** - Converts MARC records to a tabular format, ensuring readability and retaining relationships between fields.
+3. **Curation** - Applies cleaning, harmonization, and enrichment operations to produce a coherent dataset suitable for data analysis.
 
-1. **MARC21XML andmed**: `data/raw/`
+This pipeline focuses on ensuring reproducibility, modularity, and scalability. It can be adapted for different bibliographic datasets or extended with new processing modules as needed.
 
-&#8595; `src/python/convert.py`
+### Requirements
+- Python 3.8+ (3.9.12 recommended)
 
-2. **Tabeliks konverteeritud andmed**: `data/converted/`
+### Installation and usage
+1. Clone the repository:
+   ```
+   git clone https://github.com/RaRa-digiLab/enb-curator.git
+   cd enb-curator
+   ```
 
-&#8595; `src/python/clean.py`
+2. Install required packages:
+   ```
+   pip install -r requirements.txt
+   ```
 
-3. **Filtreeritud ja puhastatud andmed**: `data/cleaned/`
+2. Run the pipeline:
+   ```
+   python main.py "erb_all_books" # or
+   python main.py "nle_persons"
+   ```
 
-&#8595; harmoniseerimise skript(id) -> ❗ **tähtaeg 09.08**
+3. Collect the curated, up-to-date dataset from `./data/curated`
 
-4. **Harmoniseeritud andmed**: `data/harmonized/`
-
-&#8595; linkimise skript(id) -> ❗ **tähtaeg 09.08**
-
-5. **Lingitud (lõplikud?) andmed**: `data/linked/`
-
-### Meelespea
-
-&#9758; säilitame modulaarsust (iga asja jaoks oma funktsioon)
-
-&#9758; dokumenteerime käigu pealt (inglise keeles)
-
-&#9758; vaheastmetena kasutame `.parquet` faile
-
-&#9758; olulist abiinfot hoiame `config` kaustas
+### Related publication
+More details on the project can be found here: [TBA]
