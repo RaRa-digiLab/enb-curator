@@ -86,7 +86,7 @@ Other Curated ENB datasets always use the standardized nameform (`creator` in th
 
 *str: VIAF identifier of the record*
 
-**MARC source**: None, linked by 001.
+**MARC source**: None, linked by 001
 
 Retrieved from the VIAF Authority Cluster endpoint.
 
@@ -95,6 +95,6 @@ Retrieved from the VIAF Authority Cluster endpoint.
 
 *str: Wikidata identifier of the record*
 
-**MARC source**: None, linked by 001.
+**MARC source**: None, linked by 001
 
 Retrieved from the VIAF Authority Cluster endpoint.
