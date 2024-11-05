@@ -2,6 +2,8 @@
 
 A modular pipeline for transforming and curating the **Estonian National Bibliography (ENB)** records into a structured, analysis-ready dataset. This project supports large-scale, reproducible data processing to facilitate research into Estonian bibliographic data.
 
+Related publication: [TBA]
+
 ## Overview
 
 The ENB Curator pipeline is designed for data transformation in three key stages:
@@ -33,6 +35,3 @@ This pipeline focuses on ensuring reproducibility, modularity, and scalability. 
    ```
 
 3. Collect the curated, up-to-date dataset from `./data/curated`
-
-### Related publication
-More details on the project can be found here: [TBA]
