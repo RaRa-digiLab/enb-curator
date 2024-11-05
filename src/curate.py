@@ -678,7 +678,7 @@ def update_authority_and_df(input_df, strip_prefix=True):
         return input_df
 
     # Initialize list to hold successful new entries
-    successful_entries = []
+    new_entries = []
 
     # Iterate through missing entries and update IDs using get_viaf_and_wkp_ids
     for index, row in tqdm(missing_entries_df.iterrows(), total=len(missing_entries_df), desc=f"Found {len(missing_entries_df)} new persons. Attempting to link..."):
@@ -690,18 +690,20 @@ def update_authority_and_df(input_df, strip_prefix=True):
             #print(id_number)
             viaf_id, wkp_id = get_viaf_and_wkp_ids(id_number)
             if viaf_id is not None and wkp_id is not None and (viaf_id != 'NA' or wkp_id != 'NA'):
-                successful_entries.append({'rara_id': row['id'], 'viaf_id': viaf_id, 'wkp_id': wkp_id})
+                new_entries.append({'rara_id': row['id'], 'viaf_id': viaf_id, 'wkp_id': wkp_id})
+            else:
+                new_entries.append({'rara_id': row['id'], 'viaf_id': 'NA', 'wkp_id': 'NA'})
         except Exception as e:
             tqdm.write(f"Error linking ID {id_number}: {e}")
 
     # Step 3: Append the new rows to the authority file and save it (only keep 'rara_id', 'viaf_id', 'wkp_id' columns)
     updated_links = links  # Default to existing links in case no successful entries are found
     try:
-        if successful_entries:
-            new_entries_df = pd.DataFrame(successful_entries)
-            updated_links = pd.concat([links, new_entries_df], ignore_index=True)[['rara_id', 'viaf_id', 'wkp_id']]
+        if new_entries:
+            new_entries_df = pd.DataFrame(new_entries)
+            updated_links = pd.concat([links, new_entries_df], ignore_index=True).fillna("NA")[['rara_id', 'viaf_id', 'wkp_id']]
             updated_links.to_csv(person_links_file_path, sep="\t", index=False, encoding="utf8")
-            print(f"Successfully linked {len(successful_entries)} new persons. Authority file updated.")
+            print(f"Successfully linked {len(new_entries)} new persons. Authority file updated.")
         else:
             print("Linking failed for all new persons. Authority file not updated with new entries.")
     except Exception as e:
