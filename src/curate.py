@@ -4,6 +4,7 @@ import json
 import re
 import numpy as np
 import pandas as pd
+import csv
 import isbnlib
 from urllib.parse import urlparse
 from datetime import datetime
@@ -30,6 +31,7 @@ column_order_file_path = project_root / "config" / "marc_columns_order.json"
 placenames_file_path = project_root / "config" / "authority_input_place_harmonized.tsv"
 coordinates_file_path = project_root / "config" / "authority_input_place_geotagged.tsv"
 person_links_file_path = project_root / "config" / "authority_input_person_links.tsv"
+publisher_rules_file_path = project_root / "config" / "authority_publisher_harmonize_rules.tsv"
 
 MIN_YEAR = 1500
 MAX_YEAR = datetime.now().year
@@ -642,6 +644,89 @@ def get_coordinates(place_column):
     
     return coordinates_df
 
+def harmonize_publishers_with_rules(publishers_column):
+    # Read the rules file
+    rules = pd.read_csv(
+        publisher_rules_file_path,
+        sep="\t",
+        encoding="utf8",
+        quoting=csv.QUOTE_NONE,
+        escapechar="\\"
+    )
+
+    # Correct double backslashes in patterns
+    rules['find_this'] = rules['find_this'].str.replace(r"\\\\", r"\\", regex=True)
+    rules['replace_with'] = rules['replace_with'].str.replace(r"\\\\", r"\\", regex=True)
+    rules = rules.fillna("").astype(str)
+
+    # Split the publishers_column into individual publishers
+    all_publishers = publishers_column.dropna().str.split(';').explode().str.strip().unique()
+
+    # Create a Series with the unique individual publishers
+    publishers_original = pd.Series(all_publishers)
+    publishers = publishers_original.str.lower()
+    publishers = publishers.str.replace('"', '')
+    publishers = publishers.fillna("").astype(str)
+
+    ### Apply 'exact' rules first
+    exact_rules = rules.query("type == 'exact'")
+    for ix, row in exact_rules.iterrows():
+        publishers = publishers.replace(row["find_this"], row["replace_with"])
+    # Trim whitespace and remove extra spaces
+    publishers = publishers.str.strip()
+    publishers = publishers.str.replace("  ", " ", regex=True)
+
+    ### Apply 'regex_replace' rules next
+    regex_replace_rules = rules.query("type == 'regex_replace'")
+    for ix, row in regex_replace_rules.iterrows():
+        try:
+            find_pattern = row["find_this"]
+            publishers = publishers.apply(
+                lambda x: row["replace_with"] if re.search(find_pattern, x) else x
+            )
+        except Exception as e:
+            print(f"Error with pattern '{row['find_this']}' replacing with '{row['replace_with']}': {e}")
+    # Trim whitespace and remove extra spaces
+    publishers = publishers.str.strip()
+    publishers = publishers.str.replace("  ", " ", regex=True)
+
+    ### Apply 'regex_partial' rules last
+    while True:
+        previous_publishers = publishers.copy()
+        regex_partial_rules = rules.query("type == 'regex_partial'")
+        for ix, row in regex_partial_rules.iterrows():
+            try:
+                find_pattern = row["find_this"]
+                publishers = publishers.str.replace(find_pattern, row["replace_with"], regex=True)
+            except Exception as e:
+                print(f"Error with pattern '{row['find_this']}' replacing with '{row['replace_with']}': {e}")
+        # Trim whitespace and remove extra spaces
+        publishers = publishers.str.strip()
+        publishers = publishers.str.replace("  ", " ", regex=True)
+
+        differences = publishers != previous_publishers
+        if differences.any():  # If there are any differences
+            continue
+        else:
+            # Stop if no changes were made
+            break
+
+    # Map the harmonized publishers back to the original individual publishers
+    rule_based_mapping = dict(zip(publishers_original, publishers))
+
+    # Function to harmonize a cell containing multiple publishers
+    def harmonize_cell(cell):
+        if pd.isnull(cell):
+            return cell
+        publishers_in_cell = [p.strip() for p in cell.split('; ')]
+        harmonized_publishers_in_cell = [rule_based_mapping.get(p, p) for p in publishers_in_cell]
+        return '; '.join(harmonized_publishers_in_cell)
+
+    # Apply the harmonization to the original publishers_column
+    harmonized_publishers = publishers_column.apply(harmonize_cell)
+
+    return harmonized_publishers
+
 def get_viaf_and_wkp_ids(id_number):
     try:
         jsonld_url = f'https://viaf.org/viaf/sourceID/ERRR|{id_number}/viaf.jsonld'
@@ -835,6 +920,10 @@ def curate_books(df):
         print("Harmonizing manufacturing places")
         df["manufacturing_place"] = harmonize_placenames(df["260$e"])
         df = df.drop("260$e", axis=1)
+
+    if "260$b" in df.columns:
+        print("Harmonizing publishers")
+        df["publisher_harmonized"] = harmonize_publishers_with_rules(df["260$b"])
 
     ### Formatting
     df = df.convert_dtypes()
