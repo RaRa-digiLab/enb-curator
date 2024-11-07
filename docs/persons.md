@@ -80,3 +80,21 @@ Other Curated ENB datasets always use the standardized nameform (`creator` in th
 *str: Short freeform biography of the person*
 
 **MARC source**: 680\$i
+
+---
+### viaf_id
+
+*str: VIAF identifier of the record*
+
+**MARC source**: None, linked by 001
+
+Retrieved from the VIAF Authority Cluster endpoint.
+
+---
+### wkp_id
+
+*str: Wikidata identifier of the record*
+
+**MARC source**: None, linked by 001
+
+Retrieved from the VIAF Authority Cluster endpoint.
