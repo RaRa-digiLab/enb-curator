@@ -32,6 +32,8 @@ placenames_file_path = project_root / "config" / "authority_input_place_harmoniz
 coordinates_file_path = project_root / "config" / "authority_input_place_geotagged.tsv"
 person_links_file_path = project_root / "config" / "authority_input_person_links.tsv"
 publisher_rules_file_path = project_root / "config" / "authority_publisher_harmonize_rules.tsv"
+publisher_harmonization_file_path = project_root / "config" / "publisher_harmonization_mapping.json"
+publisher_similarity_groups_file_path = project_root / "config" / "publisher_similarity_groups.tsv"
 
 MIN_YEAR = 1500
 MAX_YEAR = datetime.now().year
@@ -727,6 +729,54 @@ def harmonize_publishers_with_rules(publishers_column):
 
     return harmonized_publishers
 
+def harmonize_publishers_simple(publishers_column):
+    with open(publisher_harmonization_file_path, "r", encoding="utf8") as f:
+        mapping = json.load(f)
+    return publishers_column.map(mapping)
+
+def group_publishers_by_similarity(df):
+    groups_df = pd.read_csv(
+        publisher_similarity_groups_file_path, 
+        sep="\t", 
+        encoding="utf8", 
+        dtype=str
+    )
+
+    counts = groups_df['similarity_group'].value_counts()
+    valid_similarity_groups = counts[counts >= 2].index
+    filtered_groups_df = groups_df[groups_df['similarity_group'].isin(valid_similarity_groups)]
+
+    location_publisher_to_group = {}
+
+    for location, group in filtered_groups_df.groupby('harm_name'):
+        publisher_to_group = dict(zip(group['standardizing_name'], group['similarity_group']))
+        location_publisher_to_group[location] = publisher_to_group
+
+    publisher_similarity_groups = []
+
+    for idx, row in df.iterrows():
+        location = row['publication_place_harmonized']
+        publishers = row['publisher_harmonized']
+
+        if pd.isnull(publishers):
+            publisher_similarity_groups.append(None)
+            continue
+
+        publisher_list = [p.strip() for p in publishers.split(';')]
+        publisher_to_group = location_publisher_to_group.get(location, {})
+        publisher_group_list = []
+
+        for publisher in publisher_list:
+            similarity_group = publisher_to_group.get(publisher, publisher)  # Use publisher if no mapping found
+            publisher_group_list.append(similarity_group)
+
+        similarity_group_str = '; '.join(publisher_group_list)
+        publisher_similarity_groups.append(similarity_group_str)
+
+    df['publisher_similarity_group'] = publisher_similarity_groups
+
+    return df
+
 def get_viaf_and_wkp_ids(id_number):
     try:
         jsonld_url = f'https://viaf.org/viaf/sourceID/ERRR|{id_number}/viaf.jsonld'
@@ -923,7 +973,8 @@ def curate_books(df):
 
     if "260$b" in df.columns:
         print("Harmonizing publishers")
-        df["publisher_harmonized"] = harmonize_publishers_with_rules(df["260$b"])
+        df["publisher_harmonized"] = harmonize_publishers_simple(df["260$b"])
+        df = group_publishers_by_similarity(df)
 
     ### Formatting
     df = df.convert_dtypes()
