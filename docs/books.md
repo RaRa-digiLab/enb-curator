@@ -197,7 +197,34 @@ The place of publication of the work, normally the city or other populated place
 In 2022, the cataloguing practices at the NLE changed and information previously noted on the MARC field 260 began to be noted on 264. As a result, the publication_place field is concatenated from the respective subfields of these MARC fields.
 
 ---
-### place_of_manufacture
+### publication_place_harmonized
+
+*str: Standardized place of publication*
+
+**MARC source**: 260\$a, 264\$a
+
+This field contains a harmonized form of the publication place, standardized by applying rules for grammatical markers, historical variants, and language-specific patterns. The harmonization workflow incorporated various external geocoding sources, prioritizing locations relevant to Estonia and larger population centers when applicable. Conflicting matches were manually resolved.
+
+---
+### publication_place_latitude
+
+*float: Latitude (y) coordinate of the publication place*
+
+**MARC source**: 260$a, 264$a (linked using `publication_place_harmonized`)
+
+The latitude coordinate for each publication place, derived through a combination of geocoding services (ArcGIS, Google, and Geonames). Locations with conflicting coordinates were manually checked and adjusted to ensure accuracy.
+
+---
+### publication_place_longitude
+
+*float: Longitude (x) coordinate of the publication place*
+
+**MARC source**: 260$a, 264$a (linked using `publication_place_harmonized`)
+
+The longitude coordinate for each publication place, derived through a combination of geocoding services (ArcGIS, Google, and Geonames). Locations with conflicting coordinates were manually checked and adjusted to ensure accuracy.
+
+---
+### manufacturing_place
 
 *str: Place of printing/manufacturing of the work*
 
