@@ -1021,7 +1021,6 @@ if __name__ == "__main__":
     print("Loading data")
     df = load_converted_data(key=key)
 
-    print("Cleaning dataframe")
     if key in ["erb_books", "erb_non_estonian", "erb_all_books"]:
         df = curate_books(df)
         df = organize_columns(df, collection_type="books")
