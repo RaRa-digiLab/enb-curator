@@ -1,9 +1,17 @@
 # Books
 ## Estonian National Bibliography - Curated Edition
 
-General desc. here
+> **Authors**: Krister Kruusmaa, Peeter Tinits, Laura Nemvalts  
+> **Institution**: National Library of Estonia  
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)
 
-RaRa Digilab 2024 etc
+This curated dataset is derived from the books subset of the Estonian National Bibliography (ENB), a comprehensive catalog of publications written in Estonian, published in Estonia, or focusing on Estonian culture and people. Designed for computational analysis, this dataset adapts the original catalog for research and cultural exploration. Through a systematic process of filtering, cleaning, and harmonizing, the ENB dataset is presented in a streamlined tabular format that retains rich metadata while improving accessibility. Fields selected for inclusion are harmonized and, where possible, linked to external sources, offering an optimized and reproducible resource for historical, cultural, and bibliographic research.
+
+---
+
+## Columns
+
+Below is a description of each column in the dataset.
 
 ---
 ### id
