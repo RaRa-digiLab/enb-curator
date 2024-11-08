@@ -55,15 +55,6 @@ Subfields a, d, e of the MARC field 100 are standardized as `Bornhöhe, Eduard (
 Subfields i, t or both can be used to indicate the precise relationship of the person to the record (e.g. `Sisaldab: Kunnas, Leo (1967-): "Kustumatu valguse maailm"`)
 
 ---
-### publisher
-
-*str: Name of the publisher, distributor, etc.*
-
-**MARC source**: 260\$b, 264\$b
-
-In 2022, the cataloguing practices at the NLE changed and information previously noted on the MARC field 260 began to be noted on 264. As a result, the publisher field is concatenated from the respective subfields of these MARC fields.
-
----
 ### title
 
 *str: Title of the work*
@@ -117,6 +108,33 @@ Original titles were marked together with everything else in 246\$a before 2022,
 *str: Freeform title that may also contain information about awards, provenance, etc.*
 
 **MARC source**: 740\$a
+
+---
+### publisher
+
+*str: Name of the publisher, distributor, etc.*
+
+**MARC source**: 260\$b, 264\$b
+
+In 2022, the cataloguing practices at the NLE changed and information previously noted on the MARC field 260 began to be noted on 264. As a result, the publisher field is concatenated from the respective subfields of these MARC fields.
+
+---
+### publisher_harmonized
+
+*str: Rule-based standardized form of publisher name*
+
+**MARC source**: 260\$b, 264\$b
+
+This field contains the publisher name standardized through a rule-based approach. Over 300 regular expressions were applied to remove common suffixes (e.g., “printing,” “& co.”) and consolidate variants of commonly occurring publishers. This harmonization reduces the variety of names in the `publisher` column by about 20%.
+
+---
+### publisher_similarity_group
+
+*str: Similarity-grouped form of publisher name*
+
+**MARC source**: 260\$b, 264\$b
+
+This field represents a second level of harmonization, grouping publisher names using vector similarity. Based on cosine similarity of semantic embeddings, publishers within the same location were clustered to account for variant forms that remained after rule-based harmonization. This grouping provides a broader, more inclusive categorization of publishers by combining different forms of the same publisher entity, even when these vary in language or length. The purpose of the column is to facilitate finding variant forms of a given publisher, so additional filtering may be needed.
 
 ---
 ### publication_date_control
