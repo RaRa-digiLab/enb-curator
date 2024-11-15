@@ -1,0 +1,338 @@
+find_this	replace_with	type
+[s.n.]	NA	exact
+[s.n.	NA	exact
+s.n.]	NA	exact
+s. n.	NA	exact
+s.n.	NA	exact
+s n.	NA	exact
+s.n	NA	exact
+^s.n.	NA	regex
+3.diviisi staap	3.diviis	exact
+a.busch'i rmtkpl.	a.busch	exact
+a.ingelman	a.ingelmann	exact
+b.pärli	br.pärli	exact
+c.mathiesen	k.mattiesen	exact
+draamastuudio teater	draamateater	exact
+eesti draama studio	draamateater	exact
+eesti draamastuudio	draamateater	exact
+eesti draamateater	draamateater	exact
+draamateaater	draamateater	exact
+eesti karskuseseltside kestoimekond	eesti karskusliit	exact
+eesti karskusseltside kesktoimekond	eesti karskusliit	exact
+eesti kirjanduse seltsi kodu uurimise toimkond	eesti kirjanduse selts	exact
+eesti kirjanduse seltsi koolikirjanduse toimkond	eesti kirjanduse selts	exact
+eesti kirjanduse kirjastus	eesti kirjandus	exact
+eesti kubermangu kooliõp.vastastikkuse abiandm.selts	eesti kubermangu kooliõpetajate vastastikku abiandmise selts	exact
+eestimaa konsistooriumi kirj kassa	eestimaa konsistooriumi kirjastuskassa	exact
+eestimaa kooliõpetajate vastast.abiandm.selts	eestimaa kooliõpetajate selts	exact
+eestimaa kooliõpetajate vastastiku abiandmise seltsi raamatukauplus	eestimaa kooliõpetajate selts	exact
+eestimaa kooliõpetajate selts	eesti õpetajate liit	exact
+#eestimaa kooliõpetajate vastastiku abiandmise selts (k./ü.\\"\\"\\"\\"kool\\"\\"\\"\\")	eestimaa kooliõpetajate selts	exact
+eesti nmkü liit	eesti noorte meeste kristlike ühingute liit	exact
+eesti põllutöö kirjanduse ühendus	eesti põllutöö ühendus	exact
+eesti töörahva kommuuna kultuura ja ariduse valitsus	eesti töörahwa kommuuna kultuura ja ariduse walitsus	exact
+estoonia muusika osakond	estonia muusika osakond	exact
+f.brandt	f.brandt	exact
+fr.kreutzwald	f.r.kreutzwald	exact
+füüsika õpetamise komisjon	füüsika õpetamiskomisjon	exact
+g.pihlaka raamatukauplus	g.pihlakas	exact
+g.pihlaka ramatukauplus	g.pihlakas	exact
+g.pihlaka rmtkpl.	g.pihlakas	exact
+pihlakas'e kirjastus	g.pihlakas	exact
+g.vänja	g.wänja kuluga rosenberg	exact
+g.v.rosenberg	g.wänja kuluga rosenberg	exact
+g.v.rosenberg?	g.wänja kuluga rosenberg	exact
+g.vänjag.rosenberg	g.wänja kuluga rosenberg	exact
+hariduse ja sotsiaalministeerium	hariduse ja sotsiaalministeerium	exact
+hariduse ja sotsiaalministeeriumi koolivalitsus	hariduse ja sotsiaalministeerium	exact
+haridus ja sotsiaalministeerium	hariduse ja sotsiaalministeerium	exact
+haridus ja sotsiaalministeeriumi koolivalitsus	hariduse ja sotsiaalministeerium	exact
+haridusministeeriumi kirjastus	haridusministeerium	exact
+haridusministeeriumi koolivalitsus	haridusministeerium	exact
+haridusministeeriumi kutseoskuse osakond	haridusministeerium	exact
+h.laasi raamatukauplus	h.laasi rmtkpl.	exact
+h.leoke'se rmtkpl.	h.leoke	exact
+h.treffneri gümnaasium	hugo treffneri gümnaasium	exact
+internationali traktaati selts osakond tartus	internatsionaali traktaadiselts	exact
+internatsionali traktadiselts	internatsionaali traktaadiselts	exact
+dreimanni rmtkpl.	j.dreimann	exact
+j.dreimanni rmtkpl	j.dreimann	exact
+j.treimann	j.dreimann	exact
+j.e.meigas ja j.kehlmann	j.e.meigase rmtkpl	exact
+j.g.marquardt)	j.g.marquardt	exact
+j.h.gressel)	j.h.gressel	exact
+j.kalkun'i raamatukauplus	j.kalkuni raamatukauplus	exact
+j.keerdo	j.kerdo	exact
+j.kerdo :	j.kerdo	exact
+j.lass	joh.lass	exact
+joh.semmiste	joh.semm	exact
+j.palmgren'i raamatukauplus	j.palmgren	exact
+j.palmgreni rmtkpl	j.palmgren	exact
+j.palmgreni rmtkpl.	j.palmgren	exact
+j.ploompuu rmtkpl.	j.ploompuu	exact
+j.ploompuu raamatukauplus	j.ploompuu	exact
+ploompuu raamatukauplus	j.ploompuu	exact
+ploompuu	j.ploompuu	exact
+j.reimanni pealadu	j.reimanni rmtkpl	exact
+reimanni raamatukauplus	j.reimanni rmtkpl	exact
+j.r.rerzold	j.r.rezold	exact
+j.tamman	j.tammann	exact
+jummala sanna väljalautamisse sõbbrad	jummala sanna wäljalautamisse söbbrad	exact
+jutuleht :	jutuleht	exact
+kaitseliidu peastaap	kaitseliit	exact
+kaitseväe ühendatud õppeasutiste staap	kaitseväe ühendatud õppeasutised	exact
+kaitseväe ühendatud õppeasutused	kaitseväe ühendatud õppeasutised	exact
+kaitseväe ühendatud õppeasutuste ohvitseride kogu	kaitseväe ühendatud õppeasutised	exact
+kaitsevägede ühendatud õppeasutiste staap	kaitseväe ühendatud õppeasutised	exact
+kaitsevägede staabi ii osakond	kaitsevägede staap	exact
+kaitsevägede staabi vi osakond	kaitsevägede staap	exact
+kaitsevägede staabi v osakond	kaitsevägede staap	exact
+kaitsevägede ülemjuhataja	kaitsevägede staap	exact
+k.busch'i raamatukauplus	k.busch	exact
+k.busch'i rmtkpl.	k.busch	exact
+k.buschi rmtkpl.	k.busch	exact
+kili & co.	kili & co	exact
+kili & ko	kili & co	exact
+kindralstaabi 6.osakond	kindralstaap	exact
+kindralstaabi ii osakond	kindralstaap	exact
+kindralstaabi iv osakond	kindralstaap	exact
+kindralstaabi vi osakond	kindralstaap	exact
+k.laurmanni rmtkpl.	k.laurmann	exact
+kluge ja ströhmi raamatukauplus	kluge ja ströhm	exact
+c.mattiesen	k.mattiesen	exact
+kristliku rahwakirjanduse agentur	kristliku rahvakirjanduse agentur	exact
+kristlik 7 da päeva adventistide eesti ühisus	kristlik seitsmenda päewa adwentistide eesti ühisus	exact
+k.sööt ja g.roht	k.sööt	exact
+küõ õppejaoskond	kaitseväe ühendatud õppeasutised	exact
+küõ sõjakool	kaitseväe ühendatud õppeasutised	exact
+küõ sõjakooli patarei	kaitseväe ühendatud õppeasutised	exact
+mattiesen	k.mattiesen	exact
+merekindluste staap	merejõudude staap	exact
+merelaevastiku divisjoni staap	merejõudude staap	exact
+merijõudude staap	merejõudude staap	exact
+naiskodukaitse keskjuhatus	naiskodukaitse	exact
+n.erna ;	n.erna	exact
+noorte kotkaste päästaap	noorte kotkaste peastaap	exact
+odamees carl sarap	odamees	exact
+paltimaa õigeusus vennaste selts ja riia peetri pauluse vennasteselts	paltimaa õigeusu vennaste selts	exact
+paltimaa õigeusu vennaste selts ja riia peetri pauluse vennaste selts	paltimaa õigeusu vennaste selts	exact
+paltimaa õigeusu vennasteselts ja riia peetri pauluse vennaste selts	paltimaa õigeusu vennaste selts	exact
+pärnu maakonnavalitsuse haridusosakond	pärnu maakonna koolivalitsus	exact
+p.erna raamatukauplus	p.erna	exact
+p.erna rmtkpl	p.erna	exact
+p.erna rmtkpl.	p.erna	exact
+postimehe rmtkpl	postimees	exact
+postitalitus	postivalitsus	exact
+posti telegraafi telefoni valitsus	postivalitsus	exact
+r.krupp.	r.krupp	exact
+r.põder'i rmtkpl	r.põder	exact
+r.põderi rmtkpl.	r.põder	exact
+schnackenburg	schnakenburg	exact
+schnakenburg :	schnakenburg	exact
+seiler	seileri mootoritehas	exact
+spadv eesti liit	spadv kog.eesti liit	exact
+spadvk eesti liit	spadv kog.eesti liit	exact
+spadwk eesti liit	spadv kog.eesti liit	exact
+tallinna eesti kirjastuse ühisus ;	tallinna eesti kirjastuse ühisus	exact
+tallinna eesti kirjastus ühisus	tallinna eesti kirjastuse ühisus	exact
+tallinna kubermangu karskuse kuratoorium	tallinna kubermangu karskuse kuratorium	exact
+tallinna kubermangu karskuse kuratoriumi väljaanne	tallinna kubermangu karskuse kuratorium	exact
+tallinna kub.karskuse kuratorium	tallinna kubermangu karskuse kuratorium	exact
+t.m.franzdorfi raamatukauplus	t.m.franzdorf	exact
+t.mutsu teatrikirjastus	t.mutsu	exact
+vanemuine	vanemuise näitelava	exact
+vanemuise näielava	vanemuise näitelava	exact
+vanemuise näitelava.	vanemuise näitelava	exact
+vanemuise teater	vanemuise näitelava	exact
+wanemuise näitelava	vanemuise näitelava	exact
+wanemuise näitelawa	vanemuise näitelava	exact
+tarto wannemuine selts	vanemuise näitelava	exact
+võru õpetajateseminar	võru õpetajate seminar	exact
+võru seminar	võru õpetajate seminar	exact
+w.bormi pär.	w.borm	exact
+f.w.borm	w.borm	exact
+eesti kirjanduseselts	eesti kirjanduse selts	exact
+hermann	k.a.hermann	exact
+hermann'i raamatukauplus	k.a.hermann	exact
+pealadu hermanni rmtkpl.	k.a.hermann	exact
+hermanni raamatukauplus	k.a.hermann	exact
+hermann'i rmtkpl.	k.a.hermann	exact
+pealadu hermanni kaupluses	k.a.hermann	exact
+leoke'se kirjastus	h.leoke	exact
+leoke	h.leoke	exact
+leoke'se raamatuäri antikvariaat	h.leoke	exact
+eesti karskuseseltside kesktoimekond	eesti karskusliit	exact
+eesti karskusseltside kesktoimkond	eesti karskusliit	exact
+briti ja väljamaa piibliselts	briti ja välismaa piibliselts	exact
+lindfors	lindfors	regex_replace
+h\\.leoke	h.leoke	regex_replace
+a\\.busch	a.busch	regex_replace
+jummala	jummala sanna wäljalautamisse söbbrad	regex_replace
+noor eesti	noor eesti	regex_replace
+mutsu	t.mutsu	regex_replace
+ploompuu	j.ploompuu	regex_replace
+postimehe	postimees	regex_replace
+postimees	postimees	regex_replace
+h\\.laakmann	h.laakmann	regex_replace
+^sõjav	sõjavägi	regex_replace
+^sõjamini	sõjaministeerium	regex_replace
+siuru	siuru	regex_replace
+kirjastus ühisus	kirjastusühisus	regex_partial
+ publishing$		regex_partial
+\\?		regex_partial
+i raamatukauplus$		regex_partial
+e raamatukauplus$		regex_partial
+i rmtkpl$		regex_partial
+e rmtkpl$		regex_partial
+ rmtklpl$		regex_partial
+ rmtkpl$		regex_partial
+hartmannische buchhandlung	hartmann	regex_replace
+hartmannsche buchhandlung	hartmann	regex_replace
+ buchhandlung$		regex_partial
+ trükk$		regex_partial
+i kommisjoni kirj$		regex_partial
+linsfors	lindfors	regex_partial
+aade av	aade	exact
+academy of science	academy of science	regex_replace
+academy of sience	academy of science	regex_replace
+academy of sciense	academy of science	regex_replace
+academia of science	academy of science	regex_replace
+komleks	kompleks	regex_partial
+ajakirjade ajalehtede	ajakirjade ja ajalehtede	regex_partial
+ajalehtede ja ajakirjade k	ajalehtede ja ajakirjade kirjastus	exact
+ajalehtede ja ajakirjade kirjandus	ajalehtede ja ajakirjade kirjastus	exact
+wälismaa	välismaa	regex_partial
+väljamaa	välismaa	regex_partial
+wäljamaa	välismaa	regex_partial
+piibli selts	piibliselts	regex_partial
+ verlag$		regex_partial
+ch.assafrey	ch.assafrey	regex_replace
+ch.assafrei	ch.assafrei	regex_replace
+chr.belsersche	chr.belser	regex_replace
+ jt$		regex_partial
+ press$		regex_partial
+ publishing company$		regex_partial
+estonian s\\.s\\.r	estonian ssr	regex_partial
+^dada	dada	regex_replace
+ ja 	 & 	regex_partial
+draamateatri selts	draamateater	exact
+ u\\.	 & 	regex_partial
+ und 	 & 	regex_partial
+^e\\.b\\.k	e.b.kirjanduse	regex_partial
+^e\\.b\\.k\\.	e.b.kirjanduse	regex_partial
+w	v	regex_partial
+ universitätsbuchhandlung$		regex_partial
+\\ʹs universitätsbuchhandlung$		regex_partial
+\\'a raamatukauplus$		regex_partial
+\\'a rmtkpl$		regex_partial
+e.naaber	e.naaber	regex_replace
+tallinna	tallinn	regex_partial
+eelk konsistooium	eelk konsistoorium	regex_replace
+eelk konsistoorium	eelk konsistoorium	regex_replace
+pühapäevakooli ühendus	pühapäevakooliühendus	regex_partial
+usuteaduslik 	usuteaduste 	regex_partial
+eesti kirjandusmuuseum	eesti kirjandusmuuseum	regex_replace
+eesti kunstiakadeemia	eesti kunstiakadeemia	regex_replace
+eesti kunstimuuseum	eesti kunstimuuseum	regex_replace
+eesti luuleliit	eesti luuleliit	regex_replace
+eesti muinsuskaitse selts	eesti muinsuskaitse selts	regex_replace
+eesti muusika  ja teatriakadeemia	eesti muusika  ja teatriakadeemia	regex_replace
+eesti muusikaakadeemia	eesti muusikaakadeemia	regex_replace
+eesti 		regex_partial
+kaupmeeste	kauplejate	regex_partial
+ ühisuse.*	 ühisus	regex_partial
+ ühingu.*	 ühing	regex_partial
+ liidu.*	 liit	regex_partial
+ seltsi.*	 selts	regex_partial
+ kooperatiiv	 ühisus	regex_partial
+ liit	 ühing	regex_partial
+ ühisus	 ühing	regex_partial
+\\"		regex_partial
+\\"		regex_partial
+\\"		regex_partial
+kunstnikkude	kunstnike	regex_partial
+koool	kool	regex_partial
+maadluse	maadlus	regex_partial
+ tui$	  teadusliku uurimise instiuut	regex_partial
+ etc$		regex_apartial
+[^\b]selts	 selts	regex_apartial
+ümarlaud$	ümarlaua sihtasutus	regex_partial
+egmont estonia	egmont	regex_partial
+egmont latvia	egmont	regex_partial
+ k$		regex_partial
+ kirjastus$		regex_partial
+ ab$		regex_partial
+ meedia$		regex_partial
+nimeline 	nim.	regex_partial
+ verlag		regex_partial
+\\'s$		regex_partial
+\\'a$		regex_partial
+\\'.$		regex_partial
+\\ʹ.$		regex_partial
+ print$		regex_partial
+g.ch.frölich	g.c.frölich	regex_partial
+g.nugasohn	g.nugason	regex_partial
+g.pihlak	g.pihlakas	exact
+g.pihlakas	g.pihlakas	regex_replace
+k.sööt	g.roht	regex_replace
+ editions$		regex_partial
+gelehrte estnische gesellschaft	gelehrte estnische gesellschaft	regex_replace
+ förlag$		regex_partial
+ ks$		regex_partial
+grenader	grenader	regex_replace
+grenzius	grenzius	regex_replace
+ kirjapaino oy$		regex_partial
+ kustannus oy$	 kustannus	regex_partial
+ kustannus$		regex_partial
+ norsk forlag$		regex_partial
+ forlag$		regex_partial
+h.eichenbaum		regex_replace
+h.laakman	h.laakmann	regex_partial
+h.lindepuu	hendrik lindepuu	regex_replace
+h.pezold	h.pezold	regex_replace
+^sa 		regex_partial
+^as 		regex_partial
+^oü 		regex_partial
+^mtü 		regex_partial
+ oü$		regex_partial
+ mtü$		regex_partial
+ sa$		regex_partial
+ as$		regex_partial
+haridus  ja teadusministeerium	haridus  ja teadusministeerium	regex_replace
+ ; tallinn$		regex_partial
+_	 	regex_partial
+ pluss$		regex_partial
+ & ko$		regex_partial
+ & co$		regex_partial
+hirschhaydt	hirschheydt	regex_partial
+lindfors	lindfors	regex_replace
+i kuluga$		regex_partial
+\\.\\.\\.jne$		regex_partial
+rab.n & sjögren	raben & sjögren	regex_replace
+raben&sjögren	raben & sjögren	regex_replace
+s\\.n\\.. [0-9]+	s.n	regex_partial
+kirjastaja teadmata	s.n	regex_replace
+б.и.	s.n	exact
+schnakenburg	schnakenburg	regex_replace
+se&js	se & js	regex_partial
+ & 	&	regex_partial
+noorhoff	noordhoff	regex_partial
+ international$		regex_partial
+suomalaisen kirjallisuuden seura	suomalaisen kirjallisuuden seura	regex_replace
+säästva eesti instituut	säästva eesti instituut	regex_replace
+^verlag von 		regex_partial
+,? levitaja		regex_partial
+;$		regex_partial
+:$		regex_partial
+\\]		regex_partial
+'i rmtkpl.		regex_partial
+\\.	.	regex_partial
+""+	"	regex_partial
+"+$		regex_partial
+^"+		regex_partial
+-		regex_partial
+,		regex_partial
+^\\(		regex_partial
+\\'$		regex_partial
+\\.$		regex_partial
+\\.$		regex_partial

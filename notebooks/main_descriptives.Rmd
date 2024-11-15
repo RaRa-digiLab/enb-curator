@@ -1,0 +1,129 @@
+---
+title: "Overview of the curated ENB"
+output:
+  pdf_document:
+    latex_engine: xelatex
+  html_document:
+    df_print: paged
+    self_contained: no
+editor_options:
+  chunk_output_type: console
+---
+
+# Overview of the dataset
+
+Last data file 08-10-2024, last updated processing 08-10-2024.
+
+```{r setup,echo=F}
+knitr::opts_knit$set(root.dir = rprojroot::find_rstudio_root_file())
+```
+
+
+
+```{r,echo=F,warning=F}
+suppressMessages(library(data.table))
+suppressMessages(library(tidyverse))
+suppressMessages(library(nanoparquet))
+suppressMessages(library(scales))
+options(scipen=9999)
+
+works_parq <- nanoparquet::read_parquet("~/Downloads/erb3/erb_all_books.parquet")
+
+works <-  setDT(works_parq)
+rm(works_parq)
+
+#names(works)
+
+#number of non-nas.
+#works[!is.na(digitized_year),.N,digitized_year][order(-N)][order(-N)][1:30]
+#nrow(works[!is.na(access_uri),.N,access_uri][order(-N)])
+#nrow(works[is_digitized=="TRUE"])
+works[!is.na(contributor)|!is.na(creator),creator_or_contributor:=T]
+
+check <- works[!is.na(edition_statement),.N,.(edition_n)][order(-N)]
+
+#known reprints
+#nrow(works[!is.na(edition_statement)&!str_detect(edition_n,"^1 ")])
+works[str_detect(edition_n,"^1 "),edition_statement:=NA]
+works[is_digitized==F,is_digitized:=NA]
+works[,publisher_harmonized_n:=uniqueN(publisher),publisher_harmonized]
+works[publisher_harmonized_n==1,publisher_harmonized:=NA]
+works[,publisher_similarity_group_n:=uniqueN(publisher),publisher_similarity_group]
+works[publisher_similarity_group_n==1,publisher_similarity_group:=NA]
+forplot <- works[,.(id,title,isbn,publication_date=publication_date_cleaned,creator_or_contributor,language,language_original,edition_statement,publication_place,publication_place_geotagged=publication_place_latitude,publisher,publisher_harmonized,publisher_similarity_group,manufacturing_place,manufacturer,udc,topic_keyword,genre_keyword,geographic_keyword,corporate_keyword,person_keyword,chronological_keyword,page_count,physical_size,typeface,print_run,price,access_uri,is_digitized,digitized_year,copyright_status)]
+values <- data.frame(t(forplot[, lapply(.SD, function(x) {return(sum(!is.na(x)))}) ,]))
+values$variable <- row.names(values)
+names(values)[1] <- "n_available"
+values <- data.table(values)
+values[,i:=.I]
+values[,grouping:=c(rep("General",8),rep("Location",7),rep("Content",7),rep("Physical",5),rep("Access",4))]
+
+
+#works[,min(date_entered,na.rm=T)]
+#works[,max(date_entered,na.rm=T)]
+
+works[,creator_or_contributor_content:=paste0(creator,";",contributor)]
+persons <- unique(works[,.(unlist_person=trimws(unlist(str_split(str_remove_all(creator_or_contributor_content,"NA"),";"))))])
+persons[,clean:=trimws(str_remove(unlist_person,"\\[.*"))]
+
+persons2 <- unique(persons[,.(clean)])[order(clean)]
+persons2[,clean:=trimws(str_remove(clean,":.*"))]
+persons2 <- unique(persons2[,.(clean)])[order(clean)]
+#persons2[2,clean]
+#persons2[3,clean]
+#persons2[,uniqueN(clean)]
+#persons2[str_detect(clean,"[0-9]{4}")][,uniqueN(clean)]
+#persons2[,compname:=shift(clean)]
+persons2[,nchar:=nchar(clean)]
+#persons2[,distance:=stringdist::stringdist(clean,shift(clean))]
+#persons2[,distprop:=distance/nchar]
+#dists <- persons2[distance<3&distprop<0.5]
+
+persons_tsv <- fread("~/Downloads/erb3/person.tsv",sep="\t")
+persons_parq <- nanoparquet::read_parquet("~/Downloads/erb3/nle_persons.parquet")
+
+persons1 <-  setDT(persons_parq)
+rm(persons_parq)
+#persons2[str_detect(`100`," $")]
+
+#"Lippus, Johannes (1891-1948)" == "Lippus, Johannes (1891-1948)"
+#nrow(persons1)
+#persons1[str_detect(`100`," $")]
+#nrow(persons1[str_detect(`100`,"[0-9]{4}")])
+
+persons_all_pseudonyms <- persons1[,.(`100`,`001`,`400$a`)][,all_names:=paste0(`100`,";",`400$a`)]
+all_pseudonyms <- persons_all_pseudonyms[,.(name=trimws(unlist(str_split(all_names,";")))),.(`001`)]
+
+
+checkmerge <- merge(persons2[,.(clean,nchar)][clean!=""],all_pseudonyms,by.x="clean",by.y="name",all.x=T,all.y=T)[clean!=""]
+names(checkmerge)[3] <- "id"
+
+check_viaf_wdata_links <- merge(checkmerge,persons_tsv,by.x="id",by.y="rara_id")
+
+
+```
+
+The curated Estonian National Bibliography contains information on `r comma(nrow(works))` printed books from `r works[,.(min(publication_date_cleaned,na.rm=T))]`-`r works[,.(max(publication_date_cleaned,na.rm=T))]`. It contains information on the title and variant forms for each work, authors and contributors to most works (n = `r comma(values[variable=="creator_or_contributor",n_available])`), the time of publication (n = `r comma(values[variable=="publication_date",n_available])`), its place of publication (n = `r comma(values[variable=="publication_place",n_available])`), name of the publisher (n = `r comma(values[variable=="publisher",n_available])`), place of manufacture (n = `r comma(values[variable=="manufacturing_place",n_available])`), name of manufacturer (n = `r comma(values[variable=="manufacturer",n_available])`). For known reprints (n = `r comma(values[variable=="edition_statement",n_available])`), information on the first editions is also given where available (n = `r comma(nrow(works[!is.na(original_distribution_year)]))`). The languages of publication are given for almost all works (n = `r comma(values[variable=="language",n_available])`) along with the original language of publication for translated works (n = `r comma(values[variable=="language_original",n_available])`).
+
+The works are marked with content keywords, on the topic (n = `r comma(values[variable=="topic_keyword",n_available])`), genre (n = `r comma(values[variable=="genre_keyword",n_available])`), place (n = `r comma(values[variable=="geographic_keyword",n_available])`), time (n = `r comma(values[variable=="chronological_keyword",n_available])`), organisation (n = `r comma(values[variable=="corporate_keyword",n_available])`), or person (n = `r comma(values[variable=="person_keyword",n_available])`) in focus along with their UDC classifications (n = `r comma(values[variable=="udc",n_available])`). For many books, information on physical parameters is available, including the number of pages (n = `r comma(values[variable=="page_count",n_available])`), their size (n = `r comma(values[variable=="physical_size",n_available])`), print run (n = `r comma(values[variable=="print_run",n_available])`), and typeface (n = `r comma(values[variable=="typeface",n_available])`). The printed price of the book is also sometimes available (n = `r comma(values[variable=="price",n_available])`). If the work is available digitally, being either digitized or digitally born, the access url is given (n = `r comma(values[variable=="access_uri",n_available])`). 
+If the book has been digitized (n = `r comma(values[variable=="digitized_year",n_available])`), then the year of digitization is also given. Where possible, the ISBN code is also given (n = `r comma(values[variable=="isbn",n_available])`), along with their current copyright status (n = `r comma(values[variable=="copyright_status",n_available])`).  
+
+
+There are a total of `r comma(persons[,uniqueN(clean)])` unique author names among the contributors to the books of which `r comma(persons2[str_detect(clean,"[0-9]{4}")][,uniqueN(clean)])` have birth dates. The metadata file on persons with information on `r comma(nrow(persons1))` individuals along with their name, birth and death years, profession, gender, name variations, geographic tag, and other biographical details. Of them most are linked to the VIAF authority entries (n = `r comma(nrow(persons_tsv[!is.na(viaf_id)]))`) and Wikidata entries (n = `r comma(nrow(persons_tsv[!is.na(wkp_id)]))`). From the authors in the books dataset, `r comma(nrow(checkmerge[!is.na(id)&!is.na(nchar)]))` is connected with the metadata entries on the persons and can be complemented with the biographical information available there. From these authors `r  comma(nrow(check_viaf_wdata_links[!is.na(id)&!is.na(nchar)][!is.na(viaf_id)]))` is connected to a VIAF authority entry and `r comma(nrow(check_viaf_wdata_links[!is.na(id)&!is.na(nchar)][!is.na(wkp_id)]))` to a Wikidata entry that can be used to further complement the possibilities for analysis.
+
+
+```{r,echo=F,fig.height=7,fig.width=6}
+values %>% 
+    ggplot(aes(x = fct_reorder(variable,-i))) + #stats::reorder(variable, n_available)
+    geom_hline(yintercept=311950,color="red",alpha=0.25,lty=2)+
+    geom_bar(aes(y = n_available), stat = "identity", position = "dodge", width = 0.001, colour = "#484878", fill = "#484878") +
+    geom_point(aes(y = n_available), colour = "#484878", fill = "#484878") + 
+    coord_flip() + 
+  facet_wrap(~fct_reorder(grouping,i),scales="free_y",ncol=1)+
+    scale_color_discrete(guide = "none") + labs( y = "Data available", 
+    x = "") + theme_minimal()+ ggforce::facet_row(vars(SP), scales = 'free', space = 'free')+ ggforce::facet_col(~fct_reorder(grouping,i), scales = 'free', space = 'free')# title= "Selected data fields in the curated dataset"
+
+ggsave("plots/overview_data.png",height=7,width=6,bg="white")
+
+```
+

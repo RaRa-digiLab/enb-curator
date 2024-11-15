@@ -1,0 +1,233 @@
+standardizing_name	publisher_unlist	groups	useful_link.x	N	useful_link.y	selflink
+a.jung	A. Jung	a.jung				
+j.jung	J. Jung	a.jung	T			
+a.tõllasep	A. Tõllasep'a raamatukauplus	a.tõllasep				
+a.tõllasepa	A. Tõllasepa rmtkpl	a.tõllasep	T			
+a.tõllasepp	A. Tõllasepp	a.tõllasep	T	2	T	TRUE
+a.tõllasepp	A. Tõllasepp'a raamatukauplus	a.tõllasep	T	2	T	FALSE
+a.tõllassepp	A. Tõllassepp	a.tõllasep	T			
+aeg	Aeg	aeg				
+uus aeg	Uus Aeg	aeg	T			
+association cns 53	Association CNS 53	association cns 53				
+ühing cns 53	Ühing CNS 53	association cns 53	T			
+c.r.jakobsoni nim.gümnaasium	C. R. Jakobsoni nimeline Gümnaasium	c.r.jakobsoni nim.gümnaasium		2	T	FALSE
+c.r.jakobsoni nim.gümnaasium	C.R. Jakobsoni nim. Gümnaasium	c.r.jakobsoni nim.gümnaasium		2	T	TRUE
+c.r.jakobsoni nim.viljandi 1.keskkool	C. R. Jakobsoni nim. Viljandi 1. Keskkool	c.r.jakobsoni nim.gümnaasium	T			
+carl robert jakobsoni nim.gümnaasium	Carl Robert Jakobsoni nimeline Gümnaasium	c.r.jakobsoni nim.gümnaasium	T			
+digiraamatute keskus	Eesti Digiraamatute Keskus	digiraamatute keskus				
+digiraamatute keskus (levitaja	Eesti Digiraamatute Keskus (levitaja)	digiraamatute keskus	T			
+druck von f.feldt	Druck von F. Feldt	druck von f.feldt				
+f.feldt	F. Feldt	druck von f.feldt	T			
+e.eha	E. Eha	e.eha				
+elle eha	Elle Eha	e.eha	T			
+e.j.karov	E. J. Karow	e.j.karov		2	T	TRUE
+e.j.karov	Verlag von E. J. Karow's Universitätsbuchhandlung	e.j.karov		2	T	FALSE
+e.j.karov`s	Verlag von E. J. Karow`s Universitäts-Buchhandlung	e.j.karov	T			
+e.kukk	E. Kukk	e.kukk				
+t.kukk	T. Kukk	e.kukk	T			
+e.o.kuiv	E. O. Kuiv	e.o.kuiv				
+k.kuiv	K. Kuiv	e.o.kuiv	T			
+e.roosalu	E. Roosalu	e.roosalu				
+fr.roosman	Fr. Roosman	e.roosalu	F			
+e.tööerakonna viljandi büroo	E. Tööerakonna Viljandi büroo	e.tööerakonna viljandi büroo				
+tööerakonna viljandi büroo	Eesti Tööerakonna Viljandi büroo	e.tööerakonna viljandi büroo	T			
+ekp viljandi rajoonikomitee	EKP Viljandi Rajoonikomitee	ekp viljandi rajoonikomitee				
+elknü viljandi rajoonikomitee	ELKNÜ Viljandi Rajoonikomitee	ekp viljandi rajoonikomitee	T			
+evangeelse luterliku kiriku viljandi pauluse kogud	[Eesti Evangeelse Luterliku Kiriku] Viljandi Paulu	evangeelse luterliku kiriku viljandi pauluse kogud				
+pauluse kogudus	Pauluse kogudus	evangeelse luterliku kiriku viljandi pauluse kogud	T			
+g.kiiler	G. Kiiler	g.kiiler				
+ü.kiiler	Ü. Kiiler	g.kiiler	T			
+g.schürmann	G. Schürmann	g.schürmann				
+schürmann	Schürmann	g.schürmann	T			
+h.leoke	H. Leoke	h.leoke		9	T	TRUE
+h.leoke	H. Leoke' se kirjastus	h.leoke		9	T	FALSE
+h.leoke	H. Leoke'se kirjastus	h.leoke		9	T	FALSE
+h.leoke	H. Leoke'se raamatukauplus	h.leoke		9	T	FALSE
+h.leoke	H. Leoke'se rmtkpl	h.leoke		9	T	FALSE
+h.leoke	H. Leokese Ajakirjanduse-Kontor	h.leoke		9	T	FALSE
+h.leoke	H. Leokese raamatukauplus	h.leoke		9	T	FALSE
+h.leoke	Leoke	h.leoke		9	T	FALSE
+h.leoke	Leoke'se kirjastus	h.leoke		9	T	FALSE
+m.leoke	M. Leoke	h.leoke	T			
+helios	Helios	helios		3	T	TRUE
+helios	Helios Kirjastus	helios		3	T	FALSE
+helios	Helios kirjastus	helios		3	T	FALSE
+helios izdevniecība	Helios Izdevniecība	helios	T	2	T	TRUE
+helios izdevniecība	Helios izdevniecība	helios	T	2	T	FALSE
+izdevniecība helios	Izdevniecība Helios	helios	T			
+helios leidykla	Helios Leidykla	helios leidykla		2	T	TRUE
+helios leidykla	Helios leidykla	helios leidykla		2	T	FALSE
+leidykla helios	Leidykla Helios	helios leidykla	T			
+j.liiva	J. Liiva	j.liiva				
+m.liiva	M. Liiva	j.liiva	T	2	T	TRUE
+m.liiva	M. Liiva rmtkpl	j.liiva	T	2	T	FALSE
+j.lind	J. Lind	j.lind				
+t.lindma	T. Lindma	j.lind	F			
+j.linnu raamatukauplus	J. Linnu raamatukauplus	j.linnu raamatukauplus				
+j.m.jaanuse raamatukauplus	J. M. Jaanuse raamatukauplus	j.linnu raamatukauplus				
+j.nurmberg	J. Nurmberg	j.nurmberg				
+joh.nurmberg	Joh. Nurmberg	j.nurmberg	T			
+j.reevits	J. Reevits	j.reevits				
+j.reevitsa	J. Reevitsa rmtkpl	j.reevits	T			
+j.sander	J. Sander	j.sander				
+sander	Sander	j.sander	T			
+j.sarapuu	J. Sarapuu	j.sarapuu				
+jaak sarapuu	Jaak Sarapuu	j.sarapuu	T	3	T	TRUE
+jaak sarapuu	Jaak Sarapuu Kirjastus	j.sarapuu	T	3	T	FALSE
+jaak sarapuu	[Jaak] Sarapuu Kirjastus	j.sarapuu	T	3	T	FALSE
+kaitseliidu sakala malev	Kaitseliidu Sakala Malev	kaitseliidu sakala malev				
+kaitseliidu sakalamaa malev	Kaitseliidu Sakalamaa malev	kaitseliidu sakala malev	T			
+ktk	KTK	ktk				
+ktk overall	KTK Overall	ktk	T			
+kultuuriministeerium	Kultuuriministeerium	kultuuriministeerium				
+nsv kultuuriministeerium	Eesti NSV Kultuuriministeerium	kultuuriministeerium	T			
+meie kodumaa	Meie Kodumaa	meie kodumaa		2	T	TRUE
+meie kodumaa	Meie Kodumaa rmtkpl	meie kodumaa		2	T	FALSE
+meie kodumaa raamatukauplus	"""""Meie Kodumaa"""" raamatukauplus"	meie kodumaa	T			
+pealadu meie kodumaa raamatukauplus	"Pealadu """"Meie Kodumaa"""" raamatukauplus"	meie kodumaa	T			
+otto vilhelm	Otto Wilhelm	otto vilhelm				
+otto vilhelm eritoitumine	Otto Wilhelm, Eritoitumine	otto vilhelm	T			
+print best	Print Best	print best				
+print best printin company	Print Best Printin Company	print best	T			
+printon	Printon	print best	F			
+pärimusmuusika keskus	Eesti Pärimusmuusika Keskus	pärimusmuusika keskus				
+pärimusmuusika keskus pärimusmuusika teabekogu	Eesti Pärimusmuusika Keskus, Pärimusmuusika teabek	pärimusmuusika keskus	T			
+põlva rajooni töörahva saadikute nõukogu täitevkom	Põlva Rajooni Töörahva Saadikute Nõukogu Täitevkom	põlva rajooni töörahva saadikute nõukogu täitevkom				
+viljandi rajooni töörahva saadikute nõukogu	Viljandi Rajooni Töörahva Saadikute Nõukogu	põlva rajooni töörahva saadikute nõukogu täitevkom	T			
+viljandi rajooni töörahva saadikute nõukogu täitev	Viljandi Rajooni Töörahva Saadikute Nõukogu Täitev	põlva rajooni töörahva saadikute nõukogu täitevkom	T			
+r.rätsep	R. Rätsep	r.rätsep				
+s.rätsep	S. Rätsep	r.rätsep	T			
+raamat	Eesti Raamat	raamat				
+rahva raamat	Rahva Raamat	raamat	T	2	T	TRUE
+rahva raamat	Rahva Raamat AS	raamat	T	2	T	FALSE
+rahva raamat levitaja	Rahva Raamat [levitaja]	raamat	T			
+rahva raamatu	Rahva Raamatu Kirjastus	raamat	T	2	T	TRUE
+rahva raamatu	Rahva Raamatu kirjastus	raamat	T	2	T	FALSE
+sakala	Sakala	sakala				
+sakala malev	Sakala Malev	sakala	T			
+sakala pank	Sakala Pank	sakala	T	2	T	TRUE
+sakala pank	Sakala pank	sakala	T	2	T	FALSE
+sakala partisanid	Sakala partisanid	sakala partisanid				
+sakala partisanide ühing	Sakala Partisanide Ühing	sakala partisanid	T			
+sakalamaa kutseaednikkude ühing	Sakalamaa Kutseaednikkude Ühing	sakalamaa kutseaednikkude ühing				
+sakalamaa vabadussõjalaste ühing	Sakalamaa Eesti Vabadussõjalaste Liit	sakalamaa kutseaednikkude ühing	T			
+tartu ülikool	Tartu Ülikool	tartu ülikool				
+tartu ülikool viljandi kultuuriakadeemia	Tartu Ülikool Viljandi Kultuuriakadeemia	tartu ülikool	T	2	T	TRUE
+tartu ülikool viljandi kultuuriakadeemia	Tartu Ülikool, Viljandi Kultuuriakadeemia	tartu ülikool	T	2	T	FALSE
+tartu ülikooli viljandi kultuuriakadeemia	Tartu Ülikooli Viljandi Kultuuriakadeemia	tartu ülikool	T	2	T	TRUE
+tartu ülikooli viljandi kultuuriakadeemia	Tartu Ülikooli Viljandi kultuuriakadeemia	tartu ülikool	T	2	T	FALSE
+tartu ülikooli viljandi kultuuriakadeemia üliõpila	Tartu Ülikooli Viljandi Kultuuriakadeemia Üliõpila	tartu ülikool	T			
+tü viljandi kultuuriakadeemia	TÜ Viljandi Kultuuriakadeemia	tartu ülikool	T			
+viljandi kultuuriakadeemia	Viljandi Kultuuriakadeemia	tartu ülikool	T			
+teaduse&luule looming (r.vinkler	Teaduse ja luule looming (R. Vinkler)	teaduse&luule looming (r.vinkler				
+teaduse&luulelooming	Teaduse- ja luulelooming	teaduse&luule looming (r.vinkler	T			
+teaduse&luulelooming (r.vinkler	Teaduse- ja luulelooming (R. Vinkler)	teaduse&luule looming (r.vinkler	T			
+teater ugala	Teater Ugala	teater ugala				
+ugala teater	Ugala Teater	teater ugala	T	3	T	TRUE
+ugala teater	Ugala [Teater]	teater ugala	T	3	T	FALSE
+ugala teater	Ugala teater	teater ugala	T	3	T	FALSE
+v.d.stryk	W.-D. Stryk	v.d.stryk				
+v.stryk	W. Stryk	v.d.stryk	T			
+viiratsi vallavalitsus	Viiratsi Vallavalitsus	viiratsi vallavalitsus				
+viljandi maavalitsus	Viljandi Maavalitsus	viiratsi vallavalitsus	T	2	T	TRUE
+viljandi maavalitsus	Viljandi maavalitsus	viiratsi vallavalitsus	T	2	T	FALSE
+viljandi maavalitus	Viljandi Maavalitus	viiratsi vallavalitsus	T			
+viljandi teede valitsus	Viljandi Teede Valitsus	viiratsi vallavalitsus	T			
+viljandi aianduse ühing	Viljandi Aianduse Ühisus	viljandi aianduse ühing				
+viljandi autoomanike ühing	Viljandi Autoomanike Ühing	viljandi aianduse ühing	F			
+viljandi kauplejate&pagarite ühing	Viljandi Kaupmeeste ja Pagarite Ühisus	viljandi aianduse ühing	F			
+viljandi lihakauplejate ühing	Viljandi Lihakauplejate Ühing	viljandi aianduse ühing	F			
+viljandi tarbijate ühing	Viljandi Tarbijate Kooperatiiv	viljandi aianduse ühing	F			
+viljandi tarbijate ühistu	Viljandi Tarbijate Ühistu	viljandi aianduse ühing	F			
+viljandi trükitööliste ühing	Viljandi Trükitööliste Ühing	viljandi aianduse ühing	F			
+viljandi voorimeeste ühing	Viljandi Voorimeeste Ühing	viljandi aianduse ühing	F			
+viljandi äriteenijate ühing	Viljandi Äriteenijate Ühing	viljandi aianduse ühing	F			
+viljandi ühishaigekassa	Viljandi Ühishaigekassa	viljandi aianduse ühing	F	2	T	TRUE
+viljandi ühishaigekassa	Viljandi Ühishaigekassa Kirjastus	viljandi aianduse ühing	F	2	T	FALSE
+viljandi üürnikkude ühing	Viljandi Üürnikkude Ühing	viljandi aianduse ühing	F			
+viljandi arvutikool	Viljandi Arvutikool	viljandi arvutikool				
+viljandi cultural college	Viljandi Cultural College	viljandi arvutikool	F			
+viljandi gümnaasium	Viljandi Gümnaasium	viljandi arvutikool	F			
+viljandi kesklinna kool	Viljandi Kesklinna Kool	viljandi arvutikool	F			
+viljandi kultuurikolledž	Viljandi Kultuurikolledž	viljandi arvutikool	F			
+viljandi kutsekeskkool	Viljandi Kutsekeskkool	viljandi arvutikool	F			
+viljandi maagümnaasium	Viljandi Maagümnaasium	viljandi arvutikool	F			
+viljandi maagümnaasium / viljandi kesklinna kool	Viljandi Maagümnaasium / Viljandi Kesklinna Kool	viljandi arvutikool	F			
+viljandi muusikakool	Viljandi Muusikakool	viljandi arvutikool	F			
+viljandi paalalinna gümnaasium	Viljandi Paalalinna Gümnaasium	viljandi arvutikool	F			
+viljandi poeglaste ametikool	Viljandi Poeglaste Ametikool	viljandi arvutikool	F			
+viljandi spordikool	Viljandi Spordikool	viljandi arvutikool	F			
+viljandi täiskasvanute gümnaasium	Viljandi Täiskasvanute Gümnaasium	viljandi arvutikool	F			
+viljandi vaba valdorfkool	Viljandi Vaba Waldorfkool	viljandi arvutikool	F			
+viljandi vene gümnaasium	Viljandi Vene Gümnaasium	viljandi arvutikool	F			
+viljandi autobaas	Viljandi Autobaas	viljandi autobaas				
+viljandi autoklubi	Viljandi Autoklubi	viljandi autobaas	T			
+viljandi e.naisselts	Viljandi E. Naisselts	viljandi e.naisselts				
+viljandi haridusselts	Viljandi Eesti Haridusselts	viljandi e.naisselts	F			
+viljandi naisselts	Viljandi Eesti Naisselts	viljandi e.naisselts	T			
+viljandi haigla	Viljandi Haigla	viljandi haigla				
+viljandi linavabrik	Viljandi Linavabrik	viljandi haigla	F			
+viljandi linnavalitsus	Viljandi Linnavalitsus	viljandi haigla	F	2	T	TRUE
+viljandi linnavalitsus	Viljandi] linnavalitsus	viljandi haigla	F	2	T	FALSE
+viljandi linnavolikogu	Viljandi linnavolikogu	viljandi haigla	F			
+viljandi teataja	Viljandi Teataja	viljandi haigla	F			
+viljandi helikunsti selts	Viljandi Helikunsti Selts	viljandi helikunsti selts				
+viljandi käsitööliste abiandmise selts	Viljandi Käsitööliste Abiandmise Selts	viljandi helikunsti selts	F			
+viljandi põllumeeste selts	Viljandi Eesti Põllumeeste Selts	viljandi helikunsti selts	F	3	T	TRUE
+viljandi põllumeeste selts	Viljandi Eesti Põllumeeste Seltsi kaubanduse osako	viljandi helikunsti selts	F	3	T	FALSE
+viljandi põllumeeste selts	Viljandi Põllumeeste Selts	viljandi helikunsti selts	F	3	T	FALSE
+viljandi ii muusikapäeva toimekond	Viljandi II Muusikapäeva Toimekond	viljandi ii muusikapäeva toimekond				
+viljandi vanamuusika festival	Viljandi Vanamuusika Festival MTÜ	viljandi ii muusikapäeva toimekond	F			
+viljandi keskraamatukogu	Viljandi Keskraamatukogu	viljandi keskraamatukogu				
+viljandi linnaraamatukogu	Viljandi Linnaraamatukogu	viljandi keskraamatukogu	T			
+viljandi raamatuklubi	Viljandi Raamatuklubi	viljandi keskraamatukogu	F			
+viljandi koerakasvatajate klubi	Viljandi Koerakasvatajate Klubi	viljandi koerakasvatajate klubi				
+viljandi luuleklubi	Viljandi Luuleklubi	viljandi koerakasvatajate klubi	F			
+viljandi tennis&veespordi klubi	Viljandi Tennis- ja Veespordi Klubi	viljandi koerakasvatajate klubi	F			
+viljandi kontoriametnike kutseühing	Viljandi Kontoriametnike Kutseühing	viljandi kontoriametnike kutseühing				
+viljandi voorimeeste kutseühing	Viljandi Voorimeeste Kutseühing	viljandi kontoriametnike kutseühing	F			
+viljandi äriteenijate kutseühing	Viljandi Äriteenijate Kutseühing	viljandi kontoriametnike kutseühing	F			
+viljandi kultuurikolledzh	Viljandi Kultuurikolledzh	viljandi kultuurikolledzh				
+viljandi kultuurimaja	Viljandi Kultuurimaja	viljandi kultuurikolledzh	F			
+viljandi kultuuriselts koit	"Viljandi Kultuuriselts """"Koit"""""	viljandi kultuurikolledzh	F			
+viljandi rajooni kultuurimaja	Viljandi Rajooni Kultuurimaja	viljandi kultuurikolledzh	F			
+viljandi rajooni rsn täitevkomitee kultuuriosakond	Viljandi Rajooni RSN Täitevkomitee Kultuuriosakond	viljandi kultuurikolledzh	F			
+viljandi kunstiklubi	Viljandi Kunstiklubi	viljandi kunstiklubi				
+viljandi kunstnike ühendus	Viljandi Kunstnike Ühendus	viljandi kunstiklubi	F			
+viljandi muuseum	Viljandi Muuseum	viljandi kunstiklubi	F			
+viljandi linna tööliste ühing	Viljandi Linna Tööliste Ühisus	viljandi linna tööliste ühing				
+viljandi linna vabatahtlik tuletõrje ühing	Viljandi Linna Vabatahtlik Tuletõrje Ühing	viljandi linna tööliste ühing	T			
+viljandi linna vabatahtlik tuletõrjeühing	Viljandi Linna Vabatahtlik Tuletõrjeühing	viljandi linna tööliste ühing	T			
+viljandi maakonna kaitse ühing	Viljandi Maakonna Kaitse Liidu Küti Salk	viljandi linna tööliste ühing	F			
+viljandi vabatahtlik kodanliku õhukaitse ühing	Viljandi Vabatahtlik Kodanliku Õhukaitse Ühing	viljandi linna tööliste ühing	F			
+viljandi vabatahtlik tuletõrje ühing	Viljandi Vabatahtlik Tuletõrje Ühing	viljandi linna tööliste ühing	T			
+viljandi linna&kihelkonna õpetajate ühing	Viljandi Linna ja Kihelkonna Õpetajate Ühing	viljandi linna&kihelkonna õpetajate ühing				
+viljandimaa õpetajate ühing	Viljandimaa Õpetajate Liidu Kooperatiiv	viljandi linna&kihelkonna õpetajate ühing	T			
+viljandi linnamaakonna tiisikuse vastu võitlemise	Viljandi Linna-Maakonna Tiisikuse Vastu Võitlemise	viljandi linnamaakonna tiisikuse vastu võitlemise				
+viljandi maakonna kaitseliit	Viljandi maakonna kaitseliit	viljandi linnamaakonna tiisikuse vastu võitlemise	T			
+viljandi maa kirik	Viljandi Maa kirik	viljandi maa kirik				
+viljandi maakogudus	Viljandi Maakogudus	viljandi maa kirik	T			
+viljandi maakonnahaigla	Viljandi Maakonnahaigla	viljandi maa kirik	F			
+viljandi maakonna statistikabüroo	Viljandi Maakonna Statistikabüroo	viljandi maakonna statistikabüroo				
+viljandi maakonnavalitsuse põllumajandusamet	Viljandi Maakonnavalitsuse Põllumajandusamet	viljandi maakonna statistikabüroo	F			
+viljandi rajooni rahvasaadikute nõukogu täitevkomi	Viljandi Rajooni Rahvasaadikute Nõukogu Täitevkomi	viljandi rajooni rahvasaadikute nõukogu täitevkomi		2		TRUE
+viljandi rajooni rahvasaadikute nõukogu täitevkomi	Viljandi Rajooni Rahvasaadikute Nõukogu Täitevkomi	viljandi rajooni rahvasaadikute nõukogu täitevkomi		2		TRUE
+viljandi rajooni tsn täitevkomitee	Viljandi Rajooni TSN Täitevkomitee	viljandi rajooni rahvasaadikute nõukogu täitevkomi	T			
+viljandi vaba valdorfkooli ühing	Viljandi Vaba Waldorfkooli Ühing	viljandi vaba valdorfkooli ühing				
+viljandi ühendatud kutsekeskkool	Viljandi Ühendatud Kutsekeskkool	viljandi vaba valdorfkooli ühing	F			
+viljandi valla kindlustusselts	Viljandi Valla Kindlustusselts	viljandi valla kindlustusselts				
+viljandi ühistegeline kindlustusselts	Viljandi Ühistegeline Kindlustusselts	viljandi valla kindlustusselts	T			
+viljandimaa jalanõutööliste ühing	Viljandimaa Jalanõutööliste Ühing	viljandimaa jalanõutööliste ühing				
+viljandimaa omavalitsuste ühing	Viljandimaa Omavalitsuste Liit	viljandimaa jalanõutööliste ühing	F			
+viljandimaa pensionäride ühing	Viljandimaa Pensionäride Liit	viljandimaa jalanõutööliste ühing	F			
+viljandimaa kauplejate ühing	Viljandimaa Kaupmeeste Ühing	viljandimaa kauplejate ühing				
+viljandimaa spordiklubide ühing	Viljandimaa Spordiklubide Liit	viljandimaa kauplejate ühing	F			
+viljandimaa keskkonnateenistus	Viljandimaa Keskkonnateenistus	viljandimaa keskkonnateenistus				
+viljandimaa mikud	Viljandimaa Mikud	viljandimaa keskkonnateenistus	F			
+viljandimaa turism	Viljandimaa Turism	viljandimaa keskkonnateenistus	F			
+viljandimaa spordiliit	Viljandimaa Spordiliit	viljandimaa spordiliit				
+viljandimaa spordiliit&mängude viljandimaa komitee	Viljandimaa Spordiliit ja Eesti Mängude Viljandima	viljandimaa spordiliit	T			
+vmg eneseharimise rühm	VMG Eneseharimise Rühm	vmg eneseharimise rühm				
+vmpg eneseharimise rühm	VMPG Eneseharimise Rühm	vmg eneseharimise rühm	T			
+ülo alo	Ülo Alo	ülo alo				
+ülo alo võsar	Ülo Alo Võsar	ülo alo	T			
