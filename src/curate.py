@@ -998,7 +998,7 @@ def curate_persons(df):
     df = df.drop("375$a", axis=1)
 
     ### Add VIAF and Wikidata links from authority file
-    df = update_authority_and_df(df, strip_prefix=True)
+    df = update_authority_and_df(df, strip_prefix=False)
 
     return df
 
