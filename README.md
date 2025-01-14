@@ -2,7 +2,15 @@
 
 A modular pipeline for transforming and curating the **Estonian National Bibliography (ENB)** records into a structured, analysis-ready dataset. This project supports large-scale, reproducible data processing to facilitate research into Estonian bibliographic data.
 
+> **Authors**: Krister Kruusmaa, Peeter Tinits, Laura Nemvalts  
+> **Institution**: National Library of Estonia  
+> **License**: [MIT](https://mit-license.org/)
+
 Related publication: [TBA]
+
+#### If you just want to download the datasets:
+- **Books**: [https://doi.org/10.5281/zenodo.14083327](https://doi.org/10.5281/zenodo.14083327)
+- **Persons**: [https://doi.org/10.5281/zenodo.14094584](https://doi.org/10.5281/zenodo.14094584)
 
 ## Overview
 
