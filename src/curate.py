@@ -803,14 +803,14 @@ def update_authority_and_df(input_df, strip_prefix=True):
         links = pd.read_csv(persons_links_file_path, sep="\t", encoding="utf8")
         existing_ids = set(links["rara_id"])
     except Exception as e:
-        print(f"Error loading authority file: {e}")
+        print(f"VIAF and Wikidata linking: Error loading authority file: {e}")
         return input_df
 
     # Step 2: Filter input_df to only include ids not in the authority file
     missing_entries_df = input_df[~input_df['id'].isin(existing_ids)].copy()[['id']]
 
     if missing_entries_df.empty:
-        print("No new persons found. The authority file is already up to date.")
+        print("VIAF and Wikidata linking: Person IDs authority file is up to date (no new persons found since last ingest).")
         return input_df
 
     # Initialize list to hold successful new entries
@@ -830,7 +830,7 @@ def update_authority_and_df(input_df, strip_prefix=True):
             else:
                 new_entries.append({'rara_id': row['id'], 'viaf_id': 'NA', 'wkp_id': 'NA'})
         except Exception as e:
-            tqdm.write(f"Error linking ID {id_number}: {e}")
+            tqdm.write(f"VIAF and Wikidata linking: Error linking ID {id_number}: {e}")
 
     # Step 3: Append the new rows to the authority file and save it (only keep 'rara_id', 'viaf_id', 'wkp_id' columns)
     updated_links = links  # Default to existing links in case no successful entries are found
@@ -839,11 +839,11 @@ def update_authority_and_df(input_df, strip_prefix=True):
             new_entries_df = pd.DataFrame(new_entries)
             updated_links = pd.concat([links, new_entries_df], ignore_index=True).fillna("NA")[['rara_id', 'viaf_id', 'wkp_id']]
             updated_links.to_csv(persons_links_file_path, sep="\t", index=False, encoding="utf8")
-            print(f"Successfully linked {len(new_entries)} new persons. Authority file updated.")
+            print(f"VIAF and Wikidata linking: Successfully linked {len(new_entries)} new persons. Authority file updated.")
         else:
-            print("Linking failed for all new persons. Authority file not updated with new entries.")
+            print("VIAF and Wikidata linking: Linking failed for new persons. Some persons in the dataset will not have VIAF and/or Wikidata links.")
     except Exception as e:
-        print(f"Error updating authority file: {e}")
+        print(f"VIAF and Wikidata linking: Error updating authority file: {e}")
 
     # Step 4: Use the updated authority file to update the original dataframe like in get_persons_links
     try:
@@ -854,7 +854,7 @@ def update_authority_and_df(input_df, strip_prefix=True):
         input_df['viaf_id'] = input_df['id'].map(viaf_mapping)
         input_df['wkp_id'] = input_df['id'].map(wkp_mapping)
     except Exception as e:
-        print(f"Error updating dataframe with authority links: {e}")
+        print(f"VIAF and Wikidata linking: Error updating dataframe with authority links: {e}")
     
     return input_df
 
@@ -1036,7 +1036,7 @@ if __name__ == "__main__":
         df = curate_persons(df)
         df = organize_columns(df, collection_type="nle_persons")
     else:
-        print("Warning: there is no separate cleaning function for this collection yet. Cleaning will proceed as if the collection were 'erb_books', but the result may be partially incorrect. Please check the cleaning functions in 'clean.py' for reference.")
+        print("Warning: some of the columns in this collection do not yet have custom cleaning functions. Cleaning will proceed as if the collection were 'erb_books', but the result may be partially incorrect. Please check 'curate.py' for reference.")
         df = curate_books(df)
         df = organize_columns(df, collection_type="books")
 
