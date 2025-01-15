@@ -9,8 +9,8 @@ if __name__ == "__main__":
     start_time = time.time()
     key = sys.argv[1]
 
-    if key == "erb_all_books":
-        for k in ["erb_books", "erb_non_estonian"]:
+    if key == "enb_all_books":
+        for k in ["enb_books", "enb_non_estonian"]:
             # harvest and save the raw XML file
             print(f"\nHarvesting {collections[k]['title']}")
             harvest_oai(key=k, savepath=f"data/raw/{k}.xml")
@@ -22,10 +22,10 @@ if __name__ == "__main__":
         
         # concatenate the dataframes for cleaning
         import pandas as pd
-        erb_est = pd.read_parquet("data/converted/erb_books.parquet")
-        erb_non = pd.read_parquet("data/converted/erb_non_estonian.parquet")
-        df = pd.concat([erb_est, erb_non]).reset_index(drop=True)
-        del(erb_est, erb_non) # free up RAM
+        enb_est = pd.read_parquet("data/converted/enb_books.parquet")
+        enb_non = pd.read_parquet("data/converted/enb_non_estonian.parquet")
+        df = pd.concat([enb_est, enb_non]).reset_index(drop=True)
+        del(enb_est, enb_non) # free up RAM
         df.to_parquet(f"data/converted/{key}.parquet")
 
         # clean and filter the converted dataframe
@@ -35,7 +35,7 @@ if __name__ == "__main__":
         df.to_parquet(f"data/curated/{key}.parquet")
         
 
-    elif key == "nle_persons":
+    elif key == "persons":
         # harvest and save the raw XML file
         print(f"\nHarvesting {collections[key]['title']}")
         harvest_oai(key=key, savepath=f"data/raw/{key}.xml")
@@ -62,8 +62,8 @@ if __name__ == "__main__":
         df.to_parquet(f"data/converted/{key}.parquet")
 
         # clean and filter the converted dataframe
-        print("\nCleaning dataframe")
-        print("Warning: there is no separate cleaning function for this collection yet. Cleaning will proceed as if the collection were 'erb_books', but the result may be partially incorrect. Please check the cleaning functions in 'clean.py' for reference.")
+        print("\nProcessing dataframe")
+        print("Warning: some of the columns in this collection do not yet have custom cleaning functions. Cleaning will proceed as if the collection were 'erb_books', but the result may be partially incorrect. Please check 'curate.py' for reference.")
         df = curate.curate_books(df)
         df = curate.organize_columns(df, collection_type="books")
         df.to_parquet(f"data/curated/{key}.parquet")
