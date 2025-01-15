@@ -861,7 +861,7 @@ def update_authority_and_df(input_df, strip_prefix=True):
 def apply_gender_mapping(id_column):
     """Reads external gender data (combined from NLE, VIAF, Wikidata)and applies the mapping to the dataframe."""
     gender_data = pd.read_csv(persons_gender_file_path, sep="\t", encoding="utf8")
-    gender_mapping = dict(zip(gender_data["id"], gender_data["gender"]))
+    gender_mapping = dict(zip(gender_data["rara_id"], gender_data["gender"]))
     return df["id"].map(gender_mapping)
 
 
@@ -1029,14 +1029,14 @@ if __name__ == "__main__":
     print("Loading data")
     df = load_converted_data(key=key)
 
-    if key in ["erb_books", "erb_non_estonian", "erb_all_books"]:
+    if key in ["enb_books", "enb_non_estonian", "enb_all_books"]:
         df = curate_books(df)
         df = organize_columns(df, collection_type="books")
-    elif key == "nle_persons":
+    elif key == "persons":
         df = curate_persons(df)
-        df = organize_columns(df, collection_type="nle_persons")
+        df = organize_columns(df, collection_type="persons")
     else:
-        print("Warning: some of the columns in this collection do not yet have custom cleaning functions. Cleaning will proceed as if the collection were 'erb_books', but the result may be partially incorrect. Please check 'curate.py' for reference.")
+        print("Warning: some of the columns in this collection do not yet have custom cleaning functions. Cleaning will proceed as if the collection were 'enb_books', but the result may be partially incorrect. Please check 'curate.py' for reference.")
         df = curate_books(df)
         df = organize_columns(df, collection_type="books")
 
