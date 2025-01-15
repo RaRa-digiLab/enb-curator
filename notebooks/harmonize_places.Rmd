@@ -36,11 +36,11 @@ suppressMessages(library(nanoparquet))
 suppressMessages(library(scales))
 options(scipen=9999)
 
-works_parq <- nanoparquet::read_parquet("~/Downloads/erb3/erb_all_books.parquet")
+works_parq <- nanoparquet::read_parquet("../data/curated/enb_all_books.parquet")
 works <-  setDT(works_parq)
 rm(works_parq)
 
-
+#collect unique place names from places of publication, manufacture and distribution.
 unlist_places_publication <- works[,.(place_unlist=unlist(str_split(str_replace(publication_place, " und | u\\. | & ", " ; "),";"))),id][,place_unlist:=trimws(place_unlist)]
 unlist_places_manufacture <- works[,.(place_unlist=unlist(str_split(str_replace(manufacturing_place, " und | u\\. | & ", " ; "),";"))),id][,place_unlist:=trimws(place_unlist)]
 unlist_places_distribution <-  works[,.(place_unlist=unlist(str_split(str_replace(original_distribution_place, " und | u\\. | & ", " ; "),";"))),id][,place_unlist:=trimws(place_unlist)]
@@ -50,43 +50,37 @@ unlist_places <- unique(rbind(unlist_places_publication,unlist_places_manufactur
 
 
 #6485 books have 2 or more locations
-unlist_places_publication[,.(.N,place_unlist),id][N>1][,uniqueN(id)]
+#unlist_places_publication[,.(.N,place_unlist),id][N>1][,uniqueN(id)]
 
 
 works1 <- merge(works,unlist_places, by="id")
-works1[,uniqueN(publication_place)]
-
-all_places <- works1[,.N,.(place_unlist)]
-all_places[N>39]
-
+#all_places <- works1[,.N,.(place_unlist)]
 all_places <- unique(works1[,.(place_unlist)])
 all_places[,place_for_edits:=place_unlist]
-#8 rules to begin with
-all_places[,place_for_edits:=str_replace(place_for_edits, " \\[etc\\.\\]", "")]
-all_places[,place_for_edits:=str_replace(place_for_edits, " etc\\.", "")]
-all_places[,place_for_edits:=str_replace(place_for_edits, " etc", "")]
-all_places[,place_for_edits:=str_replace(place_for_edits, "^In ", "")]
+
 all_places[str_detect(place_for_edits,"^\\[.*\\]$"),place_for_edits:=str_replace(place_for_edits, "[\\)\\]]+$", "")]
 all_places[,place_for_edits:=str_replace(place_for_edits, "^[\\(\\[]+", "")]
 all_places[,place_for_edits:=str_replace(place_for_edits, "[\\(\\[].*$", "")]
 all_places[,place_for_edits:=str_replace(place_for_edits, "[\\(\\[\\)\\]]", "")]
 all_places[,place_for_edits:=trimws(place_for_edits)]
-#check placenames ending with ?
-all_places[,place_for_edits:=str_replace(place_for_edits, "\\?$", "")]
-all_places[place_for_edits=="",place_for_edits:=NA]
-all_places[str_detect(place_for_edits,"Б\\.м\\."),place_for_edits:=NA]
-all_places[str_detect(place_for_edits,"Б\\.м$"),place_for_edits:=NA]
-all_places[str_detect(place_for_edits,"[Ss]\\. ?[Ll][\\.$]?"),place_for_edits:=NA]
-all_places[str_detect(place_for_edits,"[0-9]"),place_for_edits:=NA]
-#[!str_detect(place_for_edits,"S. ?l|Б.м.")]
-#str_detect("S. l","[Ss]\\. ?[Ll][\\.$]?")
-#check placenames ending with s.
-s_places <- unique(all_places[str_detect(place_for_edits,"s$")])
-#fwrite(s_places,"data/s_places_check.tsv",sep="\t")
-s_places_checked <- fread("data/s_places_checked.tsv",sep="\t",fill=T)
-# 236 grammar rules
-s_places_checked[match=="",match:=str_remove(place_for_edits,"s$")]
-all_places_updated <- merge(all_places,unique(s_places_checked),by.x="place_for_edits",by.y="place_for_edits",all.x=T)[is.na(match),match:=place_for_edits][,.(place_unlist,place_for_edits=match)]
+
+places_rules <- fread("../config/placenames/placenames_rules.tsv",sep="\t")
+
+
+regexes_partial1 <- rules[type=="regex_partial"&order==1]
+#merged[str_detect(standardizing_name,"noor eesti")]
+#i <- 45
+#merged[str_detect(standardizing_name,regexes[i,find_this])]
+for (i in 1:nrow(regexes_partial1)){
+  all_places[str_detect(place_for_edits,regexes_partial1[i,find_this]),replace_with:=str_replace(place_for_edits,regexes_partial1[i,find_this],regexes_partial1[i,replace_with])]
+  all_places[str_detect(all_places,regexes_partial1[i,find_this]),type:="regex_partial"]
+  all_places[!is.na(replace_with),all_places:=replace_with]
+  all_places[,all_places:=trimws(all_places)]
+}
+
+
+all_places_updated <- merge(all_places,places_rules[order==2],by.x="place_for_edits",by.y="place_for_edits",all.x=T)[is.na(match),match:=place_for_edits][,.(place_unlist,place_for_edits=match)]
+
 
 works2 <- merge(works1,all_places_updated,by="place_unlist")
 #works2[,place_for_edits:=place_unlist]

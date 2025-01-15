@@ -1,0 +1,407 @@
+find_this	replace_with	type	order
+\\[etc\\.\\]		regex_partial	1
+ etc\\.		regex_partial	1
+ etc		regex_partial	1
+^In 		regex_partial	1
+\\?$		regex_partial	1
+	NA	regex_partial	1
+Б\\.м\\.	NA	regex_partial	1
+Б\\.м$	NA	regex_partial	1
+[Ss]\\. ?[Ll][\\.$]?	NA	regex_partial	1
+[0-9]	NA	regex_partial	1
+Hiinas	Hiina	exact	2
+Euroopa Liidus	Euroopa Liit	exact	2
+Tartus	Tartu	exact	2
+Aegviidus	Aegviidu	exact	2
+Tallinnas	Tallinn	exact	2
+Rakweres	Rakwere	exact	2
+Peterburis	Peterburg	exact	2
+Los Angeles	Los Angeles	exact	2
+Jurjevis	Jurjev	exact	2
+Viljandis	Viljandi	exact	2
+Jurjewis	Jurjew	exact	2
+Imaveres	Imavere	exact	2
+Wiljandis	Wiljandi	exact	2
+Tõrvas	Tõrva	exact	2
+Põlvas	Põlva	exact	2
+Walgas	Walga	exact	2
+Lehtses	Lehtse	exact	2
+Kurepalus	Kurepalu	exact	2
+Eestis	Eesti	exact	2
+Jurjewis - Tartus	Tartu	exact	2
+Kuressaares	Kuressaare	exact	2
+Kanepis	Kanepi	exact	2
+Võrus	Võru	exact	2
+Malaisias	Malaisia	exact	2
+Valgas	Valga	exact	2
+Pariis	Paris	exact	2
+Paris	Paris	exact	2
+Riga Linnas	Riga	exact	2
+Kallaveres	Kallavere	exact	2
+Wõrus	Wõru	exact	2
+Moskwas	Moskwa	exact	2
+Pilistveres	Pilistvere	exact	2
+Kurresares	Kurresare	exact	2
+Pärnus	Pärnu	exact	2
+Kundas	Kunda	exact	2
+Narvas	Narva	exact	2
+Kehras	Kehra	exact	2
+Rijas	Rija	exact	2
+Rakveres	Rakvere	exact	2
+United States	United States	exact	2
+Audrus	Audru	exact	2
+Borås	Borås	exact	2
+Tarto-linnas	Tarto	exact	2
+Vilnius	Vilnius	exact	2
+Kuresaares	Kuresaare	exact	2
+Singapuris	Singapur	exact	2
+Narwas	Narwa	exact	2
+Haanjas	Haanja	exact	2
+Minneapolis	Minneapolis	exact	2
+Haapsalus	Haapsalu	exact	2
+St. Peeterburis	St. Peterburg	exact	2
+Lätis	Läti	exact	2
+Brussels	Brussels	exact	2
+Keilas	Keila	exact	2
+Omskis	Omsk	exact	2
+Stokholmis	Stockholm	exact	2
+Perno-linnas	Perno	exact	2
+Riias	Riia	exact	2
+Ruhnus	Ruhnu	exact	2
+Soomes	Soome	exact	2
+Poolas	Poola	exact	2
+Torontos	Toronto	exact	2
+Hamburis	Hamburg	exact	2
+Slovakkias	Slovakkia	exact	2
+Pernus	Pernu	exact	2
+Vilnius	Vilnius	exact	2
+Leedus	Leedu	exact	2
+Jurjewis-Tartus	Jurjewis-Tartu	exact	2
+St. Catharines	St. Catharines	exact	2
+Tallinna linnas	Tallinn	exact	2
+Permis	Perm	exact	2
+Itaalias	Itaalia	exact	2
+Nõos	Nõo	exact	2
+Sakus	Saku	exact	2
+Kapus	Kapu	exact	2
+Aarhus	Aarhus	exact	2
+St. Peterburis	St. Peterburg	exact	2
+Sõmerpalus	Sõmerpalu	exact	2
+Rõuges	Rõuge	exact	2
+Tartos	Tarto	exact	2
+EL-s	EL-	exact	2
+Leningradis	Leningrad	exact	2
+Paides	Paide	exact	2
+Holdres	Holdre	exact	2
+Petrogradis	Petrograd	exact	2
+Indias	India	exact	2
+Taeblas	Taebla	exact	2
+Abjas	Abja	exact	2
+Hispaanias	Hispaania	exact	2
+Uppsalas	Uppsala	exact	2
+Tarto linnas	Tarto	exact	2
+Maarjas	Maarja	exact	2
+Kolgakülas	Kolgaküla	exact	2
+Massachusetts	Massachusetts	exact	2
+Tartus	Tartu	exact	2
+Kaunas	Kaunas	exact	2
+Euroopa liidus	Euroopa liit	exact	2
+Enges	Enges	exact	2
+Euroopas	Euroopa	exact	2
+Ameerika Ühendriikides	Ameerika Ühendriigid	exact	2
+Ilmatsalus	Ilmatsalu	exact	2
+Suures-Jaanis	Suures-Jaani	exact	2
+Boras	Boras	exact	2
+Leisis	Leisi	exact	2
+Aegwiidus	Aegwiidu	exact	2
+Tarto Linnas	Tarto	exact	2
+Petseris	Petseri	exact	2
+Peterpurgis	St. Peterburg	exact	2
+Tõrwas	Tõrwa	exact	2
+Orléans	Orléans	exact	2
+Moskvas	Moskva	exact	2
+Buenos Aires	Buenos Aires	exact	2
+Colorado Springs	Colorado Springs	exact	2
+Ridalas	Ridala	exact	2
+Caracas	Caracas	exact	2
+Holstres	Holstre	exact	2
+Rias	Riia	exact	2
+Warblas	Warbla	exact	2
+Pilistweres	Pilistwere	exact	2
+Geislingenis	Geislingen	exact	2
+Kolga-Jaanis	Kolga-Jaani	exact	2
+Jõhvis	Jõhvi	exact	2
+Kiievis	Kiievi	exact	2
+Rumeenias	Rumeenia	exact	2
+AÜEs	AÜE	exact	2
+Meedlas	Meedla	exact	2
+Muhus	Muhu	exact	2
+Tahkurannas	Tahkuranna	exact	2
+Kurresare linnas	Kuressaare	exact	2
+Kose-Uuemõisas	Kose-Uuemõisa	exact	2
+Dubais	Dubai	exact	2
+Pihkwas	Pihkwa	exact	2
+Berliinis	Berliini	exact	2
+Don Mills	Don Mills	exact	2
+Pariisis	Pariis	exact	2
+Türgis	Türgi	exact	2
+Raplas	Rapla	exact	2
+Rija-linnas	Riia	exact	2
+Sõru ots	Sõru ots	exact	2
+Vastseliinas	Vastseliina	exact	2
+Stockholmis	Stockholm	exact	2
+Giedraičiai - Vilnius	Vilnius	exact	2
+Võhmas	Võhma	exact	2
+Euroopa  Liidus	Euroopa Liit	exact	2
+Höganäs	Höganäs	exact	2
+Šveits	Šveits	exact	2
+Indianapolis	Indianapolis	exact	2
+Peeterburgis	St. Peterburg	exact	2
+Vasalemmas	Vasalemma	exact	2
+Rija linnas	Riia	exact	2
+Rigas	Riga	exact	2
+Narwa linnas	Narwa	exact	2
+Kuusalus	Kuusalu	exact	2
+Augsburgis	Augsburg	exact	2
+Århus	Århus	exact	2
+Londonis	London	exact	2
+Järva-Jaanis	Järva-Jaani	exact	2
+Urvastes	Urvaste	exact	2
+Sydneys	Sydney	exact	2
+Elvas	Elva	exact	2
+Lihulas	Lihula	exact	2
+Helsingis	Helsingi	exact	2
+Kambjas	Kambja	exact	2
+Geretsriedis	Geretsried	exact	2
+Nuias	Nuia	exact	2
+Vändras	Vändra	exact	2
+Riigas	Riia	exact	2
+Milton Keynes	Milton Keynes	exact	2
+Pajusis	Pajusi	exact	2
+Kilingi-Nõmmes	Kilingi-Nõmme	exact	2
+Hamburgis	Hamburg	exact	2
+Randers	Randers	exact	2
+Königstein in Taunus	Königstein in Taunus	exact	2
+Mississaugas	Mississaugas	exact	2
+Hummulis	Hummuli	exact	2
+Randers	Randers	exact	2
+Rijas-Lossis	Riia	exact	2
+Vigalas	Vigala	exact	2
+Tartu linnas	Tartu	exact	2
+Väike-Maarjas	Väike-Maarja	exact	2
+Ria Linnas	Riia	exact	2
+Põides	Põide	exact	2
+Tarto-Linnas	Tarto	exact	2
+Mustvees	Mustvee	exact	2
+Paradis	Bergen	exact	2
+Paluperas	Palupera	exact	2
+Hellenurmes	Hellenurme	exact	2
+Suure-Jaanis	Suure-Jaani	exact	2
+Bruxelles	Bruxelles	exact	2
+Helsingfors	Helsingfors	exact	2
+Totnes	Totnes	exact	2
+Köningstein im Taunus	Köningstein im Taunus	exact	2
+Seltjarnarnes	Seltjarnarnes	exact	2
+Krems	Krems	exact	2
+Arles	Arles	exact	2
+Worms	Worms	exact	2
+Montreuil-sous-Bois	Montreuil-sous-Bois	exact	2
+Åhus	Åhus	exact	2
+Strängnäs	Strängnäs	exact	2
+Wästerås	Wästerås	exact	2
+Pécs	Pécs	exact	2
+Le Carteau-Cambresis	Le Carteau-Cambresis	exact	2
+Cesis	Cesis	exact	2
+Daugavpils	Daugavpils	exact	2
+Cēsis	Cēsis	exact	2
+Netherlands	Netherlands	exact	2
+Västerås	Västerås	exact	2
+Prospect Heights	Prospect Heights	exact	2
+Talinas	Tallinn	exact	2
+Athènes	Athènes	exact	2
+New Orleans	New Orleans	exact	2
+Königstein im Taunus	Königstein im Taunus	exact	2
+Troyes	Troyes	exact	2
+Riia linnas	Riia	exact	2
+Anvers	Anvers	exact	2
+Washington (D.C.) : Department of State, Bureau of Oceans and International Environmental and Scientific Affairs	Washington	exact	2
+Leeds	Leeds	exact	2
+Brxelles	Bruxelles	exact	2
+Gerpinnes	Gerpinnes	exact	2
+Athens	Athens	exact	2
+Beverly Hills	Beverly Hills	exact	2
+Helsingsfors	Helsingsfors	exact	2
+Fergus Falls	Fergus Falls	exact	2
+Pehterburgs	St. Peterburg	exact	2
+Berkeley, Los Angeles	Los Angeles	exact	2
+Londres	Londres	exact	2
+Hindås	Hindås	exact	2
+Helsinki-Helsingfors	Helsinki-Helsingfors	exact	2
+Chester Springs	Chester Springs	exact	2
+Sommerville, Mass	Sommerville, Mass	exact	2
+Tavastehus	Tavastehus	exact	2
+Limbaschos	Limbaschos	exact	2
+Vilniuys	Vilniuys	exact	2
+Rennes	Rennes	exact	2
+Nurmes	Nurme	exact	2
+Reval-Schloss	Reval	exact	2
+Jurjev	Tartu	regex_replace	3
+Jurjew	Tartu	regex_replace	3
+Juriew	Tartu	regex_replace	3
+Jurjeff	Tartu	regex_replace	3
+Tartun	Tartu	regex_replace	3
+Perno	Pärnu	exact	3
+Tapal	Tapa	exact	3
+Терва	Tõrva	exact	3
+Marienburg	Aluksne	exact	3
+Ria	Riga	exact	3
+Rigæ	Riga	exact	3
+^Rig.$	Riga	exact	3
+Riga\b	Riga	regex_replace	3
+Юрьев	Tartu	regex_replace	3
+Tõrwa	Tõrva	regex_replace	3
+Võro	Võru	regex_replace	3
+Wõru	Võru	regex_replace	3
+C.-Петербург	St. Petersburg	regex_replace	3
+Петербург	St. Petersburg	regex_replace	3
+Leningrad	St. Petersburg	regex_replace	3
+St. Peeterburg	St. Petersburg	regex_replace	3
+St. Peterburi	St. Petersburg	regex_replace	3
+St. Pétersbourg	St. Petersburg	regex_replace	3
+St.-Petersburg	St. Petersburg	regex_replace	3
+St.Petersburg	St. Petersburg	regex_replace	3
+Haag	The Hague	exact	3
+Hamburi	Hamburg	exact	3
+Hamburis	Hamburg	exact	3
+Helsingki	Helsingi	exact	3
+Helsingissä	Helsingi	exact	3
+Miitavi	Mitau	exact	3
+Geislingen	Geislingen	regex_replace	3
+Венден	Cēsis	regex_replace	3
+Гольдинген	Kuldīga	regex_replace	3
+Двинск	Daugavpils	regex_replace	3
+Valga\b	Valga	regex_replace	3
+Kuresaare	Kuressaare	regex_replace	3
+Kurresare	Kuressaare	regex_replace	3
+Абя	Abja	exact	3
+Академия наук Эстонии	Tallinn	exact	3
+Б.м		exact	3
+Валк	Valga	exact	3
+Вейсенштейн	Paide	exact	3
+Велико-Търново	Veliko Tarnovo	exact	3
+Вольмар	Valmiera	exact	3
+Вятка	Kirov	exact	3
+Гапсaль	Haapsalu	exact	3
+Днiпропетровськ	Dnipro	exact	3
+Дубровицы	Dubrovitsy	regex_replace	3
+Душаньбе	Dushanbe	exact	3
+ЕС	European Union	exact	3
+Кайнар	Kaynar	exact	3
+Кассари	Kassari	exact	3
+Кегель	Keila	exact	3
+Келломяки	Komarovo	exact	3
+Корнталь	Korntal-Münchingen	exact	3
+Куйбышев	Kuibõšev	exact	3
+Куркунд-Немме	Kilingi-Nõmme	exact	3
+Кюндя	Kunda	exact	3
+Лужицы	Lusatia	exact	3
+Мiнск	Minsk	exact	3
+Малаховка	Malakhovka	exact	3
+Нижный Архыз	Nizhnii Arkhyz	exact	3
+Новый Петергоф	Petergof	exact	3
+Порт-Артур	Lüshun Port	exact	3
+Ростов-На-Дону	Rostov-on-Don	exact	3
+Сергиев Посад [Россия]	Sergiyev Posad	exact	3
+Скарятино	Skoryatino	exact	3
+Тифлис	Thbilisi	exact	3
+Тыравере	Tõravere	exact	3
+Украина	Ukraine	exact	3
+Улаан-баатар	Ulaanbaatar	exact	3
+Улан-баатар	Ulaanbaatar	exact	3
+Улаанбаатар	Ulaanbaatar	exact	3
+Фрунзе	Frunze	exact	3
+Харку	Harku	exact	3
+Черноголовка	Chernogolovka	regex_replace	3
+Эзель	Saaremaa	exact	3
+Немме	Nõmme	exact	3
+Килинги-Немме	Kilingi-Nõmme	exact	3
+Кургунд-Немме	Kilingi-Nõmme	exact	3
+Revaliae	Tallinn	exact	3
+Revalia	Tallinn	exact	3
+Reval\b	Tallinn	regex_replace	3
+Revall\b	Tallinn	regex_replace	3
+[Zz]u Reval	Tallinn	regex_replace	3
+Украина	Ukraine	exact	3
+Кингисепп	Kuressaare	exact	3
+Кингиссепп	Kuressaare	exact	3
+Aegwiidu	Aegviidu	exact	4
+Arensburg	Kuressaare	exact	4
+Austin ...	Austin	exact	4
+Darpata	Tartu	exact	4
+Dorpati Livon	Tartu	exact	4
+Dorpati Livonorum	Tartu	exact	4
+Dorpati Lovonorum	Tartu	exact	4
+EL-	Euroopa Liit	exact	4
+Euroopa	Euroopa Liit	exact	4
+Euroopa liit	Euroopa Liit	exact	4
+Frankfurt a.M.	Frankfurt am Main	exact	4
+Frankfurt am Main	Frankfurt am Main	exact	4
+Frankfurt am Main ...	Frankfurt am Main	exact	4
+Gedruckt zu Revall	Tallinn	exact	4
+Hellamaa	Muhu	exact	4
+Ilmumiskoht teadmata	NA	exact	4
+Iouriew	Tartu	exact	4
+Iurievi (Dorpati)	Tartu	exact	4
+Iurievi Livonorum	Tartu	exact	4
+Ivrievi	Tartu	exact	4
+Ivrievi Livonorvm	Tartu	exact	4
+Kihnu [jne.]	Kihnu	exact	4
+Kiievi	Kiev	exact	4
+Kиïв	Kiev	exact	4
+Leeningradis [!]	St. Petersburg	exact	4
+Lihula (Läänemaa)	Lihula	exact	4
+Lihula [Läänemaa]	Lihula	exact	4
+Moсква	Moskva	exact	4
+Oldenburg in Gr	Oldenburg	exact	4
+Petropoli	St. Petersburg	exact	4
+Pihkwa	Pihkva	exact	4
+Pilistwere	Pilistvere	exact	4
+Põide	Pöide	exact	4
+Reval	Tallinn	exact	4
+Reval] :[C. Brendeken	Tallinn	exact	4
+Rootsi	Sweden	exact	4
+Rumeenia	Romania	exact	4
+San Diego ...	San Diego	exact	4
+Slovakkia	Slovakia	exact	4
+St. Petersburg [i. e. Berlin]	St. Petersburg	exact	4
+Suures-Jaani	Suure-Jaani	exact	4
+Tamse [Muhumaa]	Muhu	exact	4
+Tarto liinan	Tartu	exact	4
+Taллинн	Tallinn	exact	4
+Turu	Turku	exact	4
+Türgi	Turkey	exact	4
+USA aurik "General W.M. Black" pardal	USA	exact	4
+Upper Saddle River (N.J.)	New Jersey	exact	4
+Uus ja täiendatud väljaanne		exact	4
+Vitembergiae	Wittemberg	exact	4
+Warbla	Varbla	exact	4
+[Dorpat]	Tartu	exact	4
+[Riga]	Riga	exact	4
+the European Union	Euroopa Liit	exact	4
+the United States of America	USA	exact	4
+Аренсбург	Kuressaare	exact	4
+В Киев	Kiev	exact	4
+Варбузе	Varbuse	exact	4
+Вейссенштейн	Paide	exact	4
+Вяллингби	Vällingby	exact	4
+Гапсаль	Haapsalu	exact	4
+Госстрой Эстонской ССР	Saaremaa	exact	4
+Дерптъ	Tartu	exact	4
+Кiув	Kiev	exact	4
+Когува	Koguva	exact	4
+Кяэрику	Kääriku	exact	4
+Скопje	Skopje	exact	4
+Таllinn	Tallinn	exact	4
+Тестама	Tõstamaa	exact	4
+Торгель	Tori	exact	4
+Феннерн	Vändra	exact	4
