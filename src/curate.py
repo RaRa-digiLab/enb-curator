@@ -30,7 +30,8 @@ column_order_file_path = project_root / "config" / "marc_columns_order.json"
 
 placenames_file_path = project_root / "config" / "placenames" / "placenames_harmonized.tsv"
 coordinates_file_path = project_root / "config" / "placenames" / "placenames_coordinates.tsv"
-person_links_file_path = project_root / "config" / "persons" / "persons_id_links.tsv"
+persons_links_file_path = project_root / "config" / "persons" / "persons_id_links.tsv"
+persons_gender_file_path = project_root / "config" / "persons" / "persons_gender.tsv"
 publisher_rules_file_path = project_root / "config" / "publishers" / "publisher_harmonize_rules.tsv"
 publisher_harmonization_file_path = project_root / "config" / "publishers" / "publisher_harmonization_mapping.json"
 publisher_similarity_groups_file_path = project_root / "config" / "publishers" / "publisher_similarity_groups.tsv"
@@ -799,7 +800,7 @@ def update_authority_and_df(input_df, strip_prefix=True):
     """
     # Step 1: Load external authority file and identify new ids
     try:
-        links = pd.read_csv(person_links_file_path, sep="\t", encoding="utf8")
+        links = pd.read_csv(persons_links_file_path, sep="\t", encoding="utf8")
         existing_ids = set(links["rara_id"])
     except Exception as e:
         print(f"Error loading authority file: {e}")
@@ -837,14 +838,14 @@ def update_authority_and_df(input_df, strip_prefix=True):
         if new_entries:
             new_entries_df = pd.DataFrame(new_entries)
             updated_links = pd.concat([links, new_entries_df], ignore_index=True).fillna("NA")[['rara_id', 'viaf_id', 'wkp_id']]
-            updated_links.to_csv(person_links_file_path, sep="\t", index=False, encoding="utf8")
+            updated_links.to_csv(persons_links_file_path, sep="\t", index=False, encoding="utf8")
             print(f"Successfully linked {len(new_entries)} new persons. Authority file updated.")
         else:
             print("Linking failed for all new persons. Authority file not updated with new entries.")
     except Exception as e:
         print(f"Error updating authority file: {e}")
 
-    # Step 4: Use the updated authority file to update the original dataframe like in get_person_links
+    # Step 4: Use the updated authority file to update the original dataframe like in get_persons_links
     try:
         viaf_mapping = dict(zip(updated_links["rara_id"], updated_links["viaf_id"]))
         wkp_mapping = dict(zip(updated_links["rara_id"], updated_links["wkp_id"]))
@@ -856,6 +857,13 @@ def update_authority_and_df(input_df, strip_prefix=True):
         print(f"Error updating dataframe with authority links: {e}")
     
     return input_df
+
+def apply_gender_mapping(id_column):
+    """Reads external gender data (combined from NLE, VIAF, Wikidata)and applies the mapping to the dataframe."""
+    gender_data = pd.read_csv(persons_gender_file_path, sep="\t", encoding="utf8")
+    gender_mapping = dict(zip(gender_data["id"], gender_data["gender"]))
+    return df["id"].map(gender_mapping)
+
 
 def curate_books(df):
 
@@ -994,7 +1002,7 @@ def curate_persons(df):
     df["death_date"] = df["death_date"].astype("Int64", errors="ignore")
 
     ### 375$a: cleaning and harmonizing gender identities
-    df["gender"] = df["375$a"].apply(lambda x: constants.MAPPING_375a.get(x, None))
+    df["gender"] = apply_gender_mapping(df["id"])
     df = df.drop("375$a", axis=1)
 
     ### Add VIAF and Wikidata links from authority file
