@@ -59,7 +59,7 @@
         "access_uri"
     ],
 
-    "nle_persons": [
+    "persons": [
         "id",
         "creator",
         "name",
