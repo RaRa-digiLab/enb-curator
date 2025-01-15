@@ -815,9 +815,16 @@ def update_authority_and_df(input_df, strip_prefix=True):
 
     # Initialize list to hold successful new entries
     new_entries = []
+    print(f"VIAF and Wikidata linking: Found {len(missing_entries_df)} new persons. Attempting to link.")
+
+    progress_bar = tqdm(
+    missing_entries_df.iterrows(),
+    total=len(missing_entries_df),
+    desc="Linking new persons (press Ctrl+C to skip)"
+    )
 
     # Iterate through missing entries and update IDs using get_viaf_and_wkp_ids
-    for index, row in tqdm(missing_entries_df.iterrows(), total=len(missing_entries_df), desc=f"Found {len(missing_entries_df)} new persons. Attempting to link..."):
+    for index, row in progress_bar:
         if strip_prefix:
             id_number = row['id'].lstrip("a")
         else:
@@ -829,6 +836,10 @@ def update_authority_and_df(input_df, strip_prefix=True):
                 new_entries.append({'rara_id': row['id'], 'viaf_id': viaf_id, 'wkp_id': wkp_id})
             else:
                 new_entries.append({'rara_id': row['id'], 'viaf_id': 'NA', 'wkp_id': 'NA'})
+        except KeyboardInterrupt:
+            print("VIAF and Wikidata linking: Linking interrupted by user.")
+            progress_bar.close()
+            break
         except Exception as e:
             tqdm.write(f"VIAF and Wikidata linking: Error linking ID {id_number}: {e}")
 
@@ -993,19 +1004,23 @@ def curate_books(df):
 def curate_persons(df):
 
     ### resolve incorrect ids
+    print("Resolving entries with multiple IDs")
     df["id"] = df["001"].apply(resolve_multiple_person_ids)
     df = df.drop("001", axis=1)
 
     ### 100: retrieving name and dates from 100 subfields
+    print("Extracting names and dates")
     df[["name", "birth_date", "death_date"]] = df["100"].apply(extract_person_info, args=(False,)).to_list()
     df["birth_date"] = df["birth_date"].astype("Int64", errors="ignore")
     df["death_date"] = df["death_date"].astype("Int64", errors="ignore")
 
     ### 375$a: cleaning and harmonizing gender identities
+    print("Cleaning and harmonizing gender identities")
     df["gender"] = apply_gender_mapping(df["id"])
     df = df.drop("375$a", axis=1)
 
     ### Add VIAF and Wikidata links from authority file
+    print("Adding VIAF and Wikidata links")
     df = update_authority_and_df(df, strip_prefix=False)
 
     return df
