@@ -135,7 +135,7 @@ places <- works3[,.N,.(place_for_edits=place_for_edits2)][order(place_for_edits)
 
 #fwrite(places2,"data/places4.tsv",sep="\t")
 
-cities <- fread("../../../data/raw/geo_data/cities500.txt")
+cities <- fread("../config/geoinfo/geonames_cities500.txt")
 cities2 <- cities[,.(variant_names=unlist(str_split(V4,","))),by=names(cities)]
 biggest_pop_variant <- cities2[order(-V15),.SD[1],variant_names]
 rm(cities,cities2)
@@ -143,7 +143,7 @@ rm(cities,cities2)
 places_w_geonames_global <- merge(places, biggest_pop_variant, by.x="place_for_edits", by.y="variant_names",all.x=T)
 places_w_geonames_global[!is.na(V1),uniqueN(place_for_edits)]
 places_w_geonames_global[is.na(V1),uniqueN(place_for_edits)]
-ee_places <- fread("../../../data/raw/geo_data/EE.txt")
+ee_places <- fread("../config/geoinfo/geonames_EE.txt")
 ee_towns <- ee_places[V7=="P"]
 ee_towns[duplicated(V2)] #7k names, 1.5k duplicated
 ee_towns2 <- ee_towns[,.(variant_names=unlist(str_split(V4,","))),by=names(ee_towns)]
@@ -174,7 +174,7 @@ check_missing <- places_w_geonames_ee[is.na(V1),.(place_for_edits,N)]
 #  # fwrite(places_w_arcgis[,.(location=place_for_edits,N,lon=col2,lat=col3)],"data/places_arcgis_all.tsv",sep="\t")
 # }
 #fwrite(places_all_w_arcgis[,.(location=place_for_edits,N,lon=col2,lat=col3)],"data/places_arcgis_all.tsv",sep="\t")
-places_w_arcgis <- fread("data/places_arcgis_all.tsv",sep="\t")
+places_w_arcgis <- fread("../config/geoinfo/places_arcgis_all.tsv",sep="\t")
 
 #[,-c("publication_place")])
 #unique(
@@ -197,8 +197,8 @@ keep <- rbind(merge_method[duplicates==1],check_duplicates[exact==T,.SD[1],place
 
 #all_methods <- rbind(places_w_geonames_global[!is.na(V1)],places_w_geonames_ee[!is.na(V1)],save2[,.(place_for_edits,publication_place,publication_place_control,N,V6=col2,V5=col3)],fill=T)
 
-tagged1 <- fread("data/publication_place_geonames.tsv",sep="\t")[!is.na(lon)]
-tagged2 <- fread("data/publication_place_google.tsv",sep="\t")[!is.na(lon)]
+tagged1 <- fread("../config/geoinfo/publication_place_geonames.tsv",sep="\t")[!is.na(lon)]
+tagged2 <- fread("../config/geoinfo/publication_place_google.tsv",sep="\t")[!is.na(lon)]
 
 #name variants.
 keep[,.N,V2][N>1]
@@ -265,7 +265,7 @@ est_preferred_places <- est_preferred_where_possible[newdiff<0.2][!is.na(lat),.(
 need_resolving <- rbind(loc_not_in_est,est_preferred_where_possible[newdiff>0.2],fill=T)
 #fwrite(need_resolving,"data/need_resolving_geo.tsv",sep="\t") #find match in authority file.
 
-countries <- fread("data/marc_country_codes.tsv",sep="\t")[,code:=trimws(code)]
+countries <- fread("../config/geoinfo/marc_country_codes.tsv",sep="\t")[,code:=trimws(code)]
 need_resolving2 <- merge(need_resolving[,publication_place_control:=trimws(publication_place_control)],countries,by.x="publication_place_control",by.y="code",all.x=T)
 need_resolving2[,uniqueN(place_for_edits)]
 
@@ -281,7 +281,7 @@ need_resolving3<-need_resolving2[,country_revgeo:=map.where(database="world", lo
 #check[,diff_lat:=lat-col2][,diff_lon:=lon-col3][,diff_ctry:=diff_lat+diff_lon]
 #check[order(diff_ctry),.SD[1],by=place_for_edits]
 
-resolved_manually <- fread("data/resolved_manually_geo.tsv",sep="\t")[,resolved:=T]
+resolved_manually <- fread("../config/geoinfo/resolved_manually_geo.tsv",sep="\t")[,resolved:=T]
 #just take the first one, they are mostly compatible. errors can be found later.
 resolved_manually_for_merge <- resolved_manually[,.SD[1],.(place_for_edits,publication_place_control)]
 
@@ -336,7 +336,7 @@ works4_geo <- merge(works4,unique(authority_updated[!is.na(lat),.(harm_name,lat,
 
 tartu_variants <- works4[harm_name=="Tartu",.N,.(harm_name,place_unlist)][order(-N)]
 tartu_variants[,.(sum(N))]
-fwrite(tartu_variants,"data/tartu_variants.tsv",sep="\t")
+fwrite(tartu_variants,"../reports/tartu_variants.tsv",sep="\t")
 
 harm_names <- unique(works4[,.(harm_name,place_for_edits,place_unlist)])
 harm_locations <- unique(works4_geo[!is.na(lat),.(harm_name,lat,lon)])
@@ -416,14 +416,14 @@ works4[place_unlist=="Novi Sad"]
 
 works[id=="b13096497"]
 
-checked_places <- fread("data/sample_places_checked.tsv",sep="\t")
+checked_places <- fread("../reports/sample_places_checked.tsv",sep="\t")
 checked_places[,.N/2,true_place]
 
-cluster_similarity <- fread("~/Downloads/viljandi_clusters_similarity07.tsv",sep="\t")
-cluster_similarity[,N:=.N,groups]
-cluster_similarity[N>1]
+#cluster_similarity <- fread("../reports/viljandi_clusters_similarity07.tsv",sep="\t")
+#cluster_similarity[,N:=.N,groups]
+#cluster_similarity[N>1]
 #fwrite(cluster_similarity[N>1],"data/cluster_similarity_check.tsv",sep="\t")
-cluster_similarity_checked <- fread("data/cluster_similarity_checked.tsv",sep="\t")
+cluster_similarity_checked <- fread("../reports/cluster_similarity_checked.tsv",sep="\t")
 cluster_similarity_checked[standardizing_name==groups,useful_link:=NA]
 cluster_similarity_checked[,.N,useful_link]
 all_publishers <- fread("data/all_publishers5.tsv",sep="\t")
@@ -432,14 +432,14 @@ only_rulebased[,N:=.N,standardizing_name]
 check_rulebased <- unique(only_rulebased[N>1])
 #fwrite(check_rulebased,"data/rulebased_check.tsv",sep="\t")
 #cluster_similarity_checked <- fread("data/cluster_similarity_checked.tsv",sep="\t")
-rulebased_checked <- fread("data/rulebased_checked.tsv",sep="\t")
+rulebased_checked <- fread("../reports/rulebased_checked.tsv",sep="\t")
 rulebased_checked[, selflink := rowid(standardizing_name)==1]
 rulebased_checked[selflink!=T,.N,useful_link]
 
 both_methods <- merge(all_publishers[harm_name=="Viljandi"],cluster_similarity_checked,by="standardizing_name")[,.(publisher_unlist,standardizing_name,groups,useful_link)]
 both_methods2 <- merge(both_methods,rulebased_checked,by=c("standardizing_name","publisher_unlist"),all=T)
 
-fwrite(both_methods2[order(groups)],"data/publishers_harmonize_both_methods_summary.tsv",sep="\t")
+fwrite(both_methods2[order(groups)],"../reports/publishers_harmonize_both_methods_summary.tsv",sep="\t")
 
 all_publishers[harm_name=="Viljandi"][,uniqueN(publisher_unlist)]
 
@@ -477,7 +477,7 @@ p <- simpleNetwork(data, height="1000px", width="1000px",zoom=T)
 #save the widget
 #
 library(htmlwidgets)
-saveWidget(p, file=paste0( getwd(), "/networkInteractive3.html"))
+saveWidget(p, file=paste0( getwd(), "../reports/networkInteractive.html"))
 
 
 # Tartoh
@@ -506,7 +506,7 @@ plot1 <- ggplot(data = world) +
 
 library(htmlwidgets)
 library(plotly)
-saveWidget(ggplotly(plot1), file=paste0( getwd(), "/locations_on_map2.html"))
+saveWidget(ggplotly(plot1), file=paste0( getwd(), "../reports/all_locations_on_map.html"))
 
 
 ```
