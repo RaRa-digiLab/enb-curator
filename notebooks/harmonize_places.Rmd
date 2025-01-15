@@ -67,42 +67,50 @@ all_places[,place_for_edits:=trimws(place_for_edits)]
 places_rules <- fread("../config/placenames/placenames_rules.tsv",sep="\t")
 
 
-regexes_partial1 <- rules[type=="regex_partial"&order==1]
+regexes_replace1 <- places_rules[order==1&type=="regex_replace"]
+#merged[str_detect(standardizing_name,"noor eesti")]
+#i <- 273
+#merged[str_detect(standardizing_name,regexes[i,find_this])]
+for (i in 1:nrow(regexes_replace1)){
+  all_places[str_detect(place_for_edits,regexes_replace1[i,find_this]),replace_with:=regexes_replace1[i,replace_with]]
+  all_places[str_detect(place_for_edits,regexes_replace1[i,find_this]),type:="regex_replace"]
+  all_places[!is.na(replace_with),place_for_edits:=replace_with]
+  all_places[,place_for_edits:=trimws(place_for_edits)]
+}
+
+regexes_partial1 <- places_rules[type=="regex_partial"&order==1]
 #merged[str_detect(standardizing_name,"noor eesti")]
 #i <- 45
 #merged[str_detect(standardizing_name,regexes[i,find_this])]
 for (i in 1:nrow(regexes_partial1)){
   all_places[str_detect(place_for_edits,regexes_partial1[i,find_this]),replace_with:=str_replace(place_for_edits,regexes_partial1[i,find_this],regexes_partial1[i,replace_with])]
-  all_places[str_detect(all_places,regexes_partial1[i,find_this]),type:="regex_partial"]
-  all_places[!is.na(replace_with),all_places:=replace_with]
-  all_places[,all_places:=trimws(all_places)]
+  
+  #all_places[str_detect(all_places,regexes_partial1[i,find_this]),type:="regex_partial"]
+  all_places[!is.na(replace_with),place_for_edits:=replace_with]
+  all_places[,place_for_edits:=trimws(place_for_edits)]
 }
+all_places[,replace_with:=NULL]
+
+all_places_updated <- merge(all_places,places_rules[order==2],by.x="place_for_edits",by.y="find_this",all.x=T)[is.na(replace_with),match:=place_for_edits][,.(place_unlist,place_for_edits=match)]
 
 
-all_places_updated <- merge(all_places,places_rules[order==2],by.x="place_for_edits",by.y="place_for_edits",all.x=T)[is.na(match),match:=place_for_edits][,.(place_unlist,place_for_edits=match)]
-
-
+#checking the results of this harmonization
 works2 <- merge(works1,all_places_updated,by="place_unlist")
-#works2[,place_for_edits:=place_unlist]
 
-#split 6.5k books by this point
+#split 110k books by this point
 works2[,.(id,publication_place,place_unlist,place_for_edits)][publication_place!=place_unlist][,uniqueN(id)]
 #changed 9k values by this point
-works2[,.(publication_place,place_unlist,place_for_edits)][place_unlist!=place_for_edits]
+#works2[,.(publication_place,manufacturing_place,original_distribution_place,place_unlist,place_for_edits)][place_unlist!=place_for_edits]
 
 places <- works2[,.N,.(place_for_edits)][order(place_for_edits)]
 
-
-exceptions <- fread("data/exceptions.tsv",sep="\t")
-more_exceptions_made <- fread("data/more_exceptions_made.tsv",sep="\t",fill=T)[replace_with!=""]
-
-exceptions_total <- rbind(exceptions[type=="exact"],more_exceptions_made[,.(find_this,replace_with)][,type:="exact"],fill=T)
-merged <- merge(places,exceptions_total,by.x="place_for_edits",by.y="find_this",all.x=T)
+exact_rules <- places_rules[order%in%c(3,4)&type=="exact"]
+merged <- merge(places,exact_rules,by.x="place_for_edits",by.y="find_this",all.x=T)
 merged[type=="exact",place_for_edits2:=replace_with]
 
 #12459 sellega veidi paremaks
 
-regexes <- exceptions[type=="regex_replace"]
+regexes <- places_rules[order%in%c(3,4)&type=="regex_replace"]
 #merged[str_detect(standardizing_name,"noor eesti")]
 #i <- 273
 #merged[str_detect(standardizing_name,regexes[i,find_this])]
@@ -114,10 +122,13 @@ for (i in 1:nrow(regexes)){
 }
 merged[!is.na(place_for_edits2)]
 merged[is.na(place_for_edits2),place_for_edits2:=place_for_edits]
+
+merged[nchar(place_for_edits2)<2,place_for_edits2:=""]
+
 works3 <- merge(works2,unique(merged[,.(place_for_edits,place_for_edits2)]),by="place_for_edits",all.x=T)
 
 #changed 4.8k additional entries here
-works3[,.(publication_place,place_unlist,place_for_edits,place_for_edits2)][place_for_edits!=place_for_edits2]
+#works3[,.(publication_place,place_unlist,place_for_edits,place_for_edits2)][place_for_edits!=place_for_edits2]
 
 places <- works3[,.N,.(place_for_edits=place_for_edits2)][order(place_for_edits)]
 
@@ -281,7 +292,7 @@ need_resolving5 <- need_resolving4[!add_some_estonian_locations,on=c("place_for_
 #fwrite(need_resolving4,"data/need_resolving_geo2.tsv",sep="\t") #find match in authority file.
 # save these ones together too here.
 
-#if population data exists then take the largel location.
+#if population data exists then take the larger location.
 add_some_estonian_locations <- need_resolving4[publication_place_control=="er"&country_revgeo=="Estonia"][,.SD[1],.(place_for_edits,publication_place_control)]
 need_resolving5 <- need_resolving4[!add_some_estonian_locations,on=c("place_for_edits","publication_place_control")]
   

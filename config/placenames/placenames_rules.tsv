@@ -4,11 +4,10 @@ find_this	replace_with	type	order
  etc		regex_partial	1
 ^In 		regex_partial	1
 \\?$		regex_partial	1
-	NA	regex_partial	1
-Б\\.м\\.	NA	regex_partial	1
-Б\\.м$	NA	regex_partial	1
-[Ss]\\. ?[Ll][\\.$]?	NA	regex_partial	1
-[0-9]	NA	regex_partial	1
+Б\\.м\\.		regex_replace	1
+Б\\.м$		regex_replace	1
+[Ss]\\. ?[Ll][\\.$]?		regex_replace	1
+[0-9]		regex_replace	1
 Hiinas	Hiina	exact	2
 Euroopa Liidus	Euroopa Liit	exact	2
 Tartus	Tartu	exact	2
