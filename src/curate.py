@@ -28,12 +28,12 @@ columns_to_keep_file_path = project_root / "config" / "marc_columns_to_keep.json
 column_names_file_path = project_root / "config" / "marc_columns_dict.json"
 column_order_file_path = project_root / "config" / "marc_columns_order.json"
 
-placenames_file_path = project_root / "config" / "authority_input_place_harmonized.tsv"
-coordinates_file_path = project_root / "config" / "authority_input_place_geotagged.tsv"
-person_links_file_path = project_root / "config" / "authority_input_person_links.tsv"
-publisher_rules_file_path = project_root / "config" / "authority_publisher_harmonize_rules.tsv"
-publisher_harmonization_file_path = project_root / "config" / "publisher_harmonization_mapping.json"
-publisher_similarity_groups_file_path = project_root / "config" / "publisher_similarity_groups.tsv"
+placenames_file_path = project_root / "config" / "placenames" / "placenames_harmonized.tsv"
+coordinates_file_path = project_root / "config" / "placenames" / "placenames_coordinates.tsv"
+person_links_file_path = project_root / "config" / "persons" / "persons_id_links.tsv"
+publisher_rules_file_path = project_root / "config" / "publishers" / "publisher_harmonize_rules.tsv"
+publisher_harmonization_file_path = project_root / "config" / "publishers" / "publisher_harmonization_mapping.json"
+publisher_similarity_groups_file_path = project_root / "config" / "publishers" / "publisher_similarity_groups.tsv"
 
 MIN_YEAR = 1500
 MAX_YEAR = datetime.now().year
