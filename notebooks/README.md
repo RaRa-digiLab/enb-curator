@@ -22,3 +22,7 @@ There are three case studies reported in the associated article. These explorati
 - [case_study_2_estonian_diaspora.ipynb](case_study_2_estonian_diaspora.ipynb)          
 - [case_study_3_historiography.ipynb](case_study_3_historiography.ipynb) 
 
+## Experiments
+
+The experiments folder contains a notebook that was used to test different (rule-based) cleaning methods for the `books` dataset.
+
