@@ -20,9 +20,9 @@ The reports on the dataset are built to provide up-to-date summary statistics on
 - ![](../config/publishers/places/resolved_manually_geo.tsv) - Manually resolved placenames where the algorithmic approach did not give a solution.
                  
 **Test sets:**
-- ![](report_places_tartu_variants.tsv) - placename harmonization variants for Tartu.
-- ![](testset_places_checked.tsv) - a sample of 200 place names to check for accuracy
-- ![](testset_locations_on_map_checked.html) - a map based on the coordinates of these 200 place names to check for accuracy
+- ![](testsets/testset_places_tartu_variants.tsv) - placename harmonization variants for Tartu.
+- ![](testsets/testset_places_checked.tsv) - a sample of 200 place names to check for accuracy
+- ![](testsets/testset_locations_on_map_checked.html) - a map based on the coordinates of these 200 place names to check for accuracy
 
 ## Publishers
 
@@ -33,9 +33,9 @@ The reports on the dataset are built to provide up-to-date summary statistics on
 - ![](../config/publishers/publisher_similarity_groups.tsv) - The mappings between standardized publisher names and the similarity grops based on text embeddings. The mappings are made for publishers operating in the same location, referred to by `harm_name`.
 
 **Test sets:**
-- ![](testset_publishers_rulebased_checked.tsv) - Annotation of the rule-based publisher name harmonizations within the test set of publishers from Viljandi.
-- ![](testset_publishers_cluster_similarity_checked.tsv) - Annotation of the text embedding based publisher name harmonizations within the test set of publishers from Viljandi.
-- ![](testset_publishers_harmonize_both_methods_summary.tsv) - The summary table of both methods within the test set of publishers from Viljandi.
+- ![](testsets/testset_publishers_rulebased_checked.tsv) - Annotation of the rule-based publisher name harmonizations within the test set of publishers from Viljandi.
+- ![](testsets/testset_publishers_cluster_similarity_checked.tsv) - Annotation of the text embedding based publisher name harmonizations within the test set of publishers from Viljandi.
+- ![](testsets/testset_publishers_harmonize_both_methods_summary.tsv) - The summary table of both methods within the test set of publishers from Viljandi.
 
 
 ## Improving the pipeline
