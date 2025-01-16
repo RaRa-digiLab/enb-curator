@@ -38,8 +38,8 @@ This pipeline is meant to be reproducible, modular, and scalable. It is possible
 
 2. Run the pipeline:
    ```
-   python main.py "erb_all_books" # or
-   python main.py "nle_persons"
+   python main.py "enb_books" # or
+   python main.py "persons"
    ```
 
 3. Collect the curated, up-to-date dataset from [`./data/curated`](data/curated)
