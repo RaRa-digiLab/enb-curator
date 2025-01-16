@@ -138,5 +138,62 @@ values %>%
 
 ggsave("../reports/plots/figure1.png",height=6.5,width=6.5,bg="white")
 
+
+
+forplot <- works[,.(id,title,publication_date=publication_date_cleaned,creator_or_contributor,language,language_original,edition_statement,publication_place,publication_place_geotagged=publication_place_latitude,publisher,publisher_harmonized,publisher_similarity_group,manufacturing_place,manufacturer,udc,topic_keyword,genre_keyword,geographic_keyword,corporate_keyword,person_keyword,chronological_keyword,page_count,physical_size,typeface,print_run,price,access_uri,is_digitized,digitized_year,copyright_status)]
+values <- data.frame(t(forplot[language=="est"][publication_date<1900][, lapply(.SD, function(x) {return(sum(!is.na(x)))}) ,]))
+values$variable <- row.names(values)
+names(values)[1] <- "n_available"
+values <- data.table(values)
+values[,i:=.I]
+values[,grouping:=c(rep("General",7),rep("Location",7),rep("Content",7),rep("Physical",5),rep("Access",4))]
+values[,variable_label:=c("ID","Title","Publication date","Contributor(s)","Language","Original language","Edition","Place of publication","Place of publication (coordinates)", "Publisher name", "Publisher name (harmonized)", "Publisher name (grouped)", "Place of manufacture", "Manufacturer", "UDC", "Topic keyword", "Genre keyword", "Geographic keyword", "Corporate keyword", "Person keyword", "Chronological keyword", "Page count", "Physical size", "Typeface", "Print run", "Price", "Access link", "Digitized", "Digitization year", "Copyright status")]
+
+values %>% 
+    ggplot(aes(x = fct_reorder(variable_label,-i), color = fct_reorder(grouping,i), fill = fct_reorder(grouping,i))) + #stats::reorder(variable, n_available)
+    geom_hline(yintercept=7092,color="red",alpha=0.25,lty=2)+
+    geom_bar(aes(y = n_available), stat = "identity", position = "dodge", width = 0.05,alpha=1)+#, colour = "#484878", fill = "#484878") +
+    geom_point(aes(y = n_available), colour = "#484878", fill = "#484878") + 
+    coord_flip() + 
+  #facet_wrap(~fct_reorder(grouping,i),scales="free_y",ncol=1)+
+  #  scale_color_discrete(guide = "none") + 
+  labs(title= "Data availability",subtitle="Works in Estonian before 1900", y = "Entries (n)", x = "", fill="",colour="")+#Selected data fields in the curated dataset
+  theme_minimal()+
+  scale_y_continuous(labels = scales::comma)+
+  theme(legend.position="none",fill.position="bottom")+
+  scale_color_brewer(type="qual", palette="Set1")+
+  scale_fill_brewer(type="qual", palette="Set1")+ 
+  ggforce::facet_row(vars(SP), scales = 'free_y', space = 'free')+ 
+  ggforce::facet_col(~fct_reorder(grouping,i), scales = 'free_y', space = 'free')
+
+
+
+forplot <- works[,.(id,title,publication_date=publication_date_cleaned,creator_or_contributor,language,language_original,edition_statement,publication_place,publication_place_geotagged=publication_place_latitude,publisher,publisher_harmonized,publisher_similarity_group,manufacturing_place,manufacturer,udc,topic_keyword,genre_keyword,geographic_keyword,corporate_keyword,person_keyword,chronological_keyword,page_count,physical_size,typeface,print_run,price,access_uri,is_digitized,digitized_year,copyright_status)]
+values <- data.frame(t(forplot[language!="est"][publication_date<1900][, lapply(.SD, function(x) {return(sum(!is.na(x)))}) ,]))
+values$variable <- row.names(values)
+names(values)[1] <- "n_available"
+values <- data.table(values)
+values[,i:=.I]
+values[,grouping:=c(rep("General",7),rep("Location",7),rep("Content",7),rep("Physical",5),rep("Access",4))]
+values[,variable_label:=c("ID","Title","Publication date","Contributor(s)","Language","Original language","Edition","Place of publication","Place of publication (coordinates)", "Publisher name", "Publisher name (harmonized)", "Publisher name (grouped)", "Place of manufacture", "Manufacturer", "UDC", "Topic keyword", "Genre keyword", "Geographic keyword", "Corporate keyword", "Person keyword", "Chronological keyword", "Page count", "Physical size", "Typeface", "Print run", "Price", "Access link", "Digitized", "Digitization year", "Copyright status")]
+
+values %>% 
+    ggplot(aes(x = fct_reorder(variable_label,-i), color = fct_reorder(grouping,i), fill = fct_reorder(grouping,i))) + #stats::reorder(variable, n_available)
+    geom_hline(yintercept=17978,color="red",alpha=0.25,lty=2)+
+    geom_bar(aes(y = n_available), stat = "identity", position = "dodge", width = 0.05,alpha=1)+#, colour = "#484878", fill = "#484878") +
+    geom_point(aes(y = n_available), colour = "#484878", fill = "#484878") + 
+    coord_flip() + 
+  #facet_wrap(~fct_reorder(grouping,i),scales="free_y",ncol=1)+
+  #  scale_color_discrete(guide = "none") + 
+  labs(title= "Data availability",subtitle="Works in languages other than Estonian before 1900", y = "Entries (n)", x = "", fill="",colour="")+#Selected data fields in the curated dataset
+  theme_minimal()+
+  scale_y_continuous(labels = scales::comma)+
+  theme(legend.position="none",fill.position="bottom")+
+  scale_color_brewer(type="qual", palette="Set1")+
+  scale_fill_brewer(type="qual", palette="Set1")+ 
+  ggforce::facet_row(vars(SP), scales = 'free_y', space = 'free')+ 
+  ggforce::facet_col(~fct_reorder(grouping,i), scales = 'free_y', space = 'free')
+
+
 ```
 

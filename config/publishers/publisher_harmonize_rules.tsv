@@ -1,12 +1,12 @@
 find_this	replace_with	type
-[s.n.]		exact
-[s.n.		exact
-s.n.]		exact
-s. n.		exact
-s.n.		exact
-s n.		exact
-s.n		exact
-^s.n.		regex_replace
+[s.n.]	NA	exact
+[s.n.	NA	exact
+s.n.]	NA	exact
+s. n.	NA	exact
+s.n.	NA	exact
+s n.	NA	exact
+s.n	NA	exact
+^s.n.	NA	regex
 3.diviisi staap	3.diviis	exact
 a.busch'i rmtkpl.	a.busch	exact
 a.ingelman	a.ingelmann	exact
@@ -180,10 +180,7 @@ siuru	siuru	regex_replace
 kirjastus ühisus	kirjastusühisus	regex_partial
  publishing$		regex_partial
 \\?		regex_partial
-i raamatukauplus$		regex_partial
-e raamatukauplus$		regex_partial
-i rmtkpl$		regex_partial
-e rmtkpl$		regex_partial
+ rmtkpl$		regex_partial
  rmtklpl$		regex_partial
  rmtkpl$		regex_partial
 hartmannische buchhandlung	hartmann	regex_replace
@@ -218,11 +215,11 @@ estonian s\\.s\\.r	estonian ssr	regex_partial
 draamateatri selts	draamateater	exact
  u\\.	 & 	regex_partial
  und 	 & 	regex_partial
-^e\\.b\\.k(?!irjanduse)	e.b.kirjanduse	regex_partial
-^e\\.b\\.k\\.(?!irjanduse)	e.b.kirjanduse	regex_partial
+^e\\.b\\.k	e.b.kirjanduse	regex_partial
+^e\\.b\\.k\\.	e.b.kirjanduse	regex_partial
 w	v	regex_partial
  universitätsbuchhandlung$		regex_partial
-[ʹ`\\']s universitätsbuchhandlung$		regex_partial
+\\ʹs universitätsbuchhandlung$		regex_partial
 \\'a raamatukauplus$		regex_partial
 \\'a rmtkpl$		regex_partial
 e.naaber	e.naaber	regex_replace
@@ -254,8 +251,8 @@ kunstnikkude	kunstnike	regex_partial
 koool	kool	regex_partial
 maadluse	maadlus	regex_partial
  tui$	  teadusliku uurimise instiuut	regex_partial
- etc$		regex_partial
-(?<!\b)selts	 selts	regex_partial
+ etc$		regex_apartial
+[^\b]selts	 selts	regex_apartial
 ümarlaud$	ümarlaua sihtasutus	regex_partial
 egmont estonia	egmont	regex_partial
 egmont latvia	egmont	regex_partial
@@ -265,10 +262,10 @@ egmont latvia	egmont	regex_partial
  meedia$		regex_partial
 nimeline 	nim.	regex_partial
  verlag		regex_partial
-[ʹ`']s$		regex_partial
-[ʹ`']a$		regex_partial
-[ʹ`'].$		regex_partial
-[ʹ`'].$		regex_partial
+\\'s$		regex_partial
+\\'a$		regex_partial
+\\'.$		regex_partial
+\\ʹ.$		regex_partial
  print$		regex_partial
 g.ch.frölich	g.c.frölich	regex_partial
 g.nugasohn	g.nugason	regex_partial
@@ -287,7 +284,7 @@ grenzius	grenzius	regex_replace
  norsk forlag$		regex_partial
  forlag$		regex_partial
 h.eichenbaum		regex_replace
-h.laakman$	h.laakmann	regex_partial
+h.laakman	h.laakmann	regex_partial
 h.lindepuu	hendrik lindepuu	regex_replace
 h.pezold	h.pezold	regex_replace
 ^sa 		regex_partial
@@ -321,13 +318,12 @@ noorhoff	noordhoff	regex_partial
 suomalaisen kirjallisuuden seura	suomalaisen kirjallisuuden seura	regex_replace
 säästva eesti instituut	säästva eesti instituut	regex_replace
 ^verlag von 		regex_partial
-,? levitaja		regex_partial
 ;$		regex_partial
 :$		regex_partial
 \\]		regex_partial
-\\[		regex_partial
-[ʹ`']i rmtkpl.		regex_partial
-\\. 	.	regex_partial
+'i rmtkpl.		regex_partial
+\\.	.	regex_partial
+""+	"	regex_partial
 "+$		regex_partial
 ^"+		regex_partial
 -		regex_partial
@@ -335,5 +331,4 @@ säästva eesti instituut	säästva eesti instituut	regex_replace
 ^\\(		regex_partial
 \\'$		regex_partial
 \\.$		regex_partial
-\\(levitaja\\)		regex_partial
-\\[levitaja\\]		regex_partial                          
+\\.$		regex_partial

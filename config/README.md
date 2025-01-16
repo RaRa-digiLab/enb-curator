@@ -14,9 +14,8 @@ The geoinfo files used in place name harmonization are stored here for the scrip
 ## Places
 
 - [`places_coordinates.tsv`](places/places_coordinates.tsv) - The mappings between harmonized place names and coordinates produced in place name harmonization.
-- [`places_rules.tsv`](places/places_rules.tsv) - The ruleset relied on in harmonizing the place name variants.
+- [`places_harmonize_rules.tsv`](places/places_harmonize_rules.tsv) - The ruleset relied on in harmonizing the place name variants.
 - [`places_harmonized.tsv`](places/places_harmonized.tsv) - The mappings between the place name variants and harmonized place names produced in place name harmonization.
-- [`resolved_manually_geo.tsv`](places/resolved_manually_geo.tsv) - Manually resolved input for geographic information.
 
 ## Publishers
 

@@ -8,7 +8,10 @@ src/__pycache__
 
 notebooks/.ipynb_checkpoints
 notebooks/test.ipynb
+notebooks/.Rhistory
 
 src/python/__pycache__
 
 config/geoinfo/
+
+
