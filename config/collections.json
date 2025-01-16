@@ -4,7 +4,7 @@
         "OAI-PMH": "https://data.digar.ee/repox/OAIHandler?verb=ListRecords&set=erb&metadataPrefix=marc21xml",
         "original_format": "MARC21XML"
     },
-    "enb_books": {
+    "enb_estonian_books": {
         "title": "Estonian National Bibliography - Estonian books",
         "OAI-PMH": "https://data.digar.ee/repox/OAIHandler?verb=ListRecords&set=raamat&metadataPrefix=marc21xml",
         "original_format": "MARC21XML"
@@ -14,7 +14,7 @@
         "OAI-PMH": "https://data.digar.ee/repox/OAIHandler?verb=ListRecords&set=vabakasutus&metadataPrefix=marc21xml",
         "original_format": "MARC21XML"
     },
-    "enb_non_estonian": {
+    "enb_non_estonian_books": {
         "title": "Estonian National Bibliography - foreign language books",
         "OAI-PMH": "https://data.digar.ee/repox/OAIHandler?verb=ListRecords&set=muukeelne&metadataPrefix=marc21xml",
         "original_format": "MARC21XML"
