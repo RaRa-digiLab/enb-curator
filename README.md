@@ -42,7 +42,7 @@ This pipeline is meant to be reproducible, modular, and scalable. It is possible
    python main.py "nle_persons"
    ```
 
-3. Collect the curated, up-to-date dataset from `./data/curated`
+3. Collect the curated, up-to-date dataset from [`./data/curated`](data/curated)
 
 ### Contributing
 
@@ -50,7 +50,7 @@ We welcome contributions to improve the pipeline and the quality of the curated 
 
 - **Pull requests**: If you're familiar with GitHub, feel free to submit a pull request. If you're unsure how to do this, don't hesitate to reach out to us - we're happy to help!
 
-- **Case-by-case edits**: For smaller changes, such as correcting coordinates or updating mappings, it's easiest to make the changes directly in the relevant files located in the `./config` directory. This ensures the pipeline uses the correct data in subsequent runs.
+- **Case-by-case edits**: For smaller changes, such as correcting coordinates or updating mappings, it's easiest to make the changes directly in the relevant files located in the [`./config`](config) directory. This ensures the pipeline uses the correct data in subsequent runs.
 
 - **Systematic improvements**: For larger tasks, like refactoring functions or improving regex patterns to handle new edge cases, you can also submit a pull request. 
 
