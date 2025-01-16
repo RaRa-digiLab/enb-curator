@@ -10,3 +10,5 @@ notebooks/.ipynb_checkpoints
 notebooks/test.ipynb
 
 src/python/__pycache__
+
+config/geoinfo/

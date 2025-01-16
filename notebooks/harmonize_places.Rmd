@@ -1,5 +1,5 @@
 ---
-title: "Metadata from ENB"
+title: "Harmonizing place names"
 output:
   pdf_document:
     latex_engine: xelatex
@@ -8,14 +8,20 @@ output:
     self_contained: no
 editor_options:
   chunk_output_type: console
+knit: (function(input, ...) {
+    rmarkdown::render(
+      input,
+      output_dir = "../reports"
+    )
+  })
 ---
 
-# Overview of the dataset
+# Harmonizing place names
 
-Last data file 08-10-2024, last updated processing 08-10-2024.
+Last data file 08-10-2024, last updated processing 16-01-2025.
 
 ```{r setup,echo=F}
-knitr::opts_knit$set(root.dir = rprojroot::find_rstudio_root_file())
+#knitr::opts_knit$set(root.dir = rprojroot::find_rstudio_root_file())
 ```
 
 Catalogue data entry practices typically aim for precision. This means that publisher names and locations are entered as originally printed, where substantial variation in presentation can be present. In a long-spanning dataset this can include historical variants of placenames (e.g. Dorpat, Tarbatu, Derpt, Jurjev, Tartu), grammar (Tartus, Tartun, In Tartu), localized versions of placenames (Tartto, Tērbata, Тарту), historical spelling variants (Tarto-linan, Tartolinan, Iourieff, Jujew). The entries often have additional specifications too, including other variants (Tartu – Dorpat, Youriev (Tartu)), wider geographical areas (Tartu (Tartumaa)), markers for other places of publication (etc, jne), publisher name placeholders (Tartu:[s.n]) and even several placenames sometimes (Tartu [i.e. Torino], Tallinn [p.o. Tartu]). These variants present a challenge for data analysis, as the data field needs to be harmonized in aggregating all books that were, for example, published in Tartu. 
@@ -24,12 +30,7 @@ Data harmonization is a common task for adapting catalogue data for computationa
 
 To harmonize the placenames, we built a general workflow that relies on external geographical databases that contain the relevant placenames as well as their historical variants. To do this, we first removed the grammatical markers from the placenames where possible. In Estonian case, the frequent forms here were placenames ending with an s, which were extracted from the set and manually annotated for nominative variants of the names. We then used several geocoding services to link the placenames to geographical coordinates: ArcGIS, Geonames and Google. These geocoding services rely on both historical placenames and fuzzy matching to find the coordinates and build on different databases for the matches. Additionally, we adapted a Geonames dump to find coordinates for the names with a preference for locations in or near Estonia and locations with larger populations. If all the coordinates found were within 20km from each other, we considered it a correct match and relied on it. If the placename was matched with coordinates more distant from each other, indicating that the databases contained different priority entries with that name, we manually resolved the location. Based on these comparisons we iteratively constructed a list of rules and exceptions that we then applied in a rerun at the beginning of the workflow. As an additional control, we were able to rely on country-codes given in the MARC data format. This country-code list in MARC format has gradually been developed since its inception in 1967, with the last update in 2003. As a result, they don't fully match modern country borders, however, they can be well used to compare with the general area in question. These country-codes were given by the cataloguer demonstrating also some variation in itself. For placenames with conflicting coordinates we checked whether any of the coordinates were within the country marked in the code and preferred these coordinates if this was the case. Some books had several publication locations represented with a semicolon: in this case all placenames were processed separately. 
 
-In all, we harmonized 4376 variant placenames to match 2605 harmonized placenames, while applying 451 rules and exceptions based on regular expressions and variant matches to clean the dataset. After applying these methods, there were a total of 3896 unique placenames in the dataset. 3821 of them could be geocoded with ArcGIS, 3497 of them with Google, 840 of them with Geonames, and 1933 in working with a local copy of Geonames with historical placenames. 3294 had all the acquired coordinates within approximately 20 km from within each other and were considered non-conflicting matches. 602 placenames showed bigger differences. In this case, if any of the placenames were in or near Estonia, they were preferred, providing a solution for 183 places with no conflicts on coordinates in Estonia. Of these, 390 conflicting placenames were then resolved manually, in preferring the geographic match that was in or nearby the area marked in the MARC data format. 22 placenames could not be reasonably resolved to particular coordinates with this method. 
-
-As a result, 4286 unique placenames in the dataset have been given coordinates, providing a coordinate for 99% of the books (n = 316,813), 67 placenames there have not been resolved, and 1599 books in the dataset do not include information on the place of publication. The harmonization and linking of the places of publication is likely to contain some errors, but a manual verification showed the results to be reasonably accurate (96% of 200 randomly selected placenames showed accurate coordinates).  
-
-
-```{r,echo=F,warning=F}
+```{r get data,echo=F,warning=F,include=F}
 suppressMessages(library(data.table))
 suppressMessages(library(tidyverse))
 suppressMessages(library(nanoparquet))
@@ -46,9 +47,10 @@ unlist_places_manufacture <- works[,.(place_unlist=unlist(str_split(str_replace(
 unlist_places_distribution <-  works[,.(place_unlist=unlist(str_split(str_replace(original_distribution_place, " und | u\\. | & ", " ; "),";"))),id][,place_unlist:=trimws(place_unlist)]
 
 unlist_places <- unique(rbind(unlist_places_publication,unlist_places_manufacture,unlist_places_distribution)[!is.na(place_unlist)])
+```
 
 
-
+```{r harmonize rulebased,echo=F,warning=F,include=F}
 #6485 books have 2 or more locations
 #unlist_places_publication[,.(.N,place_unlist),id][N>1][,uniqueN(id)]
 
@@ -64,13 +66,15 @@ all_places[,place_for_edits:=str_replace(place_for_edits, "[\\(\\[].*$", "")]
 all_places[,place_for_edits:=str_replace(place_for_edits, "[\\(\\[\\)\\]]", "")]
 all_places[,place_for_edits:=trimws(place_for_edits)]
 
-places_rules <- fread("../config/placenames/placenames_rules.tsv",sep="\t")
-
+places_rules <- fread("../config/places/places_rules.tsv",sep="\t",quote="",strip.white=F)
+places_rules[,find_this:=str_replace_all(find_this,"\\\\{2}","\\\\")]
 
 regexes_replace1 <- places_rules[order==1&type=="regex_replace"]
 #merged[str_detect(standardizing_name,"noor eesti")]
 #i <- 273
 #merged[str_detect(standardizing_name,regexes[i,find_this])]
+#i <- 2
+#all_places[str_detect(place_for_edits,regexes_replace1[i,find_this])]
 for (i in 1:nrow(regexes_replace1)){
   all_places[str_detect(place_for_edits,regexes_replace1[i,find_this]),replace_with:=regexes_replace1[i,replace_with]]
   all_places[str_detect(place_for_edits,regexes_replace1[i,find_this]),type:="regex_replace"]
@@ -80,8 +84,11 @@ for (i in 1:nrow(regexes_replace1)){
 
 regexes_partial1 <- places_rules[type=="regex_partial"&order==1]
 #merged[str_detect(standardizing_name,"noor eesti")]
-#i <- 45
-#merged[str_detect(standardizing_name,regexes[i,find_this])]
+#
+
+#i <- 1
+#str_detect("[etc.]",regexes_partial1[i,find_this])
+#all_places[str_detect(place_for_edits,regexes_partial1[i,find_this])]
 for (i in 1:nrow(regexes_partial1)){
   all_places[str_detect(place_for_edits,regexes_partial1[i,find_this]),replace_with:=str_replace(place_for_edits,regexes_partial1[i,find_this],regexes_partial1[i,replace_with])]
   
@@ -91,7 +98,7 @@ for (i in 1:nrow(regexes_partial1)){
 }
 all_places[,replace_with:=NULL]
 
-all_places_updated <- merge(all_places,places_rules[order==2],by.x="place_for_edits",by.y="find_this",all.x=T)[is.na(replace_with),match:=place_for_edits][,.(place_unlist,place_for_edits=match)]
+all_places_updated <- merge(all_places,places_rules[order==2],by.x="place_for_edits",by.y="find_this",all.x=T)[is.na(replace_with),match:=place_for_edits][!is.na(replace_with),match:=replace_with][,.(place_unlist,place_for_edits=match)]
 
 
 #checking the results of this harmonization
@@ -129,13 +136,23 @@ works3 <- merge(works2,unique(merged[,.(place_for_edits,place_for_edits2)]),by="
 
 #changed 4.8k additional entries here
 #works3[,.(publication_place,place_unlist,place_for_edits,place_for_edits2)][place_for_edits!=place_for_edits2]
+#works3[place_for_edits=="",uniqueN(id)]
+works3[,n_places_work:=.N,id]
+#works3[n_places_work>1]
+
+works3[order(-place_for_edits),.SD[1],id][place_for_edits=="",uniqueN(id)]
 
 places <- works3[,.N,.(place_for_edits=place_for_edits2)][order(place_for_edits)]
+overview_after_rules <- works3[,.N,.(place_for_edits=place_for_edits2,place_unlist)][order(place_for_edits)]
+fwrite(overview_after_rules,"~/Downloads/overview_after_rules_onefile.tsv",sep="\t")
+
+```
 
 
+```{r add geoinfo,echo=F,warning=F,include=F}
 #fwrite(places2,"data/places4.tsv",sep="\t")
 
-cities <- fread("../config/geoinfo/geonames_cities500.txt")
+cities <- fread("../config/geoinfo/places_geonames_dump_cities500.txt")
 cities2 <- cities[,.(variant_names=unlist(str_split(V4,","))),by=names(cities)]
 biggest_pop_variant <- cities2[order(-V15),.SD[1],variant_names]
 rm(cities,cities2)
@@ -143,7 +160,7 @@ rm(cities,cities2)
 places_w_geonames_global <- merge(places, biggest_pop_variant, by.x="place_for_edits", by.y="variant_names",all.x=T)
 places_w_geonames_global[!is.na(V1),uniqueN(place_for_edits)]
 places_w_geonames_global[is.na(V1),uniqueN(place_for_edits)]
-ee_places <- fread("../config/geoinfo/geonames_EE.txt")
+ee_places <- fread("../config/geoinfo/places_geonames_dump_EE.txt")
 ee_towns <- ee_places[V7=="P"]
 ee_towns[duplicated(V2)] #7k names, 1.5k duplicated
 ee_towns2 <- ee_towns[,.(variant_names=unlist(str_split(V4,","))),by=names(ee_towns)]
@@ -174,7 +191,7 @@ check_missing <- places_w_geonames_ee[is.na(V1),.(place_for_edits,N)]
 #  # fwrite(places_w_arcgis[,.(location=place_for_edits,N,lon=col2,lat=col3)],"data/places_arcgis_all.tsv",sep="\t")
 # }
 #fwrite(places_all_w_arcgis[,.(location=place_for_edits,N,lon=col2,lat=col3)],"data/places_arcgis_all.tsv",sep="\t")
-places_w_arcgis <- fread("../config/geoinfo/places_arcgis_all.tsv",sep="\t")
+places_w_arcgis <- fread("../config/geoinfo/places_arcgis_api.tsv",sep="\t")
 
 #[,-c("publication_place")])
 #unique(
@@ -197,8 +214,8 @@ keep <- rbind(merge_method[duplicates==1],check_duplicates[exact==T,.SD[1],place
 
 #all_methods <- rbind(places_w_geonames_global[!is.na(V1)],places_w_geonames_ee[!is.na(V1)],save2[,.(place_for_edits,publication_place,publication_place_control,N,V6=col2,V5=col3)],fill=T)
 
-tagged1 <- fread("../config/geoinfo/publication_place_geonames.tsv",sep="\t")[!is.na(lon)]
-tagged2 <- fread("../config/geoinfo/publication_place_google.tsv",sep="\t")[!is.na(lon)]
+tagged1 <- fread("../config/geoinfo/places_geonames_api.tsv",sep="\t")[!is.na(lon)]
+tagged2 <- fread("../config/geoinfo/places_google_api.tsv",sep="\t")[!is.na(lon)]
 
 #name variants.
 keep[,.N,V2][N>1]
@@ -260,7 +277,7 @@ loc_not_in_est[,uniqueN(place_for_edits)]
 compare_methods3[,any_lat:=V5][is.na(any_lat),any_lat:=geonames_lat][is.na(any_lat),any_lat:=google_lat][is.na(any_lat),any_lat:=arcgis_lat]
 compare_methods3[,any_lon:=V6][is.na(any_lon),any_lon:=geonames_lon][is.na(any_lon),any_lon:=google_lon][is.na(any_lon),any_lon:=arcgis_lon]
 
-matching_places <- compare_methods3[diff<0.2][,.(place_for_edits,geonames_name=V2,N,lat=any_lat,lon=any_lon)]
+matching_places <- compare_methods3[diff<0.2][,.(place_for_edits,geonames_name=V2,N,lat=any_lat,lon=any_lon)][place_for_edits!=""]
 est_preferred_places <- est_preferred_where_possible[newdiff<0.2][!is.na(lat),.(lat=lat[1],lon=lon[1]),.(place_for_edits,geonames_name,N)]
 need_resolving <- rbind(loc_not_in_est,est_preferred_where_possible[newdiff>0.2],fill=T)
 #fwrite(need_resolving,"data/need_resolving_geo.tsv",sep="\t") #find match in authority file.
@@ -281,7 +298,7 @@ need_resolving3<-need_resolving2[,country_revgeo:=map.where(database="world", lo
 #check[,diff_lat:=lat-col2][,diff_lon:=lon-col3][,diff_ctry:=diff_lat+diff_lon]
 #check[order(diff_ctry),.SD[1],by=place_for_edits]
 
-resolved_manually <- fread("../config/geoinfo/resolved_manually_geo.tsv",sep="\t")[,resolved:=T]
+resolved_manually <- fread("../config/places/resolved_manually_geo.tsv",sep="\t")[,resolved:=T]
 #just take the first one, they are mostly compatible. errors can be found later.
 resolved_manually_for_merge <- resolved_manually[,.SD[1],.(place_for_edits,publication_place_control)]
 
@@ -298,9 +315,10 @@ need_resolving5 <- need_resolving4[!add_some_estonian_locations,on=c("place_for_
   
 #fwrite(need_resolving4,"data/need_resolving_geo2.tsv",sep="\t") #find match in authority file.
 # save these ones together too here.
+```
 
 
-
+```{r harmonize with geoinfo,echo=F,warning=F,include=F}
 #rbind(authority_input,resolved_manually_for_merge)
 authority_input <- rbind(matching_places,est_preferred_places,resolved_manually_for_merge,add_some_estonian_locations,fill=T)
 authority_input[,lat:=round(round(lat,2)*5,1)/5][,lon:=round(round(lon,2)*5,1)/5]
@@ -327,27 +345,45 @@ authority_updated <- merge(authority_updated[,-c("preferred_name","new_lat","new
 diffs_more <- unique(authority_updated[!is.na(lat),.(N=sum(N,na.rm=T)),.(harm_name,lat,lon)])[order(harm_name)][,diff_prev:=abs(lat-shift(lat))+abs(lon-shift(lon))][,prev_name:=shift(harm_name)][,prev_lat:=shift(lat)][,prev_lon:=shift(lon)][,prev_N:=shift(N)]
 subs <- diffs_more[diff_prev<0.1][prev_N>N,preferred_name:=prev_name][!prev_N>N,preferred_name:=harm_name][,new_lat:=prev_lat][,new_lon:=prev_lon]
 authority_updated <- merge(authority_updated[,-c("preferred_name","new_lat","new_lon")],subs[!is.na(harm_name),-c("N","lat","lon")],by="harm_name",all.x=T)[!is.na(new_lat),lat:=new_lat][!is.na(new_lon),lon:=new_lon][!is.na(preferred_name),harm_name:=preferred_name]
+```
 
 
-
-
+```{r main outputs,echo=F,warning=F,include=F}
 works4 <- merge(works3,unique(authority_updated[,.(harm_name,place_for_edits)]),by.x="place_for_edits2",by.y="place_for_edits",all.x=T)
 works4_geo <- merge(works4,unique(authority_updated[!is.na(lat),.(harm_name,lat,lon)]),by.x="harm_name",by.y="harm_name",all.x=T)
 
 tartu_variants <- works4[harm_name=="Tartu",.N,.(harm_name,place_unlist)][order(-N)]
 tartu_variants[,.(sum(N))]
-fwrite(tartu_variants,"../reports/tartu_variants.tsv",sep="\t")
+#fwrite(tartu_variants,"../reports/testsets/testset_tartu_variants.tsv",sep="\t")
 
 harm_names <- unique(works4[,.(harm_name,place_for_edits,place_unlist)])
-harm_locations <- unique(works4_geo[!is.na(lat),.(harm_name,lat,lon)])
+harm_locations <- unique(works4_geo[!duplicated(place_unlist)][!is.na(lat),.(harm_name,lat,lon)])
 
 #est_preferred_where_possible[publication_place_control!="er"]
 
 #sort(c("Ярославль","Jaroslav"))
-#fwrite(harm_names[order(harm_name)][,.(place_original=place_unlist,place_harmonized=harm_name)],"data/authority_input_place_harmonized.tsv",sep="\t")
-#fwrite(harm_locations[,.(place_harmonized=harm_name,lat,lon)],"data/authority_input_place_geotagged.tsv",sep="\t")
 
-#fwrite(harm_names,"data/authority_input_manufacture.tsv",sep="\t")
+places_harmonized_new <- harm_names[order(harm_name)][,.(place_original=place_unlist,place_harmonized=harm_name)][!duplicated(place_original)]
+places_geotagged_new <- harm_locations[,.(place_harmonized=harm_name,lat,lon)]
+
+fwrite(places_harmonized_new,"../config//places/places_harmonized_new.tsv",sep="\t")
+fwrite(places_geotagged_new,"../config/places/places_geotagged_new.tsv",sep="\t")
+
+# 
+# places_harmonized_old <- fread("../config//places/places_harmonized.tsv",sep="\t")
+# places_geotagged_old <- fread("../config//places/places_coordinates.tsv",sep="\t")
+# 
+# places_geotagged_old[,uniqueN(place_harmonized)]
+# places_geotagged_new[,uniqueN(place_harmonized)]
+# 
+# 
+# check <- merge(harm_names[order(harm_name)][,.(place_original=place_unlist,place_harmonized=harm_name)],places_harmonized_old,by="place_original",all=T)
+# check2 <- check[place_harmonized.x!=place_harmonized.y]
+# 
+# check3 <- merge(check2,places_geotagged_new,by.x="place_harmonized.x",by.y="place_harmonized",all.x=T)
+# check4 <- merge(check3,places_geotagged_old,by.x="place_harmonized.y",by.y="place_harmonized",all.x=T)
+
+#fwrite(harm_names,"config/places/authority_input_places.tsv",sep="\t")
 #fwrite(harm_locations,"data/authority_input_geo.tsv",sep="\t")
 
 
@@ -373,7 +409,10 @@ works4_geo <- merge(works4,harm_locations,by.x="harm_name",by.y="harm_name",all.
 
 more_exceptions <- works4_geo[is.na(lat)][,.N,.(place_for_edits)]
 #fwrite(more_exceptions,"data/more_exceptions.tsv",sep="\t")
+```
 
+
+```{r testsets,echo=F,warning=F,include=F}
 library("rnaturalearth")
 library(sf)
 world <- ne_countries(scale = "medium", returnclass = "sf")
@@ -416,32 +455,8 @@ works4[place_unlist=="Novi Sad"]
 
 works[id=="b13096497"]
 
-checked_places <- fread("../reports/sample_places_checked.tsv",sep="\t")
-checked_places[,.N/2,true_place]
-
-#cluster_similarity <- fread("../reports/viljandi_clusters_similarity07.tsv",sep="\t")
-#cluster_similarity[,N:=.N,groups]
-#cluster_similarity[N>1]
-#fwrite(cluster_similarity[N>1],"data/cluster_similarity_check.tsv",sep="\t")
-cluster_similarity_checked <- fread("../reports/cluster_similarity_checked.tsv",sep="\t")
-cluster_similarity_checked[standardizing_name==groups,useful_link:=NA]
-cluster_similarity_checked[,.N,useful_link]
-all_publishers <- fread("data/all_publishers5.tsv",sep="\t")
-only_rulebased <- merge(all_publishers[harm_name=="Viljandi"],cluster_similarity_checked,by="standardizing_name")[,.(publisher_unlist,standardizing_name)]
-only_rulebased[,N:=.N,standardizing_name]
-check_rulebased <- unique(only_rulebased[N>1])
-#fwrite(check_rulebased,"data/rulebased_check.tsv",sep="\t")
-#cluster_similarity_checked <- fread("data/cluster_similarity_checked.tsv",sep="\t")
-rulebased_checked <- fread("../reports/rulebased_checked.tsv",sep="\t")
-rulebased_checked[, selflink := rowid(standardizing_name)==1]
-rulebased_checked[selflink!=T,.N,useful_link]
-
-both_methods <- merge(all_publishers[harm_name=="Viljandi"],cluster_similarity_checked,by="standardizing_name")[,.(publisher_unlist,standardizing_name,groups,useful_link)]
-both_methods2 <- merge(both_methods,rulebased_checked,by=c("standardizing_name","publisher_unlist"),all=T)
-
-fwrite(both_methods2[order(groups)],"../reports/publishers_harmonize_both_methods_summary.tsv",sep="\t")
-
-all_publishers[harm_name=="Viljandi"][,uniqueN(publisher_unlist)]
+checked_places <- fread("../reports/testsets/testset_places_checked.tsv",sep="\t")
+checked_places[,.N/2,true_place][true_place=="T"][,V1]
 
 works4[is.na(harm_name)][,uniqueN(id)]
 works4[is.na(harm_name)&!is.na(place_for_edits)][,uniqueN(id)]
@@ -456,14 +471,17 @@ works_harmonized <- works4[,.(id,place=place_unlist,harm_name)]
 #fwrite(works_harmonized,"data/works_harmonized_place.tsv",sep="\t")
 
 works4[is.na(harm_name)&!is.na(place_for_edits)]
-mappings <- unique(works4[,.(harm_name,place_unlist)])[!is.na(harm_name)]
+mappings <- unique(works4[,.(harm_name,place_unlist)][!duplicated(place_unlist)])[!is.na(harm_name)]
 
 
 
 #4707 varianti.
 #2368 harmoniseeritud nime.
 #2368 asuplace_for_editsa
+```
 
+
+```{r interactive plots,echo=F,warning=F,include=F}
 library(networkD3)
 
 # create a dataset:
@@ -477,7 +495,7 @@ p <- simpleNetwork(data, height="1000px", width="1000px",zoom=T)
 #save the widget
 #
 library(htmlwidgets)
-saveWidget(p, file=paste0( getwd(), "../reports/networkInteractive.html"))
+saveWidget(p, file=paste0( getwd(), "/../reports/interactive_plots/places_harmonized_network.html"))
 
 
 # Tartoh
@@ -506,8 +524,30 @@ plot1 <- ggplot(data = world) +
 
 library(htmlwidgets)
 library(plotly)
-saveWidget(ggplotly(plot1), file=paste0( getwd(), "../reports/all_locations_on_map.html"))
+saveWidget(ggplotly(plot1), file=paste0( getwd(), "/../reports/interactive_plots/places_on_map.html"))
+
+all_places[,uniqueN(place_unlist)]
+all_places[,uniqueN(place_for_edits)]
+mappings[,uniqueN(place_unlist)]
+mappings[,uniqueN(harm_name)]
+
+nrow(places_rules)
 
 
+compare_methods3[,uniqueN(place_for_edits)]
+compare_methods3[!is.na(geonames_lat),uniqueN(place_for_edits)] 
+compare_methods3[!is.na(google_lat),uniqueN(place_for_edits)] 
+compare_methods3[!is.na(arcgis_lat),uniqueN(place_for_edits)] 
+compare_methods3[!is.na(V5),uniqueN(place_for_edits)] 
+compare_methods3[!is.na(publication_place_control),uniqueN(place_for_edits)] 
+
+compare_methods3[diff<0.2,uniqueN(place_for_edits)]
+compare_methods3[diff>=0.2,uniqueN(place_for_edits)]
+scales::comma(works4_geo[!is.na(lat)][,uniqueN(id)])
 ```
+
+
+In all, there were `r all_places[,uniqueN(place_unlist)]` place name variants in the dataset. We harmonized  `r mappings[,uniqueN(place_unlist)]` of these variants to match `r mappings[,uniqueN(harm_name)]` harmonized placenames, while applying `r nrow(places_rules)` rules and exceptions based on regular expressions and variant matches to clean the dataset. After applying these methods, there were a total of `r all_places[,uniqueN(place_for_edits)]` unique placenames in the dataset. `r compare_methods3[!is.na(arcgis_lat),uniqueN(place_for_edits)]` of them could be geocoded with ArcGIS, `compare_methods3[!is.na(google_lat),uniqueN(place_for_edits)] ` of them with Google, `r compare_methods3[!is.na(geonames_lat),uniqueN(place_for_edits)] ` of them with Geonames, and `r compare_methods3[!is.na(V5),uniqueN(place_for_edits)] ` in working with a local copy of Geonames with historical placenames. `r compare_methods3[diff<0.2,uniqueN(place_for_edits)]`had all the acquired coordinates within approximately 20 km from within each other and were considered non-conflicting matches. `r compare_methods3[diff>=0.2,uniqueN(place_for_edits)]` placenames showed bigger differences. In this case, if any of the placenames were in or near Estonia, they were preferred, providing a solution for `r est_places[,uniqueN(place_for_edits)]` places with no conflicts on coordinates in Estonia. Of these, `r need_resolving2[,uniqueN(place_for_edits)]` conflicting placenames were then resolved manually, in preferring the geographic match that was in or nearby the area marked in the MARC data format. `r need_resolving5[,uniqueN(place_for_edits)]` placenames could not be reasonably resolved to particular coordinates with this method. Through the process `r works4[harm_name!=place_unlist][,uniqueN(id)]` books were given a new name that was either cleaned up or grouped together with other name variants.
+
+As a result, `r works4_geo[!is.na(lat)][,.N,.(place_unlist)][,.N]` unique placenames in the dataset have been given coordinates, providing a coordinate for `r scales::percent(works4_geo[!is.na(lat)][,uniqueN(id)]/works4_geo[,uniqueN(id)],3)` of the books (n = `r scales::comma(works4_geo[!is.na(lat)][,uniqueN(id)])`), `r need_resolving5[,uniqueN(place_for_edits)]` placenames there have not been resolved, and `r works3[order(-place_for_edits),.SD[1],id][place_for_edits=="",uniqueN(id)]` books in the dataset do not include information on the place of publication. The harmonization and linking of the places of publication is likely to contain some errors, but a manual verification showed the results to be reasonably accurate ( `r checked_places[,.N/2,true_place][true_place=="T"][,V1]` % of 200 randomly selected placenames showed accurate coordinates).  
 

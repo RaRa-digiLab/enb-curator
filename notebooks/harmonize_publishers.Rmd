@@ -1,5 +1,5 @@
 ---
-title: "Metadata from ENB"
+title: "Harmonizing publisher names"
 output:
   pdf_document:
     latex_engine: xelatex
@@ -8,18 +8,24 @@ output:
     self_contained: no
 editor_options:
   chunk_output_type: console
+knit: (function(input, ...) {
+    rmarkdown::render(
+      input,
+      output_dir = "../reports"
+    )
+  })
 ---
 
-# Overview of the dataset
+# Harmonizing publisher names
 
-Last data file 08-10-2024, last updated processing 08-10-2024.
+Last data file 08-10-2024, last updated processing 16-01-2025.
 
-```{r setup,echo=F}
-knitr::opts_knit$set(root.dir = rprojroot::find_rstudio_root_file())
+```{r setup,echo=F,include =F}
+#knitr::opts_knit$set(root.dir = rprojroot::find_rstudio_root_file())
 ```
 
 
-```{r}
+```{r,include = F}
 
 
 
@@ -28,10 +34,10 @@ library(tidyverse)
 library(nanoparquet)
 library(stringdist)
 
-works_parq <- nanoparquet::read_parquet("~/Downloads/erb_all_books.parquet")
+works_parq <- nanoparquet::read_parquet("../data/curated/enb_all_books.parquet")
 works <-  setDT(works_parq)
 
-places_harmonized <- fread("data/authority_input_place_harmonized.tsv",sep="\t")
+places_harmonized <- fread("../config/places/places_harmonized.tsv",sep="\t")
 
 works4 <- merge(works,places_harmonized,by.x="publication_place",by.y="place_original",all.x=T)
 
@@ -62,14 +68,14 @@ works5 <- merge(works4,unlist_publishers, by="id")
 #works4[,publisher_unlist:=str_replace_all(publisher_unlist,'""+','"')]
 publishers <- unique(works5[,.N,.(publisher_unlist,publication_date_cleaned,place_harmonized)][,n_works:=sum(N,na.rm=T),publisher_unlist][,years_publisher:=.N,publisher_unlist][years_publisher>10,big_pub:=T][,min_time:=min(publication_date_cleaned,na.rm=T),publisher_unlist][,max_time:=max(publication_date_cleaned,na.rm=T),publisher_unlist][order(publisher_unlist,-years_publisher)][publisher_unlist!=""][,-c("publication_date_cleaned","N")])
 
-?amatch
-stringdist("Treufeldt",list(publishers[str_detect(publisher_unlist,"Treufeldt"),publisher_unlist][1]),method="jw")
+#?amatch
+#stringdist("Treufeldt",list(publishers[str_detect(publisher_unlist,"Treufeldt"),publisher_unlist][1]),method="jw")
 #J. Treufeldt Kuressaare
 #J. Treufeldt & A. Kallus Kuressaare
 #J. Treufeldt ja A. Kallus Kuressaare
 #J. Treufeldt ja A. Kallus Kuresaare [i.e. Kuressaare
 #J. Treufeldt'i & Kallus'e trükk Kuressaare
-try <- publishers[str_detect(publisher_unlist,"Treufeldt"),CJ(V1=publisher_unlist,V2=publisher_unlist)][,dist:=stringdist(V1,V2,method="jw")]
+#try <- publishers[str_detect(publisher_unlist,"Treufeldt"),CJ(V1=publisher_unlist,V2=publisher_unlist)][,dist:=stringdist(V1,V2,method="jw")]
 
 #with person-names, small errors can be just different initial, which still makes it a different publisher.
 
@@ -91,13 +97,17 @@ publishers[,standardizing_name:=str_replace(standardizing_name,":$","")]
 publishers[,standardizing_name:=str_replace(standardizing_name,";$","")]
 publishers[,standardizing_name:=trimws(standardizing_name)]
 
-rules <- fread("data/harmonize_publisher_rules.tsv",sep="\t",strip.white=F,quote="")
-rules[,find_this:=str_replace(find_this,"\\\\","\\")]
+#rules <- fread("../config/publishers/publisher_harmonize_rules.tsv",sep="\t",strip.white=F,quote="")
+#rules[,find_this:=str_replace_all(find_this,"\\\\{2}","\\\\")]
+rules <- fread("../config/publishers/harmonize_publisher_rules.tsv",sep="\t",strip.white=F,quote="")
+rules[,find_this:=str_replace_all(find_this,"\\\\{2}","\\\\")]
+#rules <- data.table(rules)
 
 rules[type=="exact"][,uniqueN(find_this)]
 merged <- merge(publishers,rules[type=="exact"],by.x="standardizing_name",by.y="find_this",all.x=T)
 merged[type=="exact",standardizing_name:=replace_with]
 #12459 sellega veidi paremaks
+
 
 regexes <- rules[type=="regex_replace"]
 #merged[str_detect(standardizing_name,"noor eesti")]
@@ -114,11 +124,18 @@ regexes_partial <- rules[type=="regex_partial"]
 #i <- 45
 #merged[str_detect(standardizing_name,regexes[i,find_this])]
 for (i in 1:nrow(regexes_partial)){
+ # print(i)
+#  print(regexes_partial[i,find_this])
   merged[str_detect(standardizing_name,regexes_partial[i,find_this]),replace_with:=str_replace(standardizing_name,regexes_partial[i,find_this],regexes_partial[i,replace_with])]
   merged[str_detect(standardizing_name,regexes_partial[i,find_this]),type:="regex_partial"]
   merged[!is.na(replace_with),standardizing_name:=replace_with]
   merged[,standardizing_name:=trimws(standardizing_name)]
+#  print(merged[str_detect(standardizing_name,"a.j.kure")][,.(standardizing_name)])
+
 }
+
+
+#merged[str_detect(standardizing_name,"[ʹ`']s$")]
 
 
 merged[str_detect(standardizing_name,"\\'$"),standardizing_name:=str_replace(standardizing_name,"\\'$","")]
@@ -136,6 +153,11 @@ merged[n_sum>100,big_pub2:=n_sum>100,standardizing_name]
 
 #12910 types simplified.
 
+
+#merged[,.(N=uniqueN(publisher_unlist)),standardizing_name][N>1]
+#merged[,.(N=uniqueN(publisher_unlist)),standardizing_name][N>1][,sum(N)]
+#2000 > 10 times
+
 merged[!str_detect(standardizing_name,"\\p{Cyrillic}"),uniqueN(publisher_unlist)]
 merged[!str_detect(standardizing_name,"\\p{Cyrillic}"),uniqueN(standardizing_name)]
 merged[!str_detect(standardizing_name,"\\p{Cyrillic}"),.N,standardizing_name][N>1][,sum(N)]
@@ -146,7 +168,87 @@ merged[,standardizing_name:=substr(standardizing_name,0,50)]
 merged[,publisher_unlist:=substr(publisher_unlist,0,50)]
 
 
-fwrite(merged[order(place_harmonized,standardizing_name)],"data/all_publishers6.tsv",sep="\t")
+publisher_clusters <- fread("../config/publishers/publisher_similarity_groups.tsv",sep="\t",strip.white = F)
+
+
+#publisher_clusters[,uniqueN(standardizing_name)]
+#publisher_clusters[,uniqueN(similarity_group)]
+
+
+#all_publishers_v0 <- fread("../config/publishers/all_publishers5.tsv",sep="\t")
+#all_publishers_v0[,uniqueN(standardizing_name)]
+
+#all_publishers_v0[,uniqueN(publisher_unlist)]
+#all_publishers_v0[,uniqueN(standardizing_name)]
+#bothmethods <- unique(merge(unique(all_publishers_v0[,.(standardizing_name,publisher_unlist)]),publisher_clusters[,.(standardizing_name,similarity_group)],by.x=c("standardizing_name"),by.y=c("standardizing_name"),all=T))
+#see <- bothmethods[is.na(publisher_unlist)]
+
+#check <- unique(merge(unique(all_publishers_v0[,.(standardizing_name,publisher_unlist)]),unique(merged[,.(standardizing_name,publisher_unlist)]),by.x=c("publisher_unlist"),by.y=c("publisher_unlist")),all=T)
+#see <- check[standardizing_name.x!=standardizing_name.y]
+
+
+
+#places_v0 <- fread("../config/places/places_harmonized.tsv",sep="\t")
+#merged[str_detect(standardizing_name,"эстонское республиканское управление госстандарта")]
+#publisher_clusters[str_detect(standardizing_name,"эстонское республиканское управление госстандарта")]
+bothmethods <- unique(merge(unique(merged[,.(standardizing_name,publisher_unlist)]),publisher_clusters[,.(standardizing_name,similarity_group)],by.x=c("standardizing_name"),by.y=c("standardizing_name"),all=T))
+bothmethods[str_detect(standardizing_name,"эстонское республиканское управление госстандарта")]
+see <- bothmethods[is.na(publisher_unlist)]
+
+bothmethods[,.(uniqueN(publisher_unlist))]
+bothmethods[,.(uniqueN(standardizing_name))]
+bothmethods[is.na(similarity_group),similarity_group:=standardizing_name]
+#/merged
+
+merged[,uniqueN(standardizing_name)]
+23484/34398
+#premerge <- merge(places_v0,publisher_clusters,by.x=c("place_harmonized"),by.y=c("harm_name"),all.x=T)
+
+(100-68.3)-9.6
+
+fwrite(merged[order(place_harmonized,standardizing_name)],"../reports/publishers_overview_rulebased_harmonization.tsv",sep="\t")
+
+
+
+#cluster_similarity <- fread("../reports/viljandi_clusters_similarity07.tsv",sep="\t")
+#cluster_similarity[,N:=.N,groups]
+#cluster_similarity[N>1]
+#fwrite(cluster_similarity[N>1],"data/cluster_similarity_check.tsv",sep="\t")
+cluster_similarity_checked <- fread("../reports/testsets/testset_publishers_cluster_similarity_checked.tsv",sep="\t")
+cluster_similarity_checked[standardizing_name==groups,useful_link:=NA]
+cluster_similarity_checked[,.N,useful_link]
+
+sum(cluster_similarity_checked[,.N,useful_link][!is.na(useful_link)][,N])
+cluster_similarity_checked[,.N,useful_link][!is.na(useful_link)][useful_link=="T",N]
+cluster_similarity_checked[,.N,useful_link][!is.na(useful_link)][useful_link=="F",N]
+
+
+all_publishers <- fread("../reports/publishers_overview_rulebased_harmonization.tsv",sep="\t")
+only_rulebased <- merge(all_publishers[place_harmonized=="Viljandi"],cluster_similarity_checked,by="standardizing_name")[,.(publisher_unlist,standardizing_name)]
+only_rulebased[,N:=.N,standardizing_name]
+check_rulebased <- unique(only_rulebased[N>1])
+#fwrite(check_rulebased,"data/rulebased_check.tsv",sep="\t")
+#cluster_similarity_checked <- fread("data/cluster_similarity_checked.tsv",sep="\t")
+rulebased_checked <- fread("../reports/testsets/testset_publishers_rulebased_checked.tsv",sep="\t")
+rulebased_checked[, selflink := rowid(standardizing_name)==1]
+rulebased_checked[selflink!=T,.N,useful_link][,N]
+
+both_methods <- merge(all_publishers[place_harmonized=="Viljandi"],cluster_similarity_checked,by="standardizing_name")[,.(publisher_unlist,standardizing_name,groups,useful_link)]
+both_methods2 <- merge(both_methods,rulebased_checked,by=c("standardizing_name","publisher_unlist"),all=T)
+
+#fwrite(both_methods2[order(groups)],"../reports/testsets/testset_publishers_harmonize_both_methods_summary.tsv",sep="\t")
+
+all_publishers[place_harmonized=="Viljandi"][,uniqueN(publisher_unlist)]
 
 
 ```
+
+One of the most challenging aspects of data harmonization lies in publishers’ information. Although it holds significant research potential, publisher data is often noisy, with a high degree of variability. Publishers can appear as individuals, organizations, or publishing houses, each with multiple name variations. To harmonize this information, we employed two methods – rule-based and vector similarity-based approaches – and kept the results as separate columns. 
+
+In the rule-based approach, we crafted over 300 regular expressions to standardize publisher names. These patterns handled a range of tasks, such as removing common suffixes (e.g., ‘printing,’ ‘& co.’) and standardizing variants of prominent publishers. This application of rules successfully reduced variance in the publishers column by `r scales::percent((merged[,uniqueN(publisher_unlist)]-merged[,uniqueN(standardizing_name)])/merged[,uniqueN(publisher_unlist)],0.1)`, from `r scales::comma(merged[,uniqueN(publisher_unlist)])` unique entries to `r scales::comma(merged[,uniqueN(standardizing_name)])`. 
+
+For the second approach, we leveraged the rule-harmonized publisher names to create semantic embeddings. Using OpenAI’s text-embedding-3-small model (OpenAI 2023), we generated 1000-dimensional vectors for each name form. We then clustered publishers within each location based on cosine similarity, using harmonized place names as an anchor. Operating under the assumption that many publishers, particularly those contributing to data variability, are active in a single location, we set a relatively low cosine similarity threshold (0.7) to encourage more inclusive clustering. The vector-based grouping brought together similar publisher names in each location, regardless of length or language. This approach further reduced the variance in publishers by an additional `r scales::percent(unlist((merged[,uniqueN(publisher_unlist)]-bothmethods[,.(uniqueN(similarity_group))])/merged[,uniqueN(publisher_unlist)]-(merged[,uniqueN(publisher_unlist)]-merged[,uniqueN(standardizing_name)])/merged[,uniqueN(publisher_unlist)]),0.1)`, leaving `r scales::comma(unlist(bothmethods[,.(uniqueN(similarity_group))]))` unique names or 682% of the original number of unique entries.
+
+
+To evaluate the workflow’s quality, we created a test set focused on one city in Estonia, Viljandi. The rule-based approach proved conservative but accurate, yielding `r rulebased_checked[selflink!=T,.N,useful_link][,N]` correct links and no errors across `r all_publishers[place_harmonized=="Viljandi"][,uniqueN(publisher_unlist)]` publisher names. The vector-based method contributed an additional `r sum(cluster_similarity_checked[,.N,useful_link][!is.na(useful_link)][,N])` links: `r cluster_similarity_checked[,.N,useful_link][!is.na(useful_link)][useful_link=="T",N]` were clearly correct, while `r cluster_similarity_checked[,.N,useful_link][!is.na(useful_link)][useful_link=="F",N]` were ambiguous or incorrect. The ambiguous links typically connected publishers with related meanings but distinct identities (e.g., societies from different professions within the same city). Table 1 shows examples of the links made in either approach. Whether these links are useful will depend on the analyst’s goals; we recommend that users manually review these connections to assess their relevance. 
+

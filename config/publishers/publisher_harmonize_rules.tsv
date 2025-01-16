@@ -265,10 +265,10 @@ egmont latvia	egmont	regex_partial
  meedia$		regex_partial
 nimeline 	nim.	regex_partial
  verlag		regex_partial
-\\[ʹ`']s$		regex_partial
-\\[ʹ`']a$		regex_partial
-\\[ʹ`'].$		regex_partial
-\\[ʹ`'].$		regex_partial
+[ʹ`']s$		regex_partial
+[ʹ`']a$		regex_partial
+[ʹ`'].$		regex_partial
+[ʹ`'].$		regex_partial
  print$		regex_partial
 g.ch.frölich	g.c.frölich	regex_partial
 g.nugasohn	g.nugason	regex_partial
@@ -336,5 +336,4 @@ säästva eesti instituut	säästva eesti instituut	regex_replace
 \\'$		regex_partial
 \\.$		regex_partial
 \\(levitaja\\)		regex_partial
-\\[levitaja\\]		regex_partial
-                          
+\\[levitaja\\]		regex_partial                          
