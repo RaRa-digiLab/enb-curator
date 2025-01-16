@@ -822,6 +822,7 @@ def update_authority_and_df(input_df, strip_prefix=True):
     total=len(missing_entries_df),
     desc="Linking new persons (press Ctrl+C to skip)"
     )
+    interrupted = False
 
     # Iterate through missing entries and update IDs using get_viaf_and_wkp_ids
     for index, row in progress_bar:
@@ -838,6 +839,7 @@ def update_authority_and_df(input_df, strip_prefix=True):
                 new_entries.append({'rara_id': row['id'], 'viaf_id': 'NA', 'wkp_id': 'NA'})
         except KeyboardInterrupt:
             print("VIAF and Wikidata linking: Linking interrupted by user.")
+            interrupted = True
             progress_bar.close()
             break
         except Exception as e:
@@ -847,10 +849,13 @@ def update_authority_and_df(input_df, strip_prefix=True):
     updated_links = links  # Default to existing links in case no successful entries are found
     try:
         if new_entries:
-            new_entries_df = pd.DataFrame(new_entries)
-            updated_links = pd.concat([links, new_entries_df], ignore_index=True).fillna("NA")[['rara_id', 'viaf_id', 'wkp_id']]
-            updated_links.to_csv(persons_links_file_path, sep="\t", index=False, encoding="utf8")
-            print(f"VIAF and Wikidata linking: Successfully linked {len(new_entries)} new persons. Authority file updated.")
+            if interrupted:
+                pass
+            else:
+                new_entries_df = pd.DataFrame(new_entries)
+                updated_links = pd.concat([links, new_entries_df], ignore_index=True).fillna("NA")[['rara_id', 'viaf_id', 'wkp_id']]
+                updated_links.to_csv(persons_links_file_path, sep="\t", index=False, encoding="utf8")
+                print(f"VIAF and Wikidata linking: Successfully linked {len(new_entries)} new persons. Authority file updated.")
         else:
             print("VIAF and Wikidata linking: Linking failed for new persons. Some persons in the dataset will not have VIAF and/or Wikidata links.")
     except Exception as e:
