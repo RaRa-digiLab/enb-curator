@@ -28,8 +28,8 @@ columns_to_keep_file_path = project_root / "config" / "marc_columns_to_keep.json
 column_names_file_path = project_root / "config" / "marc_columns_dict.json"
 column_order_file_path = project_root / "config" / "marc_columns_order.json"
 
-placenames_file_path = project_root / "config" / "placenames" / "placenames_harmonized.tsv"
-coordinates_file_path = project_root / "config" / "placenames" / "placenames_coordinates.tsv"
+placenames_file_path = project_root / "config" / "places" / "places_harmonized.tsv"
+coordinates_file_path = project_root / "config" / "places" / "places_coordinates.tsv"
 persons_links_file_path = project_root / "config" / "persons" / "persons_id_links.tsv"
 persons_gender_file_path = project_root / "config" / "persons" / "persons_gender.tsv"
 publisher_rules_file_path = project_root / "config" / "publishers" / "publisher_harmonize_rules.tsv"
