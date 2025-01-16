@@ -366,8 +366,8 @@ harm_locations <- unique(works4_geo[!duplicated(place_unlist)][!is.na(lat),.(har
 places_harmonized_new <- harm_names[order(harm_name)][,.(place_original=place_unlist,place_harmonized=harm_name)][!duplicated(place_original)]
 places_geotagged_new <- harm_locations[,.(place_harmonized=harm_name,lat,lon)]
 
-fwrite(places_harmonized_new,"../config/places/places_harmonized_new.tsv",sep="\t")
-fwrite(places_geotagged_new,"../config/places/places_geotagged_new.tsv",sep="\t")
+fwrite(places_harmonized_new,"../config/places/places_harmonized.tsv",sep="\t")
+fwrite(places_geotagged_new,"../config/places/places_coordinates.tsv",sep="\t")
 
 # 
 # places_harmonized_old <- fread("../config//places/places_harmonized.tsv",sep="\t")
@@ -705,7 +705,7 @@ need_resolving3<-need_resolving2[,country_revgeo:=map.where(database="world", lo
 #check[,diff_lat:=lat-col2][,diff_lon:=lon-col3][,diff_ctry:=diff_lat+diff_lon]
 #check[order(diff_ctry),.SD[1],by=place_for_edits]
 
-resolved_manually <- fread("../config/places/resolved_manually_geo.tsv",sep="\t")[,resolved:=T]
+resolved_manually <- fread("../config/geoinfo/resolved_manually_geo.tsv",sep="\t")[,resolved:=T]
 #just take the first one, they are mostly compatible. errors can be found later.
 resolved_manually_for_merge <- resolved_manually[,.SD[1],.(place_for_edits,publication_place_control)]
 
