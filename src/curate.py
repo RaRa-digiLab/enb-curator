@@ -873,7 +873,7 @@ def apply_gender_mapping(id_column):
     """Reads external gender data (combined from NLE, VIAF, Wikidata)and applies the mapping to the dataframe."""
     gender_data = pd.read_csv(persons_gender_file_path, sep="\t", encoding="utf8")
     gender_mapping = dict(zip(gender_data["rara_id"], gender_data["gender"]))
-    return df["id"].map(gender_mapping)
+    return id_column.map(gender_mapping)
 
 
 def curate_books(df):
