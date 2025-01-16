@@ -21,6 +21,8 @@ The ENB Curator pipeline is designed for data transformation in three key stages
 
 This pipeline is meant to be reproducible, modular, and scalable. It is possible to adapt it for different bibliographic datasets or extended with new processing modules as needed.
 
+![Flowchart diagram of the pipeline](pipeline.png)
+
 ### Requirements
 - Python 3.8+ (3.9.12 recommended)
 
