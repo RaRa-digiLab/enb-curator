@@ -66,7 +66,9 @@ Subfields a and d of the MARC field 100 are standardized as `Bornhöhe, Eduard (
 
 *str: Gender of the person*
 
-**MARC source**: 375\$a
+**MARC source**: 375\$a (Additionally, the data is enriched via VIAF, linked from `001`)
+
+Enrichment from VIAF is retrieved from the VIAF Authority Cluster endpoint.
 
 ---
 ### name_varform
