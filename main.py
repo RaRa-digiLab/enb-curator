@@ -48,7 +48,7 @@ if __name__ == "__main__":
         # clean and filter the converted dataframe
         print("\nCleaning dataframe")
         df = curate.curate_persons(df)
-        df = curate.organize_columns(df, collection_type="nle_persons")
+        df = curate.organize_columns(df, collection_type="persons")
         df.to_parquet(f"data/curated/{key}.parquet")
 
     else:
