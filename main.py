@@ -9,6 +9,9 @@ if __name__ == "__main__":
     start_time = time.time()
     key = sys.argv[1]
 
+    if key not in collections.keys():
+        raise ValueError(f"Invalid collection: {key}. Valid collections are: {['enb_books'] + list(collections.keys())}")
+
     if key == "enb_books":
         for k in ["enb_estonian_books", "enb_non_estonian_books"]:
             # harvest and save the raw XML file
