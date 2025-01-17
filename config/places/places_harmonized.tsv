@@ -1642,10 +1642,9 @@ Kуремяэ	Kuremäe
 Куремяэ	Kuremäe
 Kurepalu	Kurepalu
 Kurepalus	Kurepalu
-Kuresaar	Kuresaar
-Kuresaar [s.o. Kuressaare	Kuresaar
-Kuresaar [s.o. Kuressaare]	Kuresaar
+Kingisepp	Kuressaare
 Kingissepa	Kuressaare
+Kingissepp	Kuressaare
 Arensburg	Kuressaare
 Arensburg?	Kuressaare
 Kuresaare	Kuressaare
@@ -1670,9 +1669,12 @@ Kuressaari	Kuressaare
 Курессааре	Kuressaare
 Kuressare	Kuressare
 Kurgja	Kurgja
-Kurgja-Linnutaja	Kurgja
+Kurgja-Linnutaja	Kurgja-Linnutaja
 Kuri	Kuri
 Kurista	Kurista
+Kuresaar	Kurresaar
+Kuresaar [s.o. Kuressaare	Kurresaar
+Kuresaar [s.o. Kuressaare]	Kurresaar
 Kuressaare linn	Kurresaar
 Kurresaar	Kurresaar
 Kurtna	Kurtna
@@ -1729,6 +1731,7 @@ Kõinastu	Kõinastu
 Kõlleste	Kõlleste
 Kõmmaste (Harjumaa)	Kõmmaste
 Kõo	Kõo
+Kõpu	Kõpu
 Kõrgessaare	Kõrgessaare
 Kõrgessaare (Hiiumaa)	Kõrgessaare
 Kõrgessaare [Hiiumaa	Kõrgessaare
@@ -1781,6 +1784,7 @@ Lagedi (Harjumaa)	Lagedi
 Lagos	Lagos
 Laguja	Laguja
 Lahavere	Lahavere
+Laheküla	Laheküla
 Lahemaa	Lahemaa
 Lahmuse	Lahmuse
 Lahr	Lahr
@@ -1967,6 +1971,7 @@ Loo ([Harjumaa])	Loo alevik
 Loo alevik	Loo alevik
 Loodi	Loodi
 Loodna	Loodna
+Loona	Loona
 Los Altos (Cal.)	Los Altos
 Berkeley, Los Angeles	Los Angeles
 Los Angeles	Los Angeles
@@ -2148,7 +2153,7 @@ Metsanurme	Metsanurme
 Metsanurme [Harjumaa]	Metsanurme
 Metsaääre	Metsaääre
 Metsaääre (Raplamaa)	Metsaääre
-Metsaääre küla	Metsaääre
+Metsaääre küla	Metsaääre küla
 Metsla	Metsla
 Metsla (Järvamaa)	Metsla
 Metsla küla	Metsla
@@ -2231,6 +2236,8 @@ Mосква	Moscow
 Motala	Motala
 Mt. Pleasant (Mich.)	Mount Pleasant
 Mozhaysk	Mozhaysk
+Liiva	Muhu
+Liiva (Harjumaa)	Muhu
 Hellamaa	Muhu
 Muhu	Muhu
 Muhus	Muhu
@@ -2258,7 +2265,7 @@ Mustjala	Mustjala
 Mustla	Mustla
 Mustla (Viljandimaa)	Mustla
 Mustla [Viljandimaa]	Mustla
-Mustla küla	Mustla
+Mustla küla	Mustla küla
 Mustu	Mustu
 Mustvee	Mustvee
 Mustvee (Jõgevamaa)	Mustvee
@@ -2945,8 +2952,8 @@ Richmond	Richmond
 Richmond (Victoria)	Richmond
 Richmond [USA]	Richmond
 Richmond, Victoria	Richmond, Victoria
-Ridala	Ridala vald
-Ridalas	Ridala vald
+Ridala	Ridala
+Ridalas	Ridala
 Ridala vald	Ridala vald
 RIGA	Riga
 Leipzig-Riga	Riga
@@ -3104,11 +3111,13 @@ Saare (Jõgevamaa)	Saare
 Saare (Läänemaa)	Saare
 Saare [Jõgevamaa]	Saare
 Saare [vald, Kääpa]	Saare
+Saare küla	Saare küla
+Saare küla (Jõgevamaa)	Saare küla
 Saaremaa	Saaremaa
 Saaremaa?	Saaremaa
 Госстрой Эстонской ССР	Saaremaa
 Эзель	Saaremaa
-Saaremaal	Saaremaa
+Saaremaal	Saaremaal
 Saaremetsa	Saaremetsa
 Saarijärvi	Saarijärvi
 Saatse	Saatse
@@ -3434,7 +3443,6 @@ Suure-Jaani	Suure-Jaani
 Suure-Jaani (Viljandimaa)	Suure-Jaani
 Suure-Jaanis	Suure-Jaani
 Suures-Jaanis	Suure-Jaani
-Kõpu	Suure-Kõpu
 Suure-Kõpu	Suure-Kõpu
 Suure-Lähtru [Läänemaa]	Suure-Lähtru
 Suuremetsa	Suuremetsa
@@ -3831,7 +3839,7 @@ Tila	Tila
 Tila (Tartumaa)	Tila
 Tila küla	Tila küla
 Tilga	Tilga
-Tilga küla	Tilga
+Tilga küla	Tilga küla
 Tilgu	Tilgu
 Temesvar	Timişoara
 Tindi (Võrumaa)	Tindi
@@ -4762,8 +4770,6 @@ Kempton [USA]
 Kiliae	
 Kiloni	
 Kiloni[i]	
-Kingisepp	
-Kingissepp	
 Kirchhain N.-L	
 Kiwimäe-Nõmme-Seewald [Tallinn]	
 Klagenfurt am Wörthersee	
@@ -4789,7 +4795,6 @@ LXVII
 Laadjalas [Saaremaa]	
 Laevandus	
 Lagny-sur-Marne	
-Laheküla	
 Lahr/Schwardzwald	
 Langley, B.C	
 Lavergne, TN	
@@ -4800,8 +4805,6 @@ Leeningradis [!]
 Leiptsig	
 Leningraad [!]	
 Lettland	
-Liiva	
-Liiva (Harjumaa)	
 Limbaschos	
 Linnumetsa (Harjumaa)	
 Litauen	
@@ -4812,7 +4815,6 @@ Lohkva, Tartumaa
 ([Lohkva)]	
 Loima	
 Loodus	
-Loona	
 Lunenburg, Vermont	
 Лужицы	
 Luton, Beds	
@@ -4937,8 +4939,6 @@ Russalka (Tallinn)
 Ruudolstattis	
 Rîgâ	
 Rīgõ	
-Saare küla	
-Saare küla (Jõgevamaa)	
 Saaremaa, [Kuressaare]	
 Saksa Demokraatlik Vabariik	
 San Domenica [Italy]	

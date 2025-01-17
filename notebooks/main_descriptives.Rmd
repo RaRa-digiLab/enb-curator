@@ -8,6 +8,12 @@ output:
     self_contained: no
 editor_options:
   chunk_output_type: console
+knit: (function(input, ...) {
+    rmarkdown::render(
+      input,
+      output_dir = "../reports"
+    )
+  })
 ---
 
 # Overview of the dataset
@@ -53,12 +59,35 @@ values[,grouping:=c(rep("General",7),rep("Location",7),rep("Content",7),rep("Phy
 values[,variable_label:=c("ID","Title","Publication date","Contributor(s)","Language","Original language","Edition","Place of publication","Place of publication (coordinates)", "Publisher name", "Publisher name (harmonized)", "Publisher name (grouped)", "Place of manufacture", "Manufacturer", "UDC", "Topic keyword", "Genre keyword", "Geographic keyword", "Corporate keyword", "Person keyword", "Chronological keyword", "Page count", "Physical size", "Typeface", "Print run", "Price", "Access link", "Digitized", "Digitization year", "Copyright status")]
 
 
+# Also add basic data for persons
+works[,creator_or_contributor_content:=paste0(creator,";",contributor)]
+persons <- unique(works[,.(unlist_person=trimws(unlist(str_split(str_remove_all(creator_or_contributor_content,"NA"),";"))))])
+persons[,clean:=trimws(str_remove(unlist_person,"\\[.*"))]
+
+persons2 <- unique(persons[,.(clean)])[order(clean)]
+persons2[,clean:=trimws(str_remove(clean,":.*"))]
+persons2 <- unique(persons2[,.(clean)])[order(clean)]
+persons2[,nchar:=nchar(clean)]
+
+persons_tsv <- fread("~/Downloads/erb3/person.tsv",sep="\t")
+persons_parq <- nanoparquet::read_parquet("~/Downloads/erb3/nle_persons.parquet")
+
+persons1 <-  setDT(persons_parq)
+rm(persons_parq)
+
+persons_all_pseudonyms <- persons1[,.(`100`,`001`,`400$a`)][,all_names:=paste0(`100`,";",`400$a`)]
+all_pseudonyms <- persons_all_pseudonyms[,.(name=trimws(unlist(str_split(all_names,";")))),.(`001`)]
+checkmerge <- merge(persons2[,.(clean,nchar)][clean!=""],all_pseudonyms,by.x="clean",by.y="name",all.x=T,all.y=T)[clean!=""]
+names(checkmerge)[3] <- "id"
+check_viaf_wdata_links <- merge(checkmerge,persons_tsv,by.x="id",by.y="rara_id")
+
+
 ```
 
 The curated Estonian National Bibliography contains information on `r comma(nrow(works))` printed books from `r works[,.(min(publication_date_cleaned,na.rm=T))]`-`r works[,.(max(publication_date_cleaned,na.rm=T))]`. It contains information on the title and variant forms for each work, authors and contributors to most works (n = `r comma(values[variable=="creator_or_contributor",n_available])`), the time of publication (n = `r comma(values[variable=="publication_date",n_available])`), its place of publication (n = `r comma(values[variable=="publication_place",n_available])`), name of the publisher (n = `r comma(values[variable=="publisher",n_available])`), place of manufacture (n = `r comma(values[variable=="manufacturing_place",n_available])`), name of manufacturer (n = `r comma(values[variable=="manufacturer",n_available])`). For known reprints (n = `r comma(values[variable=="edition_statement",n_available])`), information on the first editions is also given where available (n = `r comma(nrow(works[!is.na(original_distribution_year)]))`). The languages of publication are given for almost all works (n = `r comma(values[variable=="language",n_available])`) along with the original language of publication for translated works (n = `r comma(values[variable=="language_original",n_available])`).
 
 The works are marked with content keywords, on the topic (n = `r comma(values[variable=="topic_keyword",n_available])`), genre (n = `r comma(values[variable=="genre_keyword",n_available])`), place (n = `r comma(values[variable=="geographic_keyword",n_available])`), time (n = `r comma(values[variable=="chronological_keyword",n_available])`), organisation (n = `r comma(values[variable=="corporate_keyword",n_available])`), or person (n = `r comma(values[variable=="person_keyword",n_available])`) in focus along with their UDC classifications (n = `r comma(values[variable=="udc",n_available])`). For many books, information on physical parameters is available, including the number of pages (n = `r comma(values[variable=="page_count",n_available])`), their size (n = `r comma(values[variable=="physical_size",n_available])`), print run (n = `r comma(values[variable=="print_run",n_available])`), and typeface (n = `r comma(values[variable=="typeface",n_available])`). The printed price of the book is also sometimes available (n = `r comma(values[variable=="price",n_available])`). If the work is available digitally, being either digitized or digitally born, the access url is given (n = `r comma(values[variable=="access_uri",n_available])`). 
-If the book has been digitized (n = `r comma(values[variable=="digitized_year",n_available])`), then the year of digitization is also given. Where possible, the ISBN code is also given (n = `r comma(values[variable=="isbn",n_available])`), along with their current copyright status (n = `r comma(values[variable=="copyright_status",n_available])`).  
+If the book has been digitized (n = `r comma(values[variable=="digitized_year",n_available])`), then the year of digitization is also given. Where possible, along with their current copyright status (n = `r comma(values[variable=="copyright_status",n_available])`).  
 
 
 There are a total of `r comma(persons[,uniqueN(clean)])` unique author names among the contributors to the books of which `r comma(persons2[str_detect(clean,"[0-9]{4}")][,uniqueN(clean)])` have birth dates. The metadata file on persons with information on `r comma(nrow(persons1))` individuals along with their name, birth and death years, profession, gender, name variations, geographic tag, and other biographical details. Of them most are linked to the VIAF authority entries (n = `r comma(nrow(persons_tsv[!is.na(viaf_id)]))`) and Wikidata entries (n = `r comma(nrow(persons_tsv[!is.na(wkp_id)]))`). From the authors in the books dataset, `r comma(nrow(checkmerge[!is.na(id)&!is.na(nchar)]))` is connected with the metadata entries on the persons and can be complemented with the biographical information available there. From these authors `r  comma(nrow(check_viaf_wdata_links[!is.na(id)&!is.na(nchar)][!is.na(viaf_id)]))` is connected to a VIAF authority entry and `r comma(nrow(check_viaf_wdata_links[!is.na(id)&!is.na(nchar)][!is.na(wkp_id)]))` to a Wikidata entry that can be used to further complement the possibilities for analysis.
