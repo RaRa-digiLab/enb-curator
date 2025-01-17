@@ -117,7 +117,7 @@ values %>%
   ggforce::facet_row(vars(SP), scales = 'free_y', space = 'free')+ 
   ggforce::facet_col(~fct_reorder(grouping,i), scales = 'free_y', space = 'free')
 
-ggsave("../reports/plots/figure1.png",height=6.5,width=6.5,bg="white")
+ggsave("../reports/plots/figure2_data_availability.png",height=6.5,width=6.5,bg="white")
 
 
 

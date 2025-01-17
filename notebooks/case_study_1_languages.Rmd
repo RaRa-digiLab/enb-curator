@@ -86,7 +86,7 @@ p2 <- works[publication_date_cleaned< 2020&publication_date_cleaned>1750][langua
 
 legend <- cowplot::get_plot_component(p2, 'guide-box', return_all = TRUE)[[3]]
 
-ggsave("../reports/plots/figure2.png",cowplot::plot_grid(p1,p2+ theme(legend.position = "none"), legend,ncol=1, rel_heights = c(4.5,4.5,0.5)),width=8,height=6,bg="white")
+ggsave("../reports/plots/figure3_languages_total.png",cowplot::plot_grid(p1,p2+ theme(legend.position = "none"), legend,ncol=1, rel_heights = c(4.5,4.5,0.5)),width=8,height=6,bg="white")
 
 # Second, we create a figure on the top languages in the dataset.
 # We split the data into 3-year intervals to smooth the changes a little bit (despite it being called a decade in the function). 
@@ -125,7 +125,7 @@ p01 <- works_l[,.N,.(language2,decade)][grid,on=c("language2","decade")][is.na(N
 theme(legend.key.size = unit(0.4, "cm"),legend.position="bottom",legend.title=element_blank(),plot.margin = margin(80, 20, 10, 10))+
   guides(fill = guide_legend(nrow = 3))
 
-ggsave("../reports/plots/figure3.png",p01,width=8*1.2,height=6*1.15)
+ggsave("../reports/plots/figure4_languages_share.png",p01,width=8*1.2,height=6*1.15)
 
 
 ```
