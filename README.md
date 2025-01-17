@@ -26,7 +26,7 @@ This pipeline is meant to be reproducible, modular, and scalable. It is possible
 ### Requirements
 - Python 3.8+ (3.9.12 recommended)
 
-### Installation and usage
+### Installation
 1. Clone the repository:
    ```
    git clone https://github.com/RaRa-digiLab/enb-curator.git
@@ -38,22 +38,31 @@ This pipeline is meant to be reproducible, modular, and scalable. It is possible
    pip install -r requirements.txt
    ```
 
-2. Run the pipeline:
+### Usage
+
+#### Running the pipeline
+- For books:
    ```
-   python main.py "enb_books" # or
+   python main.py "enb_books"
+   ```
+- For persons:
+   ```
    python main.py "persons"
    ```
 
-3. Collect the curated, up-to-date dataset from [`./data/curated`](data/curated)
+After a succesful run, you can collect the curated, up-to-date dataset from [`./data/curated`](data/curated).
+The pipeline works with other collections as well (see [`.config/collections.json`](config/collections.json) for all available metadata collections of the National Library of Estonia). However, the curation module currently only supports the books and persons datasets. Other collections can be harvested and converted, but will be curated as if they were books. This can cause some mismatches and suboptimal decisions in the curating process and we recommend reviewing the relevant functions in the curation module to account for them.
 
-### Contributing
+#### Running parts of the pipeline separately
+It is also possible to use just one module of the pipeline (e.g. you want to make changes in the curating script and run it without having do download and convert the dataset again). For example:
+```
+python src/curate.py "enb_books"
+```
 
-We welcome contributions to improve the pipeline and the quality of the curated dataset! There are several ways to get involved:
+### Adapting and contributing
 
-- **Pull requests**: If you're familiar with GitHub, feel free to submit a pull request. If you're unsure how to do this, don't hesitate to reach out to us - we're happy to help!
+If you want to adapt the pipeline to your own dataset, you can try running the existing commands on your data files or an OAI access point. If you want to curate a new part of the ENB (like maps or sheet music), you are free to reuse the code. Feel free to contact us, perhaps we can help.
 
-- **Case-by-case edits**: For smaller changes, such as correcting coordinates or updating mappings, it's easiest to make the changes directly in the relevant files located in the [`./config`](config) directory. This ensures the pipeline uses the correct data in subsequent runs.
+We welcome contributions to improve the pipeline and the quality of the curated dataset! For smaller changes, such as correcting coordinates or updating mappings, it is easiest to make the changes directly in the relevant files located in the [`./config`](config) directory. This ensures the pipeline uses the correct data in subsequent runs.
 
-- **Systematic improvements**: For larger tasks, like refactoring functions or improving regex patterns to handle new edge cases, you can also submit a pull request. 
-
-Your contributions make a big difference - thank you for helping us improve!
+If you're familiar with GitHub, feel free to submit a pull request. If you're unsure how to do this, don't hesitate to reach out to us - we're happy to help!
