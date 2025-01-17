@@ -32,18 +32,10 @@ works_parq <- nanoparquet::read_parquet("../data/curated/enb_all_books.parquet")
 works <-  setDT(works_parq)
 rm(works_parq)
 
-#names(works)
-
-#number of non-nas.
-#works[!is.na(digitized_year),.N,digitized_year][order(-N)][order(-N)][1:30]
-#nrow(works[!is.na(access_uri),.N,access_uri][order(-N)])
-#nrow(works[is_digitized=="TRUE"])
 works[!is.na(contributor)|!is.na(creator),creator_or_contributor:=T]
 
 check <- works[!is.na(edition_statement),.N,.(edition_n)][order(-N)]
 
-#known reprints
-#nrow(works[!is.na(edition_statement)&!str_detect(edition_n,"^1 ")])
 
 nrow(works[!is.na(contributor)|!is.na(creator),creator_or_contributor:=T])
 works[is_digitized==F,is_digitized:=NA]
@@ -61,48 +53,6 @@ values[,grouping:=c(rep("General",7),rep("Location",7),rep("Content",7),rep("Phy
 values[,variable_label:=c("ID","Title","Publication date","Contributor(s)","Language","Original language","Edition","Place of publication","Place of publication (coordinates)", "Publisher name", "Publisher name (harmonized)", "Publisher name (grouped)", "Place of manufacture", "Manufacturer", "UDC", "Topic keyword", "Genre keyword", "Geographic keyword", "Corporate keyword", "Person keyword", "Chronological keyword", "Page count", "Physical size", "Typeface", "Print run", "Price", "Access link", "Digitized", "Digitization year", "Copyright status")]
 
 
-#works[,min(date_entered,na.rm=T)]
-#works[,max(date_entered,na.rm=T)]
-
-works[,creator_or_contributor_content:=paste0(creator,";",contributor)]
-persons <- unique(works[,.(unlist_person=trimws(unlist(str_split(str_remove_all(creator_or_contributor_content,"NA"),";"))))])
-persons[,clean:=trimws(str_remove(unlist_person,"\\[.*"))]
-
-persons2 <- unique(persons[,.(clean)])[order(clean)]
-persons2[,clean:=trimws(str_remove(clean,":.*"))]
-persons2 <- unique(persons2[,.(clean)])[order(clean)]
-#persons2[2,clean]
-#persons2[3,clean]
-#persons2[,uniqueN(clean)]
-#persons2[str_detect(clean,"[0-9]{4}")][,uniqueN(clean)]
-#persons2[,compname:=shift(clean)]
-persons2[,nchar:=nchar(clean)]
-#persons2[,distance:=stringdist::stringdist(clean,shift(clean))]
-#persons2[,distprop:=distance/nchar]
-#dists <- persons2[distance<3&distprop<0.5]
-
-persons_tsv <- fread("~/Downloads/erb3/person.tsv",sep="\t")
-persons_parq <- nanoparquet::read_parquet("~/Downloads/erb3/nle_persons.parquet")
-
-persons1 <-  setDT(persons_parq)
-rm(persons_parq)
-#persons2[str_detect(`100`," $")]
-
-#"Lippus, Johannes (1891-1948)" == "Lippus, Johannes (1891-1948)"
-#nrow(persons1)
-#persons1[str_detect(`100`," $")]
-#nrow(persons1[str_detect(`100`,"[0-9]{4}")])
-
-persons_all_pseudonyms <- persons1[,.(`100`,`001`,`400$a`)][,all_names:=paste0(`100`,";",`400$a`)]
-all_pseudonyms <- persons_all_pseudonyms[,.(name=trimws(unlist(str_split(all_names,";")))),.(`001`)]
-
-
-checkmerge <- merge(persons2[,.(clean,nchar)][clean!=""],all_pseudonyms,by.x="clean",by.y="name",all.x=T,all.y=T)[clean!=""]
-names(checkmerge)[3] <- "id"
-
-check_viaf_wdata_links <- merge(checkmerge,persons_tsv,by.x="id",by.y="rara_id")
-
-
 ```
 
 The curated Estonian National Bibliography contains information on `r comma(nrow(works))` printed books from `r works[,.(min(publication_date_cleaned,na.rm=T))]`-`r works[,.(max(publication_date_cleaned,na.rm=T))]`. It contains information on the title and variant forms for each work, authors and contributors to most works (n = `r comma(values[variable=="creator_or_contributor",n_available])`), the time of publication (n = `r comma(values[variable=="publication_date",n_available])`), its place of publication (n = `r comma(values[variable=="publication_place",n_available])`), name of the publisher (n = `r comma(values[variable=="publisher",n_available])`), place of manufacture (n = `r comma(values[variable=="manufacturing_place",n_available])`), name of manufacturer (n = `r comma(values[variable=="manufacturer",n_available])`). For known reprints (n = `r comma(values[variable=="edition_statement",n_available])`), information on the first editions is also given where available (n = `r comma(nrow(works[!is.na(original_distribution_year)]))`). The languages of publication are given for almost all works (n = `r comma(values[variable=="language",n_available])`) along with the original language of publication for translated works (n = `r comma(values[variable=="language_original",n_available])`).
@@ -115,6 +65,8 @@ There are a total of `r comma(persons[,uniqueN(clean)])` unique author names amo
 
 
 ```{r,echo=F,fig.height=7,fig.width=6}
+
+# An additional comparison is given form Estonian vs non-Estonian works before 1900 as it is explained in the article as an example of varying data quality.
 
 values[,variable_label:=c("ID","Title","Publication date","Contributor(s)","Language","Original language","Edition","Place of publication","Place of publication (coordinates)", "Publisher name", "Publisher name (harmonized)", "Publisher name (grouped)", "Place of manufacture", "Manufacturer", "UDC", "Topic keyword", "Genre keyword", "Geographic keyword", "Corporate keyword", "Person keyword", "Chronological keyword", "Page count", "Physical size", "Typeface", "Print run", "Price", "Access link", "Digitized", "Digitization year", "Copyright status")]
 

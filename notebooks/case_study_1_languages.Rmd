@@ -1,5 +1,5 @@
 ---
-title: "Case study 1"
+title: "Case study 1. Languages in the Estonian National Bibliography"
 output:
   pdf_document:
     latex_engine: xelatex
@@ -14,26 +14,35 @@ editor_options:
 
 
 ```{r}
+
+# The file generates the two figures in case study 1 of the paper.
+
+# Read the packages
 library(data.table)
 library(tidyverse)
 library(nanoparquet)
 options(scipen=9999)
 
+# Read the data file.
 works_parq <- nanoparquet::read_parquet("../data/curated/enb_all_books.parquet")
 works <-  setDT(works_parq)
 rm(works_parq)
+
+# Basic overview of the data file.
 nrow(works)
 works[,.(min(publication_date_cleaned,na.rm=T),max(publication_date_cleaned,na.rm=T))]
 names(works)
 
 
-
+# Color palettes used in the figures.
 cbPalette <- c("#999999", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7")
 cbbPalette <- c("#000000", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7")
 morecolours <- c("#8dd3c7","#ffffb3","#bebada","#fb8072","#80b1d3","#fdb462","#b3de69","#fccde5","#d9d9d9","#bc80bd","#ccebc5","#ffed6f")
+
+# We can count the top languages here.
 works[,.N,language]
 
-#excludes missing languages |is.na(language)
+# Take languages that were not in Estonian or in Estonian. The three works without a language marked are excluded from the graph. We build the figure out of two components to represent different time periods. We also annotate significant time periods and events in the figure.
 p1 <- works[publication_date_cleaned< 1750&publication_date_cleaned>1500][language=="est",set:="Estonian"][language!="est"|is.na(language),set:="Other languages"]%>%
   ggplot(aes(x=publication_date_cleaned,fill=set))+geom_histogram(binwidth=1)+
   theme_bw()+
@@ -73,26 +82,29 @@ p2 <- works[publication_date_cleaned< 2020&publication_date_cleaned>1750][langua
     family= "Helvetica")+
   scale_fill_manual(values=cbPalette[c(2,1)])+
   labs(y="Books (n)",x="Date of publication (y)",fill="")+
-  guides(fill= guide_legend(position = "bottom"))#+
-  #theme(legend.position = "none")
-#p2
-legend <- cowplot::get_plot_component(p2, 'guide-box', return_all = TRUE)[[3]]# + theme(legend.position = 'guide-box-bottom')
+  guides(fill= guide_legend(position = "bottom"))
 
-#cowplot::plot_grid(p1,p2, legend,ncol=1, rel_heights = c(4.5,4.5,0.5))
-#ggsave("plots/blog1.png",cowplot::plot_grid(p1,p2, legend,ncol=1, rel_heights = c(4.5,4.5,0.5)),width=7,height=5,bg="white")
+legend <- cowplot::get_plot_component(p2, 'guide-box', return_all = TRUE)[[3]]
+
 ggsave("../reports/plots/figure2.png",cowplot::plot_grid(p1,p2+ theme(legend.position = "none"), legend,ncol=1, rel_heights = c(4.5,4.5,0.5)),width=8,height=6,bg="white")
 
+# Second, we create a figure on the top languages in the dataset.
+# We split the data into 3-year intervals to smooth the changes a little bit (despite it being called a decade in the function). 
 works[,decade:=floor((publication_date_cleaned)/3)*3]
+# We take the top 10 languges
 main_languages <- works[,.N,language][order(-N)][1:10]
+
+# Give them names.
 main_languages[,language_label:=c("Estonian","Russian","English","German","Latin","Finnish","Swedish","French","Latvian","Lithuanian")]
 works_l <- merge(works,main_languages,by="language",all.x=T)[!is.na(N),language2:=language_label][is.na(N),language2:="Other"]
+# Create a grid for years with zero works in a language
 grid <- works_l[publication_date_cleaned<=2020,CJ(language2=unique(language2),decade=unique(decade))]
-#=publication_date_cleaned
+
+# And create the graph with the data and the grid. We annotate significant events on the graph.
 p01 <- works_l[,.N,.(language2,decade)][grid,on=c("language2","decade")][is.na(N),N:=0][decade>=1600&decade<2020][language2!=""][,prop:=N/sum(N),.(decade)][,lang_in_data:=sum(N),by=language2][,lang_w_n:=paste0(language2, " (n = ",lang_in_data,")")][,lang_w_n:=fct_reorder(lang_w_n,-lang_in_data)] %>%
   ggplot(aes(x=decade,fill=lang_w_n,y=prop))+
   geom_area(position='stack')+# theme_classic()+
   theme_bw()+
- # annotate("text",x=1600,y=1.3,label="Languages in Estonian National Bibliography (1600-2020)",color=cbbPalette[1],hjust=+0.05,size=5)+
       annotate("text",x=1655,y=1.075+0.025,label="National Awakening 1860-1885",color=cbbPalette[1],hjust=0,alpha=0.75)+
     annotate("text",x=1655,y=1.125+0.025,label="World War 1",color=cbbPalette[1],hjust=0,alpha=0.75)+
     annotate("text",x=1655,y=1.175+0.025,label="World War 2",color=cbbPalette[1],hjust=0,alpha=0.75)+
@@ -109,11 +121,10 @@ p01 <- works_l[,.N,.(language2,decade)][grid,on=c("language2","decade")][is.na(N
   coord_cartesian(ylim=c(0,1),clip="off")+
   scale_y_continuous(label=scales::percent)+
   scale_fill_manual(values=c(cbPalette[c(2,8,3:7)],morecolours,cbbPalette,morecolours),name="")+
-  labs(y="Share of language (%)",x="Date of publication (y)")+#,subtitle=paste0("Keel (n = ",nrow(works2[!is.na(langauto5)]),")"))+ #title="Languages in Estonian National Bibliography (1600-2020)"
+  labs(y="Share of language (%)",x="Date of publication (y)")+
 theme(legend.key.size = unit(0.4, "cm"),legend.position="bottom",legend.title=element_blank(),plot.margin = margin(80, 20, 10, 10))+
-  guides(fill = guide_legend(nrow = 3))#+
- # guides(fill=guide_legend(title.position="top", title.hjust =0.5))
-#p01
+  guides(fill = guide_legend(nrow = 3))
+
 ggsave("../reports/plots/figure3.png",p01,width=8*1.2,height=6*1.15)
 
 

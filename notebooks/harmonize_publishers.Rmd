@@ -26,61 +26,41 @@ Last data file 08-10-2024, last updated processing 16-01-2025.
 
 
 ```{r,include = F}
+# Read the packages
+suppressMessages(library(data.table))
+suppressMessages(library(tidyverse))
+suppressMessages(library(nanoparquet))
+suppressMessages(library(stringdist))
 
 
-
-library(data.table)
-library(tidyverse)
-library(nanoparquet)
-library(stringdist)
-
+# Read the parquet file and convert it into data.table. Remove the parquet instance.
 works_parq <- nanoparquet::read_parquet("../data/curated/enb_all_books.parquet")
 works <-  setDT(works_parq)
+rm(works_parq)
 
+# Read the places harmonized input file.
 places_harmonized <- fread("../config/places/places_harmonized.tsv",sep="\t")
 
+# Connect the data to add harmonized places.
 works4 <- merge(works,places_harmonized,by.x="publication_place",by.y="place_original",all.x=T)
 
-
+# Store the original name of the publisher.
 works4[,publisher_orig:=publisher]
-#works[,koht:=publication_place]
-#und and & are often parts of publisher names
-#works4[,publisher_orig:=str_replace(publisher_orig, " u\\. ", " ; ")]
-#works4[,publisher_orig:=str_replace(publisher_orig, " und ", " ; ")]
-#works4[,publisher_orig:=str_replace(publisher_orig, " & ", " ; ")]
-#comma is sometimes within the name
-#works4[,publisher_orig:=str_replace(publisher_orig, ",", ";")]
-#str_replace("London [etc.]", " \\[etc\\.\\]", "")
+
+# We can remove one addition from the end already.
 works4[,publisher_orig:=str_replace(publisher_orig, ", levitaja", "")]
 
+# Sometimes there are several publishers separated by a semicolon, we make a table with one publisher name per row.
 unlist_publishers <- works4[,.(publisher_unlist=unlist(str_split(publisher_orig,";"))),id][,publisher_unlist:=trimws(publisher_unlist)]
 
-#6597 books have 2 or more publishers
+#Almost 6000 books have 2 or more publishers
 unlist_publishers[,.(.N,publisher_unlist),id][N>1][,uniqueN(id)]
 
-
-#fuzzy=T
+# We add extra information to the list.
 works5 <- merge(works4,unlist_publishers, by="id")
-## new harmonize.
-#works <- fread(cmd="unzip -p data/ENB_works.tsv.zip",sep="\t")
-#works[,kirjastus_orig:=str_replace_all(kirjastus_orig,'""+','"')]
-#publishers <- unique(works[,.(publisher_orig=kirjastus_orig,aeg)][,n_orig:=.N,publisher_orig][n_orig>10,big_pub:=T][,min_time:=min(aeg,na.rm=T),publisher_orig][,max_time:=max(aeg,na.rm=T),publisher_orig][order(publisher_orig,-n_orig)][publisher_orig!=""][,-c("aeg")])
-#works4[,publisher_unlist:=str_replace_all(publisher_unlist,'""+','"')]
 publishers <- unique(works5[,.N,.(publisher_unlist,publication_date_cleaned,place_harmonized)][,n_works:=sum(N,na.rm=T),publisher_unlist][,years_publisher:=.N,publisher_unlist][years_publisher>10,big_pub:=T][,min_time:=min(publication_date_cleaned,na.rm=T),publisher_unlist][,max_time:=max(publication_date_cleaned,na.rm=T),publisher_unlist][order(publisher_unlist,-years_publisher)][publisher_unlist!=""][,-c("publication_date_cleaned","N")])
 
-#?amatch
-#stringdist("Treufeldt",list(publishers[str_detect(publisher_unlist,"Treufeldt"),publisher_unlist][1]),method="jw")
-#J. Treufeldt Kuressaare
-#J. Treufeldt & A. Kallus Kuressaare
-#J. Treufeldt ja A. Kallus Kuressaare
-#J. Treufeldt ja A. Kallus Kuresaare [i.e. Kuressaare
-#J. Treufeldt'i & Kallus'e trükk Kuressaare
-#try <- publishers[str_detect(publisher_unlist,"Treufeldt"),CJ(V1=publisher_unlist,V2=publisher_unlist)][,dist:=stringdist(V1,V2,method="jw")]
-
-#with person-names, small errors can be just different initial, which still makes it a different publisher.
-
-
-
+# And start with rules to clean up the publisher names. We create a column standardizing_name to work with and update.
 publishers[,standardizing_name:=publisher_unlist]
 publishers[,standardizing_name:=str_replace_all(standardizing_name,'""+','"')]
 publishers[,standardizing_name:=str_replace_all(standardizing_name,",","")]
@@ -97,123 +77,85 @@ publishers[,standardizing_name:=str_replace(standardizing_name,":$","")]
 publishers[,standardizing_name:=str_replace(standardizing_name,";$","")]
 publishers[,standardizing_name:=trimws(standardizing_name)]
 
-#rules <- fread("../config/publishers/publisher_harmonize_rules.tsv",sep="\t",strip.white=F,quote="")
-#rules[,find_this:=str_replace_all(find_this,"\\\\{2}","\\\\")]
-rules <- fread("../config/publishers/harmonize_publisher_rules.tsv",sep="\t",strip.white=F,quote="")
+# We read the rules file. Due to difficulties in storing regular expressions in external files, note that strip.white=F is important here. And after the backslashes that are added automatically in reading the file are converted to a smaller amount of them.
+rules <- fread("../config/publishers/publisher_harmonize_rules.tsv",sep="\t",strip.white=F,quote="")
 rules[,find_this:=str_replace_all(find_this,"\\\\{2}","\\\\")]
-#rules <- data.table(rules)
 
-rules[type=="exact"][,uniqueN(find_this)]
+# We first replace the exact matches
 merged <- merge(publishers,rules[type=="exact"],by.x="standardizing_name",by.y="find_this",all.x=T)
 merged[type=="exact",standardizing_name:=replace_with]
-#12459 sellega veidi paremaks
+#merged[type=="exact"]
 
-
+# Then we take the rules where regular expressions are used to find matches and replace the whole string.
 regexes <- rules[type=="regex_replace"]
-#merged[str_detect(standardizing_name,"noor eesti")]
-#i <- 273
-#merged[str_detect(standardizing_name,regexes[i,find_this])]
 for (i in 1:nrow(regexes)){
   merged[str_detect(standardizing_name,regexes[i,find_this]),replace_with:=regexes[i,replace_with]]
   merged[str_detect(standardizing_name,regexes[i,find_this]),type:="regex_replace"]
   merged[!is.na(replace_with),standardizing_name:=replace_with]
   merged[,standardizing_name:=trimws(standardizing_name)]
 }
+
+# Finally, we take regular expressions that are used to replace only the substring. The sequence by which this operation is done can matter for the final result, since the string can be updated several times.
 regexes_partial <- rules[type=="regex_partial"]
-#merged[str_detect(standardizing_name,"noor eesti")]
-#i <- 45
-#merged[str_detect(standardizing_name,regexes[i,find_this])]
 for (i in 1:nrow(regexes_partial)){
- # print(i)
-#  print(regexes_partial[i,find_this])
   merged[str_detect(standardizing_name,regexes_partial[i,find_this]),replace_with:=str_replace(standardizing_name,regexes_partial[i,find_this],regexes_partial[i,replace_with])]
   merged[str_detect(standardizing_name,regexes_partial[i,find_this]),type:="regex_partial"]
   merged[!is.na(replace_with),standardizing_name:=replace_with]
   merged[,standardizing_name:=trimws(standardizing_name)]
-#  print(merged[str_detect(standardizing_name,"a.j.kure")][,.(standardizing_name)])
-
 }
 
-
-#merged[str_detect(standardizing_name,"[ʹ`']s$")]
-
-
+# Finally, extra punctation is removed from beginning and end of the string.
 merged[str_detect(standardizing_name,"\\'$"),standardizing_name:=str_replace(standardizing_name,"\\'$","")]
 merged[str_detect(standardizing_name,"\\.$"),standardizing_name:=str_replace(standardizing_name,"\\.$","")]
 merged[str_detect(standardizing_name,"^\\("),standardizing_name:=str_replace(standardizing_name,"^\\(","")]
 merged[str_detect(standardizing_name,"\\)$"),standardizing_name:=str_replace(standardizing_name,"\\)$","")]
+
+# For missing publisher names, a unified name 's.n' is given.
 merged[standardizing_name=="",standardizing_name:="s.n"]
 
+# For an overview of the dataset, the standardized publisher names are described by simple statistics.
 merged[,n_types:=.N,standardizing_name]#[N>1][,sum(N)]
 merged[,n_sum:=sum(n_works),standardizing_name]
 merged[n_sum>100,big_pub2:=n_sum>100,standardizing_name]
 
-# kui mitu reeglit korra kehtib siis praegu jääb alles ainult viimane. saaks kontrollida sellega, et juhul kui ühtki asendust veel ei ole, siis kasutada originaali. kui aga asendus juba on, siis teha selle peal.
-
-
-#12910 types simplified.
-
-
-#merged[,.(N=uniqueN(publisher_unlist)),standardizing_name][N>1]
-#merged[,.(N=uniqueN(publisher_unlist)),standardizing_name][N>1][,sum(N)]
-#2000 > 10 times
-
+# Cyrillic names have not beet standardized in the rulebased approach. These are main statistics for non-cyrillic names.
 merged[!str_detect(standardizing_name,"\\p{Cyrillic}"),uniqueN(publisher_unlist)]
 merged[!str_detect(standardizing_name,"\\p{Cyrillic}"),uniqueN(standardizing_name)]
 merged[!str_detect(standardizing_name,"\\p{Cyrillic}"),.N,standardizing_name][N>1][,sum(N)]
-#2000 > 10 times
+
+# There are a number of big publishers here with more than 40 works for the variant name.  An alternative measure is also proposed above for big_pub2 with more than 100 works across the standardized name.
 merged[big_pub==T]
 merged[,count_standardized:=.N,.(standardizing_name,place_harmonized)]
+
+# For simplicity we reduce very long publisher names to their first 50 characters.
 merged[,standardizing_name:=substr(standardizing_name,0,50)]
 merged[,publisher_unlist:=substr(publisher_unlist,0,50)]
 
-
-publisher_clusters <- fread("../config/publishers/publisher_similarity_groups.tsv",sep="\t",strip.white = F)
-
-
-#publisher_clusters[,uniqueN(standardizing_name)]
-#publisher_clusters[,uniqueN(similarity_group)]
-
-
-#all_publishers_v0 <- fread("../config/publishers/all_publishers5.tsv",sep="\t")
-#all_publishers_v0[,uniqueN(standardizing_name)]
-
-#all_publishers_v0[,uniqueN(publisher_unlist)]
-#all_publishers_v0[,uniqueN(standardizing_name)]
-#bothmethods <- unique(merge(unique(all_publishers_v0[,.(standardizing_name,publisher_unlist)]),publisher_clusters[,.(standardizing_name,similarity_group)],by.x=c("standardizing_name"),by.y=c("standardizing_name"),all=T))
-#see <- bothmethods[is.na(publisher_unlist)]
-
-#check <- unique(merge(unique(all_publishers_v0[,.(standardizing_name,publisher_unlist)]),unique(merged[,.(standardizing_name,publisher_unlist)]),by.x=c("publisher_unlist"),by.y=c("publisher_unlist")),all=T)
-#see <- check[standardizing_name.x!=standardizing_name.y]
-
-
-
-#places_v0 <- fread("../config/places/places_harmonized.tsv",sep="\t")
-#merged[str_detect(standardizing_name,"эстонское республиканское управление госстандарта")]
-#publisher_clusters[str_detect(standardizing_name,"эстонское республиканское управление госстандарта")]
-bothmethods <- unique(merge(unique(merged[,.(standardizing_name,publisher_unlist)]),publisher_clusters[,.(standardizing_name,similarity_group)],by.x=c("standardizing_name"),by.y=c("standardizing_name"),all=T))
-bothmethods[str_detect(standardizing_name,"эстонское республиканское управление госстандарта")]
-see <- bothmethods[is.na(publisher_unlist)]
-
-bothmethods[,.(uniqueN(publisher_unlist))]
-bothmethods[,.(uniqueN(standardizing_name))]
-bothmethods[is.na(similarity_group),similarity_group:=standardizing_name]
-#/merged
-
-merged[,uniqueN(standardizing_name)]
-23484/34398
-#premerge <- merge(places_v0,publisher_clusters,by.x=c("place_harmonized"),by.y=c("harm_name"),all.x=T)
-
-(100-68.3)-9.6
-
+# An external table was built on the basis of this that was used for the text embedding approach to look for further similarities between publisher names.
 fwrite(merged[order(place_harmonized,standardizing_name)],"../reports/publishers_overview_rulebased_harmonization.tsv",sep="\t")
 
 
+# The results of the text embedding approach are read in here.
+publisher_clusters <- fread("../config/publishers/publisher_similarity_groups.tsv",sep="\t",strip.white = F)
+bothmethods <- unique(merge(unique(merged[,.(standardizing_name,publisher_unlist)]),publisher_clusters[,.(standardizing_name,similarity_group)],by.x=c("standardizing_name"),by.y=c("standardizing_name"),all=T))
+see <- bothmethods[is.na(publisher_unlist)]
 
+# Some basic statistics on both cases
+bothmethods[,.(uniqueN(publisher_unlist))]
+bothmethods[,.(uniqueN(standardizing_name))]
+(bothmethods[,.(uniqueN(publisher_unlist))]-bothmethods[,.(uniqueN(standardizing_name))])/bothmethods[,.(uniqueN(publisher_unlist))]
+bothmethods[is.na(similarity_group),similarity_group:=standardizing_name]
+bothmethods[,.(uniqueN(similarity_group))]
+merged[,uniqueN(standardizing_name)]
+bothmethods[,.(uniqueN(similarity_group))]/bothmethods[,.(uniqueN(publisher_unlist))]
+1-(bothmethods[,.(uniqueN(similarity_group))]/bothmethods[,.(uniqueN(publisher_unlist))])-((bothmethods[,.(uniqueN(publisher_unlist))]-bothmethods[,.(uniqueN(standardizing_name))])/bothmethods[,.(uniqueN(publisher_unlist))])
+
+# We created a separate testset for the harmonizations in one Estonian city, Viljandi.
 #cluster_similarity <- fread("../reports/viljandi_clusters_similarity07.tsv",sep="\t")
 #cluster_similarity[,N:=.N,groups]
-#cluster_similarity[N>1]
 #fwrite(cluster_similarity[N>1],"data/cluster_similarity_check.tsv",sep="\t")
+
+# They were manually checked for the potential usefulness of the link made. The results are stored in this file.
 cluster_similarity_checked <- fread("../reports/testsets/testset_publishers_cluster_similarity_checked.tsv",sep="\t")
 cluster_similarity_checked[standardizing_name==groups,useful_link:=NA]
 cluster_similarity_checked[,.N,useful_link]
@@ -222,22 +164,24 @@ sum(cluster_similarity_checked[,.N,useful_link][!is.na(useful_link)][,N])
 cluster_similarity_checked[,.N,useful_link][!is.na(useful_link)][useful_link=="T",N]
 cluster_similarity_checked[,.N,useful_link][!is.na(useful_link)][useful_link=="F",N]
 
-
+# Similar check was made for the pure rulebased approach for the publishers from Viljandi
 all_publishers <- fread("../reports/publishers_overview_rulebased_harmonization.tsv",sep="\t")
 only_rulebased <- merge(all_publishers[place_harmonized=="Viljandi"],cluster_similarity_checked,by="standardizing_name")[,.(publisher_unlist,standardizing_name)]
 only_rulebased[,N:=.N,standardizing_name]
 check_rulebased <- unique(only_rulebased[N>1])
 #fwrite(check_rulebased,"data/rulebased_check.tsv",sep="\t")
-#cluster_similarity_checked <- fread("data/cluster_similarity_checked.tsv",sep="\t")
+
+# The results are stored in a separate file
 rulebased_checked <- fread("../reports/testsets/testset_publishers_rulebased_checked.tsv",sep="\t")
 rulebased_checked[, selflink := rowid(standardizing_name)==1]
 rulebased_checked[selflink!=T,.N,useful_link][,N]
 
+# We created a summary table of both results here.
 both_methods <- merge(all_publishers[place_harmonized=="Viljandi"],cluster_similarity_checked,by="standardizing_name")[,.(publisher_unlist,standardizing_name,groups,useful_link)]
 both_methods2 <- merge(both_methods,rulebased_checked,by=c("standardizing_name","publisher_unlist"),all=T)
-
 #fwrite(both_methods2[order(groups)],"../reports/testsets/testset_publishers_harmonize_both_methods_summary.tsv",sep="\t")
 
+# While in the original dataset the number of publisher name variants in the city of Viljandi was 516.
 all_publishers[place_harmonized=="Viljandi"][,uniqueN(publisher_unlist)]
 
 
