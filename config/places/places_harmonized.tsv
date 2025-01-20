@@ -102,7 +102,6 @@ Aneby	Aneby
 Anija	Anija
 Ankara	Ankara
 Ann Arbor	Ann Arbor
-Ann Arbor (Mich.	Ann Arbor
 Ann Arbor (Mich.)	Ann Arbor
 Ann Arbor (USA)	Ann Arbor
 Anna	Anna
@@ -111,6 +110,7 @@ Annandale-on-Hudson, N.Y.	Annandale-on-Hudson, N.Y.
 Annikoru	Annikoru
 Annikoru (Tartumaa)	Annikoru
 Ansbach	Ansbach
+Ansbach?	Ansbach
 Anseküla	Anseküla
 Anseküla [Saaremaa]	Anseküla
 Antequera	Antequera
@@ -127,7 +127,7 @@ Ardu	Ardu
 Ardu [Harjumaa]	Ardu
 Are	Are
 Arendal	Arendal
-Arkhangel’sk	Arkhangel’sk
+Архангельск	Arkhangel’sk
 Arkna	Arkna
 Arles	Arles
 Arlington	Arlington
@@ -153,7 +153,7 @@ Kõrtsialuse	Aseri
 Ашхабад	Ashgabat
 Ащгабат	Ashgabat
 Ashland (Oreg.)	Ashland
-([Askim (Norra)]	Askim
+Askim	Askim
 Askim (Rootsi)	Askim
 Aspach	Aspach
 Assamalla	Assamalla
@@ -201,7 +201,7 @@ Avinurme [Ida-Virumaa]	Avinurme
 Avispea	Avispea
 Avon	Avon
 Backhofenberg	Backhofenberg
-Bad Düben	Bad Düben
+Düben	Bad Düben
 Bad Hersfeld	Bad Hersfeld
 Bad Homburg	Bad Homburg vor der Höhe
 Bad Langensalza	Bad Langensalza
@@ -213,9 +213,10 @@ Badacsonytomaj	Badacsonytomaj
 Badacsonytördemic	Badacsonytördemic
 Baden-Baden	Baden-Baden
 Baku	Baku
+Bakı	Baku
 Баку	Baku
 Бакы	Baku
-Balabanovo	Balabanovo
+Балабаново	Balabanovo
 Балашиха	Balashikha
 Baltimore	Baltimore
 Baltimore (Maryland)	Baltimore
@@ -247,7 +248,6 @@ Beaverton	Beaverton
 Beijing	Beijing
 Peking	Beijing
 Belfast	Belfast
-(Belgia)	Belgia
 Belgia	Belgia
 Belgium	Belgia
 Belgrade	Belgrade
@@ -283,6 +283,7 @@ Berlin-Lichterfelde	Berlin-Lichterfelde
 Bermagui South	Bermagui South
 Bern	Bern
 Bern [etc.]	Bern
+Berne	Bern
 Beromünster	Beromünster
 Berth	Berth
 Bethesda (Md.)	Bethesda
@@ -336,6 +337,7 @@ Boulder	Boulder
 Boulder (Colorado)	Boulder
 Boulder [etc.]	Boulder
 Bournemouth	Bournemouth
+Bovenden	Bovenden bei Göttingen
 Bovenden bei Göttingen	Bovenden bei Göttingen
 Bowling Green (Ohio)	Bowling Green
 Boxholm	Boxholm
@@ -347,8 +349,8 @@ Brampton (Ontario)	Brampton
 Brampton [Kanada]	Brampton
 Bramsche	Bramsche
 Brandenburg	Brandenburg
-Brandenburg (Havel	Brandenburg
 Bratislava	Bratislava
+Pressburg	Bratislava
 Братислава	Bratislava
 Braunschweig	Braunschweig
 Kronstadt	Braşov
@@ -400,8 +402,9 @@ Bulgaaria	Bulgaaria
 [Burbank] (California)	Burbank
 Burgess Hill	Burgess Hill
 Burlington	Burlington
+Burnaby	Burnaby
 Burnaby (Kanada)	Burnaby
-Bussum [Holland]	Bussum
+Bussum	Bussum
 Bydgoszcz	Bydgoszcz
 Böhlau	Böhlau
 Bühl/Baden	Bühl/Baden
@@ -447,20 +450,20 @@ Champaign [etc.]	Champaign
 Charleston	Charleston
 Charleston [USA]	Charleston
 Шупашкар	Cheboksary
-Chekhov	Chekhov
+Чехов	Chekhov
 Челябинск	Chelyabinsk
 Черновцы	Chernivtsi
 Черноголовка	Chernogolovka
 Черноголовка (Моск. обл.)	Chernogolovka
-Chernyakhovsk	Chernyakhovsk
+Insterburg	Chernyakhovsk
 Chester Springs	Chester Springs
 Chester Springs, PA	Chester Springs
 Chicago	Chicago
 Chicago (Ill.)	Chicago
 Chichester, UK	Chichester, UK
-Chililabombwe	Chililabombwe
+Bancroft	Chililabombwe
 China	China
-Chippenham (Great Britain	Chippenham
+Chippenham	Chippenham
 Chisinau	Chisinau
 Chişinău	Chisinau
 Кишинев	Chisinau
@@ -486,12 +489,13 @@ Columbia, Connecticut	Columbia, Connecticut
 Columbia, in the USA	Columbia, in the USA
 Columbus (Ohio)	Columbus
 Commack	Commack
-Concord (New Hampshire	Concord
+Concord	Concord
 Condé-sur-Noireau	Condé-sur-Noireau
 Connecticut	Connecticut
 Copenhagen	Copenhagen
 Copenhague	Copenhagen
 Kiøbenhavn	Copenhagen
+Kjobenhavn	Copenhagen
 Kjøbenhavn	Copenhagen
 Kobenhavn	Copenhagen
 Kopenhaagen	Copenhagen
@@ -528,7 +532,7 @@ Darpatâ	Darpatâ
 Dârpatâ	Darpatâ
 Daugavpils	Daugavpils
 Двинск	Daugavpils
-Dawan	Davan
+Taiwan	Dawan
 DeKalb	DeKalb
 DeKalb (Ill.)	DeKalb
 Debrecen	Debrecen
@@ -545,7 +549,6 @@ Dillenburg	Dillenburg
 Dillenburg (Saksamaa)	Dillenburg
 Dillenburg [Saksamaa]	Dillenburg
 Dinglingen	Dinglingen
-Dinglingen (Baden	Dinglingen
 Djupadal	Djupadal
 Djursholm	Djursholm
 Dnipro	Dnipro
@@ -558,7 +561,7 @@ Don Mills	Don Mills
 Don Mills (Kanada)	Don Mills
 Don Mills, Ont	Don Mills
 Донецк	Donetsk
-Dongguan [Hiina]	Dongguan
+Dongguan	Dongguan
 Dorchester	Dorchester
 Dordrecht	Dordrecht
 Dordrecht [etc.]	Dordrecht
@@ -569,6 +572,7 @@ Dresden	Dresden
 Dresden?	Dresden
 Dresdenis-Fr	Dresden
 Drezden	Dresden
+Дрезден	Dresden
 Duaci	Duaci
 Dubai	Dubai
 Dubais	Dubai
@@ -577,6 +581,7 @@ Dublin	Dublin
 Дубровицы (Моск. обл.)	Dubrovitsy
 Дубровицы (Московская обл.)	Dubrovitsy
 Duisburg	Duisburg
+Duisburg?	Duisburg
 Duluth	Duluth
 Durham (N.C.)	Durham
 Душаньбе	Dushanbe
@@ -589,6 +594,7 @@ Düsseldorf?	Düsseldorf
 Neudamm	Dębno
 EU	EU
 EL-s	EU
+Euroopa	EU
 Euroopas	EU
 Euroopa  Liidus	EU
 Euroopa Liidus	EU
@@ -632,10 +638,10 @@ Eidapere	Eidapere
 Eidapere (Raplamaa)	Eidapere
 Einbi	Einbi
 Eisenach	Eisenach
+Eisleben	Eisleben Lutherstadt
 Eisma	Eisma
 Eistvere küla	Eistvere küla
-Ekenäs [Finland]	Ekenäs
-Tammisaari	Ekenäs
+Ekenäs	Ekenäs
 Elbing	Elbing
 Ellamaa [Harjumaa	Ellamaa
 Elora	Elora
@@ -660,8 +666,6 @@ Erala	Erala
 Erastvere	Erastvere
 Erfordiae	Erfurt
 Erfurt	Erfurt
-Erfurt (SDV	Erfurt
-Erfurt(SDV	Erfurt
 Erlangen	Erlangen
 Erlangen [Deutschland]	Erlangen
 Eru	Eru
@@ -709,12 +713,11 @@ Fort Mitchell	Fort Mitchell
 Fort Wayne (USA)	Fort Wayne
 Franeker	Franeker
 Frankenthal	Frankenthal
+Frankfurt an der Oder	Frankfurt (Oder)
 Frakfurt am Main	Frankfurt am Main
 Franckfurt am Main	Frankfurt am Main
 Franckfurth	Frankfurt am Main
 Frankfurt	Frankfurt am Main
-Frankfurt (Main	Frankfurt am Main
-Frankfurt (Oder	Frankfurt am Main
 Frankfurt (Oder)	Frankfurt am Main
 Frankfurt Am Main	Frankfurt am Main
 Frankfurt Main	Frankfurt am Main
@@ -738,6 +741,7 @@ Fredrikshavn	Frederikshavn
 Freiburg	Freiburg
 Freiburg [etc.]	Freiburg
 Freiburg i. B	Freiburg
+Freiburg im Breisgau	Freiburg
 Freising	Freising
 Fresno, Kalifornia	Fresno, Kalifornia
 Freudenstadt	Freudenstadt
@@ -768,6 +772,7 @@ Gdynia	Gdynia
 Geislingen	Geislingen
 Geislingen (Saksamaa)	Geislingen
 Geislingen (St.)	Geislingen
+Geislingen (Steige	Geislingen
 Geislingen (Steige)	Geislingen
 Geislingen?	Geislingen
 Geislingenis	Geislingen
@@ -778,6 +783,7 @@ Geislingen-Steige [Saksamaa]	Geislingen
 Geislingen/ St.	Geislingen
 Geislingen/St	Geislingen
 Geislingen/Steige	Geislingen
+Geislingen/Stge	Geislingen
 Genova	Genoa
 Gand	Gent
 Gent	Gent
@@ -789,8 +795,7 @@ Genève	Genève
 Genéve	Genève
 Женева	Genève
 George Town	George Town
-Penang (Malaisia	George Town
-Penang [Malaisia]	George Town
+Penang	George Town
 Geretsried	Geretsried
 Geretsriedis	Geretsried
 Germantown	Germantown
@@ -825,7 +830,6 @@ Granville	Granville
 Gratz	Graz
 Graz	Graz
 Great Britain	Great Britain
-(Suurbritannia)	Great Britain
 Suurbritannia	Great Britain
 United Kingdom	Great Britain
 Greenacres, Australia	Greenacres, Australia
@@ -836,16 +840,17 @@ Grodzisk Mazowiecki	Grodzisk Mazowiecki
 Groitzsch	Groitzsch
 Groningen	Groningen
 Groningen [Netherlands]	Groningen
-Groznyy	Groznyy
+Грозный	Groznyy
 Berlin-Grunewald	Grunewald
 Gräfenhainichen	Gräfenhainichen
 Guangzhou	Guangzhou
 Gebweiler	Guebwiller
 Guebwiller	Guebwiller
 Guildford	Guildford
+Guildford [etc.]	Guildford
 Guilford (Conn.)	Guildford
 Guilford, Connecticut	Guilford, Connecticut
-Gusev	Gusev
+Gumbinnen	Gusev
 Gyoma	Gyomaendrőd
 Gyomaendrőd	Gyomaendrőd
 Gyula	Gyula
@@ -866,7 +871,6 @@ In Göttingen	Göttingen
 Gørløse	Gørløse
 Güstrow	Güstrow
 Gütersloh	Gütersloh
-Gütersloh [Saksamaa]	Gütersloh
 Haabneeme	Haabneeme
 Haabneeme (Harju maakond)	Haabneeme
 Haabneeme (Harjumaa)	Haabneeme
@@ -881,6 +885,7 @@ Haapsalus	Haapsalu
 Гапсаль	Haapsalu
 Hapsal	Haapsalu
 Hapsal?	Haapsalu
+Hapsalu	Haapsalu
 Хаапсалу	Haapsalu
 Haarlem	Haarlem
 Haaslava	Haaslava
@@ -902,7 +907,6 @@ Haljala	Haljala
 Haljala (Lääne-Virumaa)	Haljala
 Haljala [Lääne-Virumaa]	Haljala
 Halle	Halle (Saale)
-Halle (Saale	Halle (Saale)
 Halle (Saale)	Halle (Saale)
 Halle?	Halle (Saale)
 Halle a. S	Halle (Saale)
@@ -935,11 +939,14 @@ Hannoverae	Hannover
 Hannover-Döhren	Hannover-Döhren
 Hannover-Dören	Hannover-Döhren
 Hanover-Döhren	Hannover-Döhren
-Hannoversch Münden	Hannoversch Münden
+Hann. Münden	Hannoversch Münden
 Hara küla	Hara küla
 Harbin	Harbin
 Харбин	Harbin
 Harderovici	Harderovici
+Hargi	Hargi
+Horma	Hargi
+Horma (Võrumaa)	Hargi
 Hargla	Hargla
 Harju	Harju
 Harju (Hiiumaa)	Harju
@@ -949,10 +956,10 @@ Harkujärve	Harkujärve
 Harkujärve küla	Harkujärve
 Harmondsworth	Harmondsworth
 Harrisburg (Pa.)	Harrisburg
-Harrow on the Hill	Harrow on the Hill
+Harrow	Harrow on the Hill
 Habana	Havana
 La Habana	Havana
-Haßfurt	Haßfurt
+XXX	Haßfurt
 Hechingen	Hechingen
 Heide	Heide
 Heidelberg	Heidelberg
@@ -962,14 +969,12 @@ Heidenheim	Heidenheim an der Brenz
 Heidenheim an der Brenz	Heidenheim an der Brenz
 Heilbronn	Heilbronn
 In Heilbronn	Heilbronn
-Heiligenbeil Ostpr	Heiligenbeil Ostpr
-Mamonovo	Heiligenbeil Ostpr
 Heiligenstadt	Heiligenstadt
 Heimtali	Heimtali
 Heimtali (Viljandimaa)	Heimtali
 Heinaste	Heinaste
 Heinävesi	Heinävesi
-Heiås	Heiås
+Båstad	Heiås
 Hellenurmes	Hellenurme
 Helmes [Valgamaa]	Helmas
 Helme	Helme
@@ -1022,7 +1027,7 @@ Hindås	Hindås
 España	Hispaania
 Hispaania	Hispaania
 Hispaanias	Hispaania
-Ho	Ho
+No	Ho
 Hoboken (N.J.)	Hoboken
 Hoboken, NJ	Hoboken
 Hoboken, New Jersey	Hoboken
@@ -1043,10 +1048,11 @@ Holyoke	Holyoke
 Homyel'	Homyel'
 Гомель	Homyel'
 Hong Kong	Hong Kong
-Hoorn	Hoorn
+Hongkong	Hong Kong
+Honkong	Hong Kong
+Гонконг	Hong Kong
+Horn	Hoorn
 Жодино	Horad Zhodzina
-Horma	Horma
-Horma (Võrumaa)	Horma
 Horn bei Hamburg	Horn bei Hamburg
 Horneburg	Horneburg
 Houston	Houston
@@ -1072,8 +1078,8 @@ Husum	Husum
 Huuksi	Huuksi
 Hvidovre	Hvidovre
 Hyderabad	Hyderabad
+Hyvinge	Hyvinge
 Hyvinkää	Hyvinge
-Hyvinkää [Soome]	Hyvinge
 Hämeenlinna	Hämeenlinna
 Tavastehus	Hämeenlinna
 Hässleholm	Hässleholm
@@ -1111,9 +1117,7 @@ Tüki	Ilmatsalu
 Tüki (Tartumaa)	Ilmatsalu
 Ilmenau	Ilmenau
 Ilumäe	Ilumäe
-([Imavere (Järvamaa)]	Imavere
 Imavere	Imavere
-Imavere (Järvamaa	Imavere
 Imavere (Järvamaa)	Imavere
 Imavere [Järvamaa	Imavere
 Imavere [Järvamaa]	Imavere
@@ -1158,12 +1162,11 @@ Jackson (New Jersey)	Jackson
 Janakkala	Janakkala
 Jaén	Jaén
 Jefferson, North Carolina	Jefferson, North Carolina
-Jelenia Góra	Jelenia Góra
+Hirschberg	Jelenia Góra
 Jelgava	Jelgava
 Jelgavā	Jelgava
 Jelgawa	Jelgava
 Miitavi	Jelgava
-(Mitau	Jelgava
 Mitau	Jelgava
 Елгава	Jelgava
 Митава	Jelgava
@@ -1172,10 +1175,10 @@ Jena	Jena
 Jenae	Jenae
 Jerusalem	Jerusalem
 Jeruusalemm	Jerusalem
+Yerushalayim	Jerusalem
 Иерусалим	Jerusalem
 Joaveski küla	Joaveski küla
 Joensuu	Joensuu
-Joensuu (Soome	Joensuu
 Johannesburg	Johannesburg
 Jokioinen	Jokioinen
 Jonsered	Jonsered
@@ -1209,6 +1212,7 @@ Järiste küla	Järiste küla
 Järtsaare	Järtsaare
 Järva-Jaani	Järva-Jaani
 Järva-Jaanis	Järva-Jaani
+Järva-Madise	Järva-Madise
 Järva-Madise [Järvamaa	Järva-Madise
 Järvakandi	Järvakandi
 Järvaküla	Järvaküla
@@ -1413,6 +1417,7 @@ Keila?	Keila
 Keilas	Keila
 Кегель	Keila
 Keila linn	Keila
+Кейла	Keila
 Kelvingi	Kelvingi
 Kelvingi (Harjumaa)	Kelvingi
 Кемерово	Kemerovo
@@ -1420,15 +1425,14 @@ Kemi	Kemi
 Kempele	Kempele
 Kempen/Allgäu	Kempen/Allgäu
 Kempten	Kempen/Allgäu
-Kempten (Allgäu)	Kempen/Allgäu
 Kempten/Allgäu	Kempen/Allgäu
 Kent (England)	Kent
 Kent Town	Kent Town
 Kent Town [Australia]	Kent Town
 Kerava	Kerava
 Kernu	Kernu
+Keuru	Keuruu
 Keuruu	Keuruu
-Keuruu [Soome]	Keuruu
 Хабаровск	Khabarovsk
 Charkow	Kharkiv
 Harkiv	Kharkiv
@@ -1484,6 +1488,7 @@ Kirmsi (Põlvamaa)	Kirmsi
 Kirna	Kirna
 Kirov	Kirov
 Вятка	Kirov
+Киров	Kirov
 Kista	Kista
 Kista (Sweden)	Kista
 Kista?	Kista
@@ -1493,6 +1498,7 @@ Kivijärve	Kivijärve
 Kiviõli	Kiviõli
 Кивиыли	Kiviõli
 Klagenfurt	Klagenfurt am Wörthersee
+Klaipeda	Klaipėda
 Klaipėda	Klaipėda
 Memel	Klaipėda
 Kleve	Kleve
@@ -1614,6 +1620,7 @@ Kuivastu küla	Kuivastu
 Kukruse	Kukruse
 Kuku	Kuku
 Kuldre (Võrumaa)	Kuldre
+Goldingen	Kuldīga
 Kuldīga	Kuldīga
 Гольдинген	Kuldīga
 Halliste	Kulla
@@ -1648,6 +1655,7 @@ Kingissepp	Kuressaare
 Arensburg	Kuressaare
 Arensburg?	Kuressaare
 Kuresaare	Kuressaare
+Kuresaare  [s.o. Kuressaare]	Kuressaare
 Kuresaare [i.e. Kuressaare	Kuressaare
 Kuresaare [i.e. Kuressaare]	Kuressaare
 Kuresaare [s.o. Kuressaare	Kuressaare
@@ -1695,6 +1703,7 @@ Kiievis	Kyiv
 Kиïв	Kyiv
 В Киев [etc.]	Kyiv
 Кiув	Kyiv
+Kiiev	Kyiv
 Kyiv	Kyiv
 Кiев	Kyiv
 Киiв	Kyiv
@@ -1741,7 +1750,6 @@ Kõrveküla [Tartumaa]	Kõrveküla
 Kõrvemaa	Kõrvemaa
 Kõrvemetsa [Ida-Virumaa]	Kõrvemetsa
 Colonia	Köln
-(Köln	Köln
 Köln	Köln
 Köln [etc.]	Köln
 Köln-Rodenkirchen	Köln
@@ -1751,6 +1759,7 @@ Königstein im Taunus	Königstein im Taunus
 Königstein in Taunus	Königstein im Taunus
 Köningstein im Taunus	Königstein im Taunus
 Köningsberg	Köningsberg
+Cöthen	Köthen
 Cöthen (Anhalt)	Köthen
 Köthen	Köthen
 Külaküla (Tallinn)	Külaküla
@@ -1758,11 +1767,11 @@ Külitse	Külitse
 Kündja	Kündja
 Kündja (Võrumaa)	Kündja
 Küttejõu	Küttejõu
-Kłodzko	Kłodzko
+Glatz	Kłodzko
 La Laguna	La Laguna
 La Neuville sur Essonne	La Neuville sur Essonne
 La Vergne	La Vergne
-LaVergne (Tenn.	La Vergne
+Lavergne	La Vergne
 Laadi	Laadi
 Laadi (Pärnumaa)	Laadi
 Laadi [Pärnumaa]	Laadi
@@ -1781,7 +1790,7 @@ Laekvere	Laekvere
 Laeva	Laeva
 Lagedi	Lagedi
 Lagedi (Harjumaa)	Lagedi
-Lagos	Lagos
+Logos	Lagos
 Laguja	Laguja
 Lahavere	Lahavere
 Laheküla	Laheküla
@@ -1814,10 +1823,10 @@ Landshut	Landshut
 Langenthal	Langenthal
 Langerma (Pärnumaa)	Langerma
 Langley, B.C.	Langley, B.C.
+Lanham	Lanham
 Lanham (Md.) [etc.]	Lanham
 Lanham [etc.]	Lanham
 Seabrook	Lanham
-Seabrook [USA]	Lanham
 Lappeenranta	Lappeenranta
 Larsmo	Larsmo
 Larvik	Larvik
@@ -1825,7 +1834,6 @@ Lasva	Lasva
 Lasva [Võrumaa]	Lasva
 Latvia	Latvia
 Latvija	Latvia
-(Läti)	Latvia
 Läti	Latvia
 Lätis	Latvia
 Isabella	Lauka
@@ -1840,11 +1848,11 @@ Lavassaare	Lavassaare
 Lavassaare (Pärnumaa)	Lavassaare
 Lavassaare [Pärnumaa]	Lavassaare
 Layerthorpe	Layerthorpe
+York	Layerthorpe
 Le Carteau-Cambresis	Le Carteau-Cambresis
 Lecce	Lecce
 Leeds	Leeds
 Leedu	Leedu
-Leedu [Klaipeda]	Leedu
 Leedus	Leedu
 Leer	Leer
 Leevaku	Leevaku
@@ -1863,9 +1871,7 @@ Leiden	Leiden
 Leiden?	Leiden
 Leie	Leie
 Leina (Pärnumaa)	Leina
-(Leipzig	Leipzig
 Leipzig	Leipzig
-Leipzig (SDV	Leipzig
 Leipzig?	Leipzig
 [Leipzig]	Leipzig
 Lipsiae	Leipzig
@@ -1886,9 +1892,8 @@ Lempäälä	Lempäälä
 Lenningen	Lenningen
 Leppneeme	Leppneeme
 Leppneeme (Harjumaa)	Leppneeme
-Letchworth Garden City	Letchworth Garden City
+Letchworth	Letchworth Garden City
 Leuven	Leuven
-Leuven (Belgique	Leuven
 Lovanii	Leuven
 Leväsjoki	Leväsjoki
 Lewiston [etc.]	Lewiston
@@ -1927,24 +1932,14 @@ Lippstadt	Lippstadt
 Lisboa	Lisbon
 Lissabon	Lisbon
 Liskeard	Liskeard
-([Leck (Saksamaa)]	Liège
-Leck (Saksamaa	Liège
-Leck [Saksamaa]	Liège
+Liu	Liu
+Leck	Liège
 Liège	Liège
 Ljubljana	Ljubljana
 Llangennech	Llangennech
 Lobi	Lobi
 Logroño	Logroño
-(Lohkva	Lohkva
-(Lohkva (Tartumaa)	Lohkva
-([Lohkva (Tartu maakond)]	Lohkva
-([Lohkva (Tartumaa)]	Lohkva
 Lohkva	Lohkva
-Lohkva (Tartumaa	Lohkva
-Lohkva (Tartumaa)	Lohkva
-Lohkva [Tartumaa]	Lohkva
-[Lohkva] (Tartumaa	Lohkva
-]Lohkva	Lohkva
 Lohkva küla	Lohkva
 Lohusalu	Lohusalu
 Lohusalu (Harjumaa)	Lohusalu
@@ -1982,8 +1977,6 @@ Los Angeles?	Los Angeles
 Los Angeles, CA	Los Angeles
 Lossiküla (Valgamaa)	Lossiküla
 Louvain	Louvain
-Louvain  (Belgique	Louvain
-Louvain (Belgique	Louvain
 Loveland	Loveland
 Loveland [USA]	Loveland
 Loveland, Colo	Loveland, Colo
@@ -2012,6 +2005,7 @@ Luua	Luua
 Luua (Jõgevamaa)	Luua
 Luunja	Luunja
 Luunja [Tartumaa]	Luunja
+Luutsniku	Luutsniku
 Luksemburg	Luxembourg
 Luxembourg	Luxembourg
 Luxemburg	Luxembourg
@@ -2020,7 +2014,7 @@ Lvov	Lviv
 Львов	Lviv
 Львів	Lviv
 Lygnern	Lygnern
-Lyubertsy	Lyubertsy
+Люберцы	Lyubertsy
 Lähte	Lähte
 Lähte [Tartumaa]	Lähte
 Lähtse	Lähtse
@@ -2083,6 +2077,8 @@ Pikavere küla	Mallavere
 Mallika	Mallika
 Malmö	Malmö
 Malung	Malung
+Heiligenbeil	Mamonovo
+Heiligenbeil Ostpr	Mamonovo
 Manchester	Manchester
 Manchester [USA]	Manchester
 Manila	Manila
@@ -2110,7 +2106,6 @@ Marl	Marl
 Marrickville	Marrickville
 Marseille	Marseille
 Martin	Martin
-Martin (Tšehhoslovakkia SV	Martin
 Martna	Martna
 Martna [Läänemaa]	Martna
 Masala	Masala
@@ -2186,7 +2181,6 @@ Minsk	Minsk
 Miskolc	Miskolc
 Mission	Mission
 Mississauga	Mississauga
-Mississauga (Ontario	Mississauga
 Mississaugas	Mississauga
 Misso	Misso
 Misso [Võrumaa]	Misso
@@ -2229,13 +2223,12 @@ Moskwa	Moscow
 Moskwas	Moscow
 Moszkva	Moscow
 Mосква	Moscow
-Мовква	Moscow
 Москва	Moscow
 Москва [и т.д.]	Moscow
 Москва?	Moscow
 Motala	Motala
 Mt. Pleasant (Mich.)	Mount Pleasant
-Mozhaysk	Mozhaysk
+Можайск	Mozhaysk
 Liiva	Muhu
 Liiva (Harjumaa)	Muhu
 Hellamaa	Muhu
@@ -2312,8 +2305,8 @@ Nabala	Nabala
 Nairobi	Nairobi
 Naisteväljal	Naisteväljal
 Nancy	Nancy
+Napoli	Naples
 Naruski	Naruski
-(Narva	Narva
 Narva	Narva
 Narva [p.o. Leipzig]	Narva
 Narva?	Narva
@@ -2343,8 +2336,8 @@ Nassau Bay [USA	Nassau Bay
 Nastola	Nastola
 Nasva	Nasva
 Naumburg	Naumburg
-Naumburg (Saale	Naumburg
 Naumburg a. S	Naumburg
+Наумбург	Naumburg
 Navesti	Navesti
 Neckargemünd	Neckargemünd
 Neeme	Neeme
@@ -2356,6 +2349,7 @@ Nela Park	Nela Park
 Nelson (B.C.)	Nelson
 Neubeuern/Inn	Neubeuern/Inn
 Neuhausen-Stuttgart	Neuhausen-Stuttgart
+Berlin-Neukölln	Neukölln
 Neustadt	Neustadt
 Neustadt an der Aisch	Neustadt an der Aisch
 Neutral Bay	Neutral Bay
@@ -2366,7 +2360,7 @@ New Haven, Conn	New Haven
 New Jersey	New Jersey
 New Orleans	New Orleans
 New Orleans (La)	New Orleans
-New Providence	New Providence
+Türgi	New Providence
 Türgis	New Providence
 New Rochelle (N. Y)	New Rochelle
 New Rochelle (N.Y.)	New Rochelle
@@ -2398,12 +2392,14 @@ Niedernhausen	Niedernhausen
 Niesky	Niesky
 Nigula	Nigula
 Niitvälja	Niitvälja
+Gorki	Nizhniy Novgorod
 Nizhniy Novgorod	Nizhniy Novgorod
 Горький	Nizhniy Novgorod
 Феллинн	Nizhniy Novgorod
 Noarootsi	Noarootsi
 Noarootsi [Läänemaa]	Noarootsi
 Norderstedt	Norderstedt
+Norman	Norman
 Norman (Okl.)	Norman
 Norman (Okla.)	Norman
 Norra	Norra
@@ -2420,6 +2416,7 @@ Northampton (Mass.)	Northampton
 Norwalk	Norwalk
 Norwich	Norwich
 Norwich [England]	Norwich
+Notre Dame (Ind.)	Notre Dame
 Novara	Novara
 Novi Ligure	Novi Ligure
 Novi Sad	Novi Sad
@@ -2462,10 +2459,10 @@ Nõva [Läänemaa]	Nõva
 Nördlingen	Nördlingen
 Nüpli küla	Nüpli küla
 Nürnberg	Nürnberg
+ONL	O'Neill
 Oakland	Oakland
 Oakland (California)	Oakland
 Oberhausen	Oberhausen
-(Oberpahlen	Oberpahlen
 ([Oberpahlen	Oberpahlen
 Oberpahlen	Oberpahlen
 Peltsamā	Oberpahlen
@@ -2479,12 +2476,14 @@ Obinitsa küla	Obinitsa
 Обнинск	Obninsk
 Odense	Odense
 Odessa	Odessa
+Одеса	Odessa
 Одесса	Odessa
 Одесса?	Odessa
 Oessaare (Saaremaa)	Oessaare
 Offenbach	Offenbach
 Ogre	Ogre
 Ogre?	Ogre
+Огре	Ogre
 Ohio	Ohio
 Ohtu	Ohtu
 Ohtu (Harjumaa)	Ohtu
@@ -2513,7 +2512,7 @@ Oomiste (Tartumaa)	Oomiste
 Oonurme	Oonurme
 Oonurme [Ida-Virumaa]	Oonurme
 Oostkamp	Oostkamp
-Troppau (Ostsudetenland	Opava
+Opava	Opava
 Opladen	Opladen
 Oranienbaum	Oranienbaum
 Oranienburg	Oranienburg
@@ -2705,11 +2704,13 @@ Pinneberg	Pinneberg
 Pirgu	Pirgu
 Pirgu [Raplamaa]	Pirgu
 Pittsburgh	Pittsburgh
+Pittston (Pa.)	Pittston
 Pleskow	Pleskow
 Пловдив	Plovdiv
 Plymouth	Plymouth
 Plön	Plön
 Poitiers	Poitiers
+Pokrowsk	Pokrovsk
 In Poland	Poland
 Poland	Poland
 Poola	Poland
@@ -2718,7 +2719,7 @@ Poolas	Poland
 Польщi	Poland
 Польща	Poland
 в Польше	Poland
-Polatsk	Polatsk
+Polotsk	Polatsk
 Polen	Polen
 Polli	Polli
 Polli [Viljandimaa]	Polli
@@ -2739,6 +2740,7 @@ Portland (Oregon)	Portland
 Portland (USA)	Portland
 Portland [USA]	Portland
 Portugal	Portugal
+Borga	Porvoo
 Borgå	Porvoo
 Porvoo	Porvoo
 Porvoo [etc.]	Porvoo
@@ -2747,6 +2749,7 @@ Porvoossa	Porvoossa
 Porwoo	Porwoo
 Potsdam	Potsdam
 Posen	Poznań
+Poznan	Poznań
 Poznań	Poznań
 Praaze	Praaze
 Pragi	Pragi
@@ -2802,7 +2805,6 @@ Päinurme	Päinurme
 Päite	Päite
 Pärispea [Harjumaa	Pärispea
 Pärlijõe	Pärlijõe
-([Pärnamäe (Harjumaa)]	Pärnamäe
 Pärnamäe	Pärnamäe
 Pärnamäe (Harjumaa)	Pärnamäe
 Pärnjõe [Pärnumaa]	Pärnjõe
@@ -2835,7 +2837,6 @@ Põhja küla	Põhja küla
 Põlgaste	Põlgaste
 Põlliku	Põlliku
 Põllu küla	Põllu küla
-(Põltsamaa	Põltsamaa
 Põltsamaa	Põltsamaa
 Põltsamaa (Jõgevamaa)	Põltsamaa
 Põltsamaa [Jõgevamaa]	Põltsamaa
@@ -2896,7 +2897,7 @@ Rakwere-Wesenberg	Rakvere
 Wesenberg	Rakvere
 Везенберг	Rakvere
 Раквере	Rakvere
-Ramenskoye	Ramenskoye
+Раменское	Ramenskoye
 Ramsgate	Ramsgate
 Ramsi	Ramsi
 Randers	Randers
@@ -2909,6 +2910,7 @@ Rannamõisa	Rannamõisa
 Rannu	Rannu
 Rapla	Rapla
 Raplas	Rapla
+Рапла	Rapla
 Raplamaa	Raplamaa
 Rapperswil	Rapperswil
 Rassi [Viljandimaa]	Rassi
@@ -2967,10 +2969,13 @@ Riga etc	Riga
 Riga?	Riga
 Rigas	Riga
 [Riga]?	Riga
+Riga : W. F. Häcker	Riga
 Riga-Dorpat	Riga
 Rigæ	Riga
+in Riga	Riga
+zu Riga	Riga
+Rigae	Riga
 Rigā	Riga
-(Riia	Riga
 Ria Linnas	Riga
 Rias	Riga
 Riia	Riga
@@ -2981,12 +2986,13 @@ Riigas	Riga
 Rija linnas	Riga
 Rija-linnas	Riga
 Rijas-Lossis	Riga
+Riika	Riga
 Rija	Riga
 Rijas	Riga
+Ryga	Riga
 Rîga	Riga
 Rīga	Riga
 Rīgā	Riga
-(Рига	Riga
 Рига	Riga
 Рига?	Riga
 Rihga	Rihga
@@ -3014,7 +3020,6 @@ Riverside (Cal.)	Riverside
 Riverwood (N.S.W.)?	Riverwood
 Rixensart	Rixensart
 Riyadh	Riyadh
-Riyadh (Saudi Araabia	Riyadh
 Rochester	Rochester
 Rockville (Maryland)	Rockville
 Rodez	Rodez
@@ -3043,13 +3048,13 @@ Rostock	Rostock
 Rostov-na-Donu	Rostov-na-Donu
 Ростов-На-Дону	Rostov-na-Donu
 Ростов-на-Дону	Rostov-na-Donu
-Rothenburg ob der Tauber	Rothenburg ob der Tauber
+Rothenburg	Rothenburg ob der Tauber
 Rottenburg am Neckar	Rottenburg am Neckar
 Rotterdam	Rotterdam
 Rovaniemi	Rovaniemi
 Rozelle	Rozelle
 Rudkøbing	Rudkøbing
-Rudolfstadt	Rudolfov
+Rudolfov	Rudolfov
 Rudolstadt	Rudolstadt
 Ruhingu	Ruhingu
 Ruhingu (Võrumaa)	Ruhingu
@@ -3090,6 +3095,7 @@ Röhsska	Röhsska
 Rødovre	Rødovre
 Ronne	Rønne
 Rønne	Rønne
+Rezekne	Rēzekne
 Rezekne [Läti]	Rēzekne
 Rēzekne	Rēzekne
 Rēzekne [jne.]	Rēzekne
@@ -3134,6 +3140,7 @@ Saia (Saaremaa)	Saia
 Peterburg	Saint Petersburg
 Peterburis	Saint Petersburg
 Peterburi	Saint Petersburg
+Petersburg	Saint Petersburg
 Petrograd	Saint Petersburg
 Petrogradis	Saint Petersburg
 Pietari	Saint Petersburg
@@ -3151,6 +3158,8 @@ St. Peeterburis	Saint Petersburg
 St. Peterburg	Saint Petersburg
 St. Peterburis	Saint Petersburg
 C.-Петербург	Saint Petersburg
+C.-Петербург?	Saint Petersburg
+Caнкт-Петербург	Saint Petersburg
 Cанкт-Петербург	Saint Petersburg
 Leningrad	Saint Petersburg
 Leningradis	Saint Petersburg
@@ -3166,22 +3175,27 @@ St. Petersburg?	Saint Petersburg
 St. Pétersbourg	Saint Petersburg
 St. Pétersbourg [etc]	Saint Petersburg
 St. Pétersbourg?	Saint Petersburg
+St. Pétersbourg : Imprimerie de l'Académie Impériale des sciences	Saint Petersburg
 St.-Petersburg	Saint Petersburg
 St.-Petersburg [etc.]	Saint Petersburg
 St.Petersburg	Saint Petersburg
 Петербург	Saint Petersburg
+С,-Петербург	Saint Petersburg
+С-Петербург	Saint Petersburg
 С. Петербург	Saint Petersburg
 С.- Петербург	Saint Petersburg
 (С.-Петербург	Saint Petersburg
 С.-Петербург	Saint Petersburg
 С.-Петербург?	Saint Petersburg
+С.-Петербургская губ. тип.	Saint Petersburg
 Санкт Петербург	Saint Petersburg
 Санкт-Петербург	Saint Petersburg
+Санкт-Петербургъ	Saint Petersburg
 СанктПетербургъ	Saint Petersburg
-(St.-Pétersbourg	Saint Petersburg
 St.-Pétersbourg	Saint Petersburg
 St.-Pétersbourg [etc.]	Saint Petersburg
 Ленинград	Saint Petersburg
+Ленинград?	Saint Petersburg
 Петрогад	Saint Petersburg
 Петроград	Saint Petersburg
 Saint-Estève	Saint-Estève
@@ -3205,7 +3219,6 @@ Salme [Saare maakond]	Salme
 Salmistu	Salmistu
 Salmistu (Harjumaa)	Salmistu
 Salo	Salo
-Salo [Soome]	Salo
 Salt Lake City	Salt Lake City
 Saltsjö-Boo	Saltsjö-Boo
 Saltsjöbaden	Saltsjöbaden
@@ -3233,10 +3246,9 @@ Sankt Augustin	Sankt Augustin
 St. Gallen	Sankt Gallen
 Santa Ana	Santa Ana
 Santa Ana (Ameerika Ühendriigid)	Santa Ana
-Santa Ana (Cal.	Santa Ana
 Santa Barbara (California)	Santa Barbara
 Santa Barbara (Kalifornia)	Santa Barbara
-Santa Cruz de Tenerife	Santa Cruz de Tenerife
+Tenerife	Santa Cruz de Tenerife
 Santa Monica (Cal.)	Santa Monica
 Santiago de Chile	Santiago
 Santiago de Compostela	Santiago de Compostela
@@ -3273,13 +3285,13 @@ Schaffhausen	Schaffhausen
 Scheßlitz	Scheßlitz
 Schlesswig	Schlesswig
 Schleswig	Schleswig
-(Schmalkalden	Schmalkalden
 Schmalkalden	Schmalkalden
-Schneverdingen [Deutschland]	Schneverdingen
+Schneverdingen	Schneverdingen
 Schwabach	Schwabach
 Schwarzenbeck	Schwarzenbeck
 Schwarzenbek	Schwarzenbek
 Schwerin	Schwerin
+Schoenberg	Schönberg
 Seaside	Seaside
 Seattle	Seattle
 Seattle (Wash.)	Seattle
@@ -3290,8 +3302,7 @@ Seedrioru (Kanada)	Seedrioru
 Sejny	Sejny
 Seliste	Seliste
 Seljametsa	Seljametsa
-Selters (Taunus	Selters
-Selters (Taunus)	Selters
+Selters	Selters
 Seltjarnarnes	Seltjarnarnes
 Seoul	Seoul
 Soul	Seoul
@@ -3299,13 +3310,13 @@ Serga	Serga
 Serga (Võrumaa)	Serga
 Serga (Võrumaal)	Serga
 Serga [Võrumaa]	Serga
-Sergiyev Posad	Sergiyev Posad
+Сергиев Посад	Sergiyev Posad
 Сергиев Посад [Россия]	Sergiyev Posad
 Setomaa	Setomaa
 Setomaa (Obinitsa)	Setomaa
 Sewickley, Pennsylvania	Sewickley, Pennsylvania
 Shanghai	Shanghai
-Shaoguan [Hiina]	Shaoguan
+Shaoguan	Shaoguan
 Shenzhen	Shenzhen
 Siegen	Siegen
 Sigaste	Sigaste
@@ -3329,11 +3340,11 @@ Simferopol	Simferopol
 Simisti	Simisti
 Simuna	Simuna
 Sindi	Sindi
-Sindi (Pärnumaa	Sindi
 Sindi [Pärnumaa	Sindi
 Singapore	Singapore
 Singapore [etc.]	Singapore
 Singapour	Singapore
+Singapur	Singapore
 Singapuris	Singapore
 Sinimäe	Sinimäe
 Sinimäe [Ida-Virumaa]	Sinimäe
@@ -3365,6 +3376,7 @@ Soinaste (Tartumaa)	Soinaste
 Soinaste [Tartumaa]	Soinaste
 Soitsjärve	Soitsjärve
 Сухуми	Sokhumi
+Somero	Somero
 Sommerville, Mass	Sommerville, Mass
 Sonda	Sonda
 Soodla	Soodla
@@ -3378,8 +3390,8 @@ Sootaga	Sootaga
 Sopot	Sopot
 Sortavala	Sortavala
 South Croydon, Surrey	South Croydon, Surrey
-South San Francisco	South San Francisco
-Sovetsk	Sovetsk
+Baden	South San Francisco
+Tilsit	Sovetsk
 St-Peeterburg	St-Peeterburg
 St. Petersburg, Florida	St-Peeterburg
 St. Catharines	St. Catharines
@@ -3401,7 +3413,6 @@ Holmiae	Stockholm
 Holmiae?	Stockholm
 Sockholm	Stockholm
 Stochkholm	Stockholm
-(Stockholm	Stockholm
 Stockholm	Stockholm
 Stockholm [etc.]	Stockholm
 Stockholm etc	Stockholm
@@ -3409,6 +3420,7 @@ Stockholm?	Stockholm
 Stockholmis	Stockholm
 Stokholmis	Stockholm
 Stockhom	Stockholm
+Stockolm	Stockholm
 Stokholm	Stockholm
 Stokholm (p.o. Stockholm)	Stockholm
 Tukholma	Stockholm
@@ -3432,7 +3444,6 @@ Subiaco	Subiaco
 Suffolk	Suffolk
 Suigu	Suigu
 Suislepa	Suislepa
-Schönberg	Sulików
 Sulu	Sulu
 Sundsvall	Sundsvall
 Suolahti	Suolahti
@@ -3487,7 +3498,7 @@ Sääritsa [Jõgevamaa]	Sääritsa
 Sääsküla	Sääsküla
 Sääsküla (Järvamaa)	Sääsküla
 Sånga-Säby	Sånga-Säby
-Sées	Sées
+Se	Sées
 Sõmera	Sõmera
 Sõmerpalu	Sõmerpalu
 Sõmerpalu (Võrumaa)	Sõmerpalu
@@ -3512,7 +3523,6 @@ Taaralinn	Taaralinn
 Taastrup	Taastrup
 Taavetti?	Taavetti
 Tabasalu	Tabasalu
-Tabasalu (Harjumaa	Tabasalu
 Tabasalu (Harjumaa)	Tabasalu
 Tabasalu [Harjumaa]	Tabasalu
 Табасалу	Tabasalu
@@ -3538,7 +3548,7 @@ Takoma Park, Md	Takoma Park
 Taldykorgan [s.o. Taldõkorgan]	Taldykorgan
 Tali [Pärnumaa]	Tali
 Talli	Tali
-Tallahassee(Florida	Tallahassee
+Tallahassee	Tallahassee
 Talliinan	Talliinan
 En Tallinn	Tallinn
 REVAL	Tallinn
@@ -3577,12 +3587,9 @@ Reval: [A.Simon]	Tallinn
 Revalia	Tallinn
 Revaliae	Tallinn
 Revall	Tallinn
-(Tallinn	Tallinn
-(Tallinnas	Tallinn
-([Tallinn	Tallinn
-)Tallinn	Tallinn
 Talinas	Tallinn
 Tallinn	Tallinn
+Tallinn (Reval	Tallinn
 Tallinn (Reval)	Tallinn
 Tallinn (Ревель)	Tallinn
 Tallinn [etc.	Tallinn
@@ -3600,11 +3607,11 @@ Tallinnas	Tallinn
 Tallinnas (Reval)	Tallinn
 [Tallin]n	Tallinn
 [Tallinn]	Tallinn
-]Tallinn	Tallinn
 Tallinn-Reval	Tallinn
 Taллинн	Tallinn
 Tryckt i Reval	Tallinn
 Zu Revall	Tallinn
+in Reval	Tallinn
 Академия наук Эстонии	Tallinn
 Таllinn	Tallinn
 Tallinn - Saatse	Tallinn
@@ -3618,7 +3625,6 @@ Taллин	Tallinn
 Tаллинн	Tallinn
 tallinn	Tallinn
 À Tallinn	Tallinn
-(Ревель	Tallinn
 Ревель	Tallinn
 Ревель?	Tallinn
 Тallinn	Tallinn
@@ -3638,7 +3644,6 @@ tallinn	Tallinn
 Таллинн	Tallinn
 Таллинн (Ревель)	Tallinn
 Таллинн [и т.д.]	Tallinn
-Таллинн(Ревель	Tallinn
 Таллинн?	Tallinn
 Таллинн, Эстония	Tallinn
 Таллинн-Ревель	Tallinn
@@ -3690,6 +3695,7 @@ Derpt	Tartu
 (Dorpat	Tartu
 Dorpat	Tartu
 Dorpat (Estland)	Tartu
+Dorpat (Jurjew	Tartu
 Dorpat (Tartu)	Tartu
 Dorpat [etc,]	Tartu
 Dorpat [etc.]	Tartu
@@ -3725,27 +3731,26 @@ Jurjev-Tartu	Tartu
 Jurjew	Tartu
 Jurjew (Dorpat	Tartu
 Jurjew (Dorpat)	Tartu
+Jurjew(Dorpat	Tartu
 Jurjew(Dorpat)	Tartu
 Jurjew?	Tartu
 Jurjewis	Tartu
 Jurjewis (Tartus)	Tartu
 Jurjew-Dorpat	Tartu
 Jurjewa	Tartu
+Jurjewa: Schnakenburga	Tartu
 Jurjewi linan	Tartu
 Jurjewi'n (Tartun)	Tartu
 Jurjewin-Tartun	Tartu
 Jurjewis-Tartus	Tartu
 Jurjewâ	Tartu
+Jurjewâ (Tehrbatâ	Tartu
 Jurjewâ (Tehrbatâ)	Tartu
 Tarto liinan	Tartu
 (Tartu	Tartu
-([Tartu (Tartu maakond)]	Tartu
-)Tartu	Tartu
 Jurjewis - Tartus	Tartu
 Tartu	Tartu
-Tartu (Dorpat	Tartu
 Tartu (Dorpat)	Tartu
-Tartu (Dorpt	Tartu
 Tartu [i.e. Torino]	Tartu
 Tartu [jne.	Tartu
 Tartu [jne.]	Tartu
@@ -3756,8 +3761,10 @@ Tartu?	Tartu
 Tartus	Tartu
 Tartus (Dorpat)	Tartu
 Tartun	Tartu
+in Jurjew (Dorpat	Tartu
 Дерптъ	Tartu
 Юрьев	Tartu
+Юрьев (Dorpat	Tartu
 Юрьев (Tartu)	Tartu
 Юрьев (Дерпт)	Tartu
 Юрьев (б. Дерпт)	Tartu
@@ -3766,6 +3773,7 @@ Tartun	Tartu
 Юрьев :s.n	Tartu
 Юрьев-Tartu	Tartu
 Юрьев-Дерпт	Tartu
+Юрьев-Тарту	Tartu
 Tartu - Dorpat	Tartu
 Tartu / Ihaste	Tartu
 Tartu-Dorpat	Tartu
@@ -3776,11 +3784,13 @@ Tērbata	Tartu
 Veetka - Tartu	Tartu
 В Дерпте	Tartu
 Дерпт	Tartu
+Дерпт?	Tartu
 ТАрту	Tartu
 Тарту	Tartu
 Тарту (Эстония)	Tartu
 Тарту (Юрьев)	Tartu
 Тарту [Эстонский научно-исследовательский институт животноводства и ветеринарии]	Tartu
+Тарту?	Tartu
 Tartu linn	Tartu linn
 Taru	Taru
 Mustla alevik	Tarvastu
@@ -3789,11 +3799,10 @@ Tarvastu [Viljandimaa]	Tarvastu
 Tarvastu?	Tarvastu
 Tashkent	Tashkent
 Taskent	Tashkent
-(Taškent)	Tashkent
 Ташкент	Tashkent
 Тошкент	Tashkent
 Taunusstein	Taunusstein
-Taï	Taï
+Tai	Taï
 Tbilisi	Tbilisi
 Thbilisi	Tbilisi
 Тифлис	Tbilisi
@@ -3802,7 +3811,7 @@ Te Haarlem	Te Haarlem
 Greenwich (Conn.)	Tehachapi
 Tel Aviv	Tel Aviv
 Тель-Авив	Tel Aviv
-Tela	Tela
+TEA	Tela
 Tempa	Tempa
 Tempa (Hiiumaa)	Tempa
 Tepelvälja	Tepelvälja
@@ -3863,6 +3872,7 @@ Toila [Ida-Virumaa]	Toila
 Tokio	Tokyo
 Tokyo	Tokyo
 Tōkyō	Tokyo
+東京	Tokyo
 Toledo	Toledo
 Tollarp	Tollarp
 Tolworth, Surrey	Tolworth, Surrey
@@ -3885,7 +3895,6 @@ Toronto (Ontario)	Toronto
 Toronto [etc.]	Toronto
 Toronto?	Toronto
 Torontos	Toronto
-[Toronto] (Canada)	Toronto
 Toronto, Canada	Toronto, Canada
 Toronto, Ont	Toronto, Canada
 Torrance, Calif	Torrance, Calif
@@ -3893,6 +3902,7 @@ Torrazza Piemonte	Torrazza Piemonte
 Torredonjimeno	Torredonjimeno
 Torshälla	Torshälla
 Thorn	Toruń
+Torun	Toruń
 Toruń	Toruń
 Toruń	Toruń
 Totnes	Totnes
@@ -3902,10 +3912,10 @@ Tōkyō	Tōkyō
 Ranna [Jõgevamaa]	Treimani
 Treimani	Treimani
 Trelleborg	Trelleborg
-Trento [Italy]	Trento
+Trento	Trento
 Trexlertown (Pa.)	Trexlertown
 Trier	Trier
-Trieste (Itaalia	Trieste
+Trieste	Trieste
 Tristfer	Tristfer
 Tromsø	Tromsø
 Trondheim	Trondheim
@@ -3949,7 +3959,6 @@ Turu	Turku
 Åbo	Turku
 Åbo?	Turku
 Turnhout	Turnhout
-Turnhout (Belgia	Turnhout
 Tuudi	Tuudi
 Tuula küla	Tuula küla
 Tvedestrand	Tvedestrand
@@ -3960,11 +3969,7 @@ Tyumen	Tyumen
 Тюмень	Tyumen
 Täby	Täby
 Tähtvere	Tähtvere
-([Täkumetsa (Ida-Virumaa)]	Täkumetsa
 Täkumetsa	Täkumetsa
-Täkumetsa (Ida-Virumaa	Täkumetsa
-Täkumetsa [Ida-Virumaa	Täkumetsa
-Täkumetsa [Ida-Virumaa]	Täkumetsa
 Tänassilma	Tänassilma
 Tännassilma	Tännassilma
 Tääksi	Tääksi
@@ -4017,7 +4022,8 @@ Ulila [Tartumaa]	Ulila
 Ulm	Ulm
 Ulm [Deutschland]	Ulm
 Ulvi	Ulvi
-Ulyanovsk	Ulyanovsk
+Uljanovsk	Ulyanovsk
+Ульяновск	Ulyanovsk
 Umbusi (Jõgevamaa)	Umbusi
 Umbusi [Jõgevamaa	Umbusi
 Umbusi küla	Umbusi
@@ -4037,7 +4043,6 @@ Urvaste	Urvaste
 Urvaste (Võrumaa)	Urvaste
 Urvaste [Võrumaa]	Urvaste
 Urvastes	Urvaste
-(Utrecht	Utrecht
 Utrecht	Utrecht
 Uudeküla	Uudeküla
 Uue-Kariste	Uue-Kariste
@@ -4064,15 +4069,8 @@ Vaeküla	Vaeküla
 Vaela	Vaela
 Vaela [Harjumaa]	Vaela
 Vahastu	Vahastu
-(Vahi (Tartu maakond)	Vahi
-([Vahi (Tartu maakond)]	Vahi
-([Vahi (Tartumaa)]	Vahi
 Vahi	Vahi
-Vahi (Tartu maakond	Vahi
-Vahi (Tartumaa	Vahi
 Vahi (Tartumaa)	Vahi
-Vahi [Tartumaa]	Vahi
-[Vahi] (Tartumaa	Vahi
 Vahi küla	Vahi küla
 Vaiatu	Vaiatu
 Vaiatu küla	Vaiatu
@@ -4179,12 +4177,12 @@ Velikiy Novgorod	Velikiy Novgorod
 Velikiye Luki	Velikiye Luki
 Великие Луки	Velikiye Luki
 Велико-Търново	Veliko Tŭrnovo
+Велико Търново	Veliko Tŭrnovo
 Velise	Velise
 Velise (Raplamaa)	Velise
 Velise [Raplamaa	Velise
 Veltsa	Veltsa
 Veltsa?	Veltsa
-(Venemaa)	Venemaa
 Venemaa	Venemaa
 Venemaa?	Venemaa
 Россия	Venemaa
@@ -4220,7 +4218,6 @@ Vihasoo	Vihasoo
 Vihula	Vihula
 Viidumäe	Viidumäe
 Viidumäe (Saaremaa)	Viidumäe
-([Viimsi (Harjumaa)]	Viimsi
 Viimsi	Viimsi
 Viimsi (Harjumaa)	Viimsi
 Viimsi (harjumaa)	Viimsi
@@ -4242,19 +4239,20 @@ Vijayawada	Vijayawada
 Vilivere	Vilivere
 Fellin	Viljandi
 Vijandi	Viljandi
-(Viljandi	Viljandi
 Viljandi	Viljandi
 Viljandi?	Viljandi
 Viljandis	Viljandi
 Wiljandi	Viljandi
 Wiljandis	Viljandi
 Вильянди	Viljandi
+Вилянди	Viljandi
 Феллин	Viljandi
 Viljandimaa	Viljandimaa
 Villevere	Villevere
 Giedraičiai - Vilnius	Vilnius
 Vilnius	Vilnius
 Vilniuys	Vilnius
+Vilno	Vilnius
 Wilna	Vilnius
 Wilno	Vilnius
 Вильна	Vilnius
@@ -4272,7 +4270,7 @@ Virumaa	Virumaa
 Viruna (Pärnumaa)	Viruna
 Virve (Harjumaa)	Virve
 Virve küla	Virve küla
-Visaginas	Visaginas
+Висагинас	Visaginas
 Visby	Visby
 Visela	Visela
 Vitebsk	Vitebsk
@@ -4280,7 +4278,7 @@ Vitebsk	Vitebsk
 Viterbo	Viterbo
 Vitsiku küla	Vitsiku küla
 Vittorio Veneto	Vittorio Veneto
-Viļāni	Viļāni
+Viljani	Viļāni
 Vladimir	Vladimir
 Владимир	Vladimir
 Vladivostok	Vladivostok
@@ -4362,9 +4360,7 @@ Võrun	Võru
 Werro	Võru
 Верро	Võru
 Выру	Võru
-([Võsivere (Tartumaa)]	Võsivere
 Võsivere	Võsivere
-Võsivere (Tartumaa	Võsivere
 Võsu	Võsu
 Võsupere	Võsu
 Võsupere (Lääne-Virumaa)	Võsu
@@ -4377,6 +4373,8 @@ Wagga Wagga (N.S.W.)	Wagga Wagga
 Wainuiomata	Wainuiomata
 Walden, New York	Walden, New York
 Walkā	Walkā
+Vol	Wall
+Rieden	Wallisellen / Rieden
 Cornelius (N.C.)	Walnut Grove
 Warkworth	Warkworth
 Warkworth (Ontario)	Warkworth
@@ -4387,6 +4385,7 @@ Warsaw	Warsaw
 Warschau	Warsaw
 Warszawa	Warsaw
 Варшава	Warsaw
+Warwick	Warwick
 Washington	Washington
 Washington (D.C.)	Washington
 Washington (D.C.) : Department of State, Bureau of Oceans and International Environmental and Scientific Affairs	Washington
@@ -4401,6 +4400,7 @@ Watford	Watford
 Watford (Herts)	Watford
 Weihenstephan	Weihenstephan
 Weimar	Weimar
+Веймар	Weimar
 Weinheim	Weinheim
 Weinsberg	Weinsberg
 Weissenhorn	Weißenhorn
@@ -4412,12 +4412,13 @@ Wemding	Wemding
 Wenden	Wenden
 Werdau	Werdau
 Wesel	Wesel
+Hamden (Conn.)	West Jefferson
 West Vancouver	West Vancouver
 West Vancouver (B.C.)	West Vancouver
 Westford	Westford
 Westport, Conn	Westport, Conn
 Wetteren	Wetteren
-Wetteren (Belgium	Wetteren
+Wetteren?	Wetteren
 Wheaton, IL	Wheaton, IL
 Wiesbaden	Wiesbaden
 Wiesbaden [etc.]	Wiesbaden
@@ -4462,8 +4463,8 @@ Jerevan	Yerevan
 Yerevan	Yerevan
 Ереван	Yerevan
 Երևան	Yerevan
-Yevpatoriya	Yevpatoriya
-Yiyang	Yiyang
+Евпатория	Yevpatoriya
+Heshan	Yiyang
 Yonkers (N.Y.)	Yonkers
 Yoshkar-Ola	Yoshkar-Ola
 Йошкар-Ола	Yoshkar-Ola
@@ -4484,7 +4485,7 @@ Zoetermeer	Zoetermeer
 Zollikon	Zollikon
 Zollikon bei Zürich	Zollikon
 Zug	Zug
-Zutphen [Netherlands]	Zutphen
+Zutphen	Zutphen
 Zwickau	Zwickau
 Zuric	Zürich
 Zürich	Zürich
@@ -4518,7 +4519,6 @@ Aarhus [etc.]	Århus
 Ömmern	Ömmern
 Orebro	Örebro
 Örebro	Örebro
-Örebro (Rootsi	Örebro
 Örebro [Rootsi]	Örebro
 Örebro - Rootsi	Örebro
 Örnsköldsvik [Rootsi]	Örnsköldsvik
@@ -4535,7 +4535,7 @@ Hiina	Ķīna
 Hiinas	Ķīna
 Ķīna	Ķīna
 Łódź	Łódź
-Şile	Şile
+Chile	Şile
 Šotimaa	Šotimaa
 Šveits	Šveits
 Вана-Вяндра	Вана-Вяндра
@@ -4545,8 +4545,6 @@ Hiinas	Ķīna
 Ноароотси	Ноароотси
 Остров	Остров
 (	
-24 lk	
-8 lk	
 ?	
 Abo, 1973	
 S. l	
@@ -4557,6 +4555,7 @@ S. l. :s.n
 S. l.] :[s.n.	
 S.l	
 S.l.	
+c©2024	
 s. l	
 s.l	
 s.l.	
@@ -4565,6 +4564,7 @@ s.l.
 ©2020	
 ©2021	
 ©2022	
+©2024	
 Б.м	
 Б.м.	
 /[Austraalia]	
@@ -4613,6 +4613,7 @@ Berlin-Schöneberg
 Bialastok	
 Białostock	
 Binghamton, N. Y	
+Bloomington, Indiana	
 Boden	
 Bodenheim	
 Bonn-Grunwald	
@@ -4665,12 +4666,13 @@ Edsbruk
 Eesti, [Tallinn	
 Eesti, [Tallinn]	
 Eesti, [Voka, Ida-Virumaa]	
-Eisleben Lutherstadt	
+Eiropas Savienībā	
 Eislebenis	
 Elera	
 Englewood Cliffs (N.J.)	
 Enumclaw (Wash.)	
 Espagne	
+Espaňa	
 Estländische Druckerei A.-G.	
 Estonia, [Pärnu]	
 European Union	
@@ -4789,8 +4791,10 @@ Kume [Järvamaa]
 [Kundli], India	
 Kunst	
 Kupar	
+Kurepalu küla	
 Kursaare	
 Kõllered	
+Kīnā	
 LXVII	
 Laadjalas [Saaremaa]	
 Laevandus	
@@ -4802,6 +4806,7 @@ Leck, Saksamaa
 Leeningraad [!]	
 Leeningrad [!]	
 Leeningradis [!]	
+Lehmja, Rae vald	
 Leiptsig	
 Leningraad [!]	
 Lettland	
@@ -4865,9 +4870,9 @@ Narva : M. Minis
 Nats. K. Mattiesen	
 Netherland	
 Neu-Ruppin	
-Neukölln	
 New	
 New York : Esto Printing Service	
+Newark, Delaware	
 Newport Beach (Calif.)	
 Niagaara Falls (Kanada)	
 Нижный Архыз	
@@ -4879,9 +4884,9 @@ Norway
 Nr	
 Nõmme-Rahumäe	
 Nõmme-Rahumäe [Tallinn	
-O'Neill	
 Obinitsa ... [jne. (Võrumaa)]	
 Olion	
+Opladen / Rheinland	
 Oropos Attikis [Kreeka]	
 Orto	
 Ossipe [Võrumaa]	
@@ -4996,7 +5001,7 @@ Suislepas [Viljandimaa]
 Sundbyberg	
 Suntero	
 Suurbritania	
-Suurupi küla	
+Suurupi, Estonia	
 Sveits	
 Swarzenbeck	
 Switzerland	
@@ -5022,6 +5027,7 @@ Tallinn : Tallinna Tehnikaülikooli Kirjastuse trükikoda
 Tallinn : Tartu	
 Tallinn : Tööstustrükk	
 Tallinn : VÕT-i rotaprint	
+Tallinn :bPrinton	
 Tallinn :fKommunist	
 Tallinn :fOktoober	
 Tallinn EKP Keskkomitee Kirjastuse trükikoda	
@@ -5038,6 +5044,7 @@ Tallinni
 Tallinnn	
 Tallinn}	
 Talofka bei Ssaratow	
+Tarttu	
 Tartu : Bärthelson	
 Tartu : Tartu Trükikoda	
 Tartu : Tartu Ülikooli Kirjastuse trükikoda	
@@ -5091,7 +5098,6 @@ Valgjärvel [Põlvamaa]
 Van Nuys (Cal.)	
 Varnja küla [Tartumaa]	
 Varrak	
-Veliko Tŭrnovo	
 Vetepere küla (Albu vald)	
 Viborg, Taani	
 [Viborg,] Taani	
@@ -5114,9 +5120,7 @@ Vääna-Ohtu (Harjumaa)
 Võhma-Kabala (Viljandimaa)	
 Vаhi	
 W. Volkmann	
-Wall	
 Wallin	
-Wallisellen / Rieden	
 Waterloo	
 Waterloo (Ont.)	
 Wedemark [Deutschland]	
@@ -5171,6 +5175,7 @@ tartu
 Åstrop	
 Ühiselu	
 à Tallinn	
+Ķīnā	
 Šanghai	
 А. Миквиц	
 А. Реннит	

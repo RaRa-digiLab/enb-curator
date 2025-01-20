@@ -323,7 +323,7 @@ Darlington	54.52	-1.56
 Darmstadt	49.86	8.64
 Darpatâ	10	-13.78
 Daugavpils	55.88	26.54
-Davan	6.9	126.16
+Dawan	22.82	111.62
 DeKalb	41.94	-88.76
 Debrecen	47.54	21.62
 Delhi	28.64	77.24
@@ -386,6 +386,7 @@ Ehstland	-30.52	29.82
 Eidapere	58.76	24.94
 Einbi	59	23.46
 Eisenach	50.98	10.32
+Eisleben Lutherstadt	51.52	11.56
 Eisma	59.56	26.3
 Eistvere küla	58.68	25.76
 Ekenäs	59.98	23.44
@@ -438,6 +439,7 @@ Fort Mitchell	39.04	-84.56
 Fort Wayne	41.14	-85.12
 Franeker	53.2	5.54
 Frankenthal	49.54	8.36
+Frankfurt (Oder)	52.36	14.56
 Frankfurt am Main	50.12	8.68
 Frascati	41.82	12.68
 Fredericia	55.58	9.76
@@ -555,6 +557,7 @@ Hannoversch Münden	51.42	9.64
 Hara küla	59.56	25.62
 Harbin	45.76	126.64
 Harderovici	44.46	18.24
+Hargi	57.88	26.68
 Hargla	59.1	24.9
 Harju	59.32	24.92
 Harju-Risti	59.22	24.02
@@ -570,7 +573,6 @@ Heide	54.2	9.1
 Heidelberg	49.4	8.68
 Heidenheim an der Brenz	48.68	10.16
 Heilbronn	49.14	9.22
-Heiligenbeil Ostpr	54.46	19.94
 Heiligenstadt	51.38	10.14
 Heimtali	58.32	25.52
 Heinaste	57.86	24.36
@@ -617,7 +619,6 @@ Homyel'	52.42	30.98
 Hong Kong	22.28	114.18
 Hoorn	52.64	5.06
 Horad Zhodzina	54.1	28.32
-Horma	57.88	26.68
 Horn bei Hamburg	53.56	10.08
 Horneburg	53.52	9.58
 Houston	29.76	-95.36
@@ -834,7 +835,7 @@ Kent	47.38	-122.22
 Kent Town	-34.92	138.62
 Kerava	60.4	25.1
 Kernu	59.14	24.5
-Keuruu	62.28	24.54
+Keuruu	62.28	24.7
 Khabarovsk	48.48	135.08
 Kharkiv	49.98	36.24
 Kherson	46.64	32.62
@@ -1119,6 +1120,7 @@ Linz	48.32	14.28
 Lippstadt	51.68	8.34
 Lisbon	38.72	-9.14
 Liskeard	50.44	-4.46
+Liu	58.28	24.26
 Liège	50.64	5.58
 Ljubljana	46.04	14.52
 Llangennech	51.7	-4.08
@@ -1159,6 +1161,7 @@ Lutike	58.14	26.56
 Luton	51.88	-0.42
 Luua	58.64	26.6
 Luunja	58.36	26.88
+Luutsniku	57.64	26.98
 Luxembourg	49.78	6.08
 Luzern	47.04	8.32
 Lviv	49.84	24.02
@@ -1205,6 +1208,7 @@ Mallavere	59.28	25.12
 Mallika	57.72	27.14
 Malmö	55.6	13
 Malung	60.68	13.72
+Mamonovo	54.46	19.94
 Manchester	53.48	-2.24
 Manila	14.6	120.98
 Mannheim	49.5	8.48
@@ -1336,6 +1340,7 @@ Nabala	59.28	24.88
 Nairobi	-1.28	36.82
 Naisteväljal	59.2	26.1
 Nancy	48.68	6.18
+Naples	40.84	14.26
 Naruski	57.98	27.1
 Narva	59.38	28.2
 Narva linn	59.32	28.08
@@ -1358,6 +1363,7 @@ Nela Park	41.54	-81.56
 Nelson	-41.28	173.28
 Neubeuern/Inn	47.78	12.14
 Neuhausen-Stuttgart	48.68	9.28
+Neukölln	52.48	13.44
 Neustadt	49.36	8.16
 Neustadt an der Aisch	49.58	10.6
 Neutral Bay	-33.84	151.22
@@ -1392,6 +1398,7 @@ North Vancouver	49.32	-123.06
 Northampton	52.24	-0.88
 Norwalk	33.9	-118.08
 Norwich	52.64	1.3
+Notre Dame	-20.14	57.56
 Novara	45.44	8.62
 Novi Ligure	44.76	8.78
 Novi Sad	45.24	19.84
@@ -1411,6 +1418,7 @@ Nõva	59.22	23.68
 Nördlingen	48.84	10.5
 Nüpli küla	58.02	26.48
 Nürnberg	49.44	11.08
+O'Neill	42.46	-98.64
 Oakland	37.8	-122.28
 Oberhausen	51.48	6.86
 Oberpahlen	58.64	25.96
@@ -1548,11 +1556,13 @@ Pilkengton	41.4	-81.62
 Pinneberg	53.68	9.78
 Pirgu	59.12	24.84
 Pittsburgh	40.44	-80
+Pittston	41.32	-75.8
 Pleskow	47.7	-2.82
 Plovdiv	42.16	24.76
 Plymouth	50.36	-4.14
 Plön	54.16	10.42
 Poitiers	46.58	0.34
+Pokrovsk	61.48	129.14
 Poland	52.12	19.4
 Polatsk	55.48	28.78
 Polen	-9.68	124.48
@@ -1847,6 +1857,7 @@ Schwabach	49.32	11.02
 Schwarzenbeck	59.46	24.68
 Schwarzenbek	53.5	10.48
 Schwerin	53.64	11.4
+Schönberg	53.68	10.42
 Seaside	36.6	-121.84
 Seattle	47.62	-122.32
 Seedrioru	43.64	-80.46
@@ -1896,6 +1907,7 @@ Sofia	42.7	23.32
 Soinaste	58.34	26.7
 Soitsjärve	58.54	26.72
 Sokhumi	43	41
+Somero	60.62	23.54
 Sommerville, Mass	42.38	-71.1
 Sonda	59.34	26.84
 Soodla	59.38	25.38
@@ -1934,7 +1946,6 @@ Subiaco	-31.96	115.82
 Suffolk	36.72	-76.58
 Suigu	59.14	26.8
 Suislepa	58.16	25.96
-Sulików	51.08	15.06
 Sulu	58.82	24.48
 Sundsvall	62.4	17.32
 Suolahti	62.98	26.94
@@ -2348,9 +2359,12 @@ Wagga Wagga	-35.14	147.36
 Wainuiomata	-41.26	174.96
 Walden, New York	41.56	-74.2
 Walkā	12.96	5.44
+Wall	44	-102.24
+Wallisellen / Rieden	47.42	8.6
 Walnut Grove	34.06	-86.32
 Warkworth	-36.4	174.64
 Warsaw	52.22	21.02
+Warwick	41.7	-71.42
 Washington	38.88	-77.02
 Washington, D.C	38.88	-77.02
 Waterloo, Ont	43.46	-80.52
@@ -2367,6 +2381,7 @@ Wemding	48.86	10.72
 Wenden	50.96	7.88
 Werdau	50.74	12.38
 Wesel	51.68	6.62
+West Jefferson	39.94	-83.26
 West Vancouver	49.36	-123.18
 Westford	42.58	-71.44
 Westport, Conn	41.14	-73.36

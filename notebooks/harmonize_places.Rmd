@@ -18,7 +18,7 @@ knit: (function(input, ...) {
 
 # Harmonizing place names
 
-Last data file 08-10-2024, last updated processing 16-01-2025.
+Last data file 2025-01-03, last updated processing 2025-01-16.
 
 ```{r setup,echo=F}
 #knitr::opts_knit$set(root.dir = rprojroot::find_rstudio_root_file())
@@ -39,7 +39,7 @@ suppressMessages(library(scales))
 options(scipen=9999)
 
 # Read the parquet file and convert it into data.table. Remove the parquet instance.
-works_parq <- nanoparquet::read_parquet("../data/curated/enb_all_books.parquet")
+works_parq <- nanoparquet::read_parquet("../data/curated/enb_books.parquet")
 works <-  setDT(works_parq)
 rm(works_parq)
 

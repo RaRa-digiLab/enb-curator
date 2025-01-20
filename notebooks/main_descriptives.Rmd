@@ -18,7 +18,7 @@ knit: (function(input, ...) {
 
 # Overview of the dataset
 
-Last data file 08-10-2024, last updated processing 08-10-2024.
+Last data file 2025-01-03, last updated processing 2025-01-16.
 
 ```{r setup,echo=F}
 #knitr::opts_knit$set(root.dir = rprojroot::find_rstudio_root_file())
@@ -33,17 +33,12 @@ suppressMessages(library(nanoparquet))
 suppressMessages(library(scales))
 options(scipen=9999)
 
-works_parq <- nanoparquet::read_parquet("../data/curated/enb_all_books.parquet")
+works_parq <- nanoparquet::read_parquet("../data/curated/enb_books.parquet")
 
 works <-  setDT(works_parq)
 rm(works_parq)
 
 works[!is.na(contributor)|!is.na(creator),creator_or_contributor:=T]
-
-check <- works[!is.na(edition_statement),.N,.(edition_n)][order(-N)]
-
-
-nrow(works[!is.na(contributor)|!is.na(creator),creator_or_contributor:=T])
 works[is_digitized==F,is_digitized:=NA]
 works[,publisher_harmonized_n:=uniqueN(publisher),publisher_harmonized]
 works[publisher_harmonized_n==1,publisher_harmonized:=NA]
@@ -104,16 +99,16 @@ values %>%
     ggplot(aes(x = fct_reorder(variable_label,-i), color = fct_reorder(grouping,i), fill = fct_reorder(grouping,i))) + #stats::reorder(variable, n_available)
     geom_hline(yintercept=311950,color="red",alpha=0.25,lty=2)+
     geom_bar(aes(y = n_available), stat = "identity", position = "dodge", width = 0.05,alpha=1)+#, colour = "#484878", fill = "#484878") +
-    geom_point(aes(y = n_available), colour = "#484878", fill = "#484878") + 
+    geom_point(aes(y = n_available), colour = "#484878") + #, fill = "#484878"
     coord_flip() + 
   #facet_wrap(~fct_reorder(grouping,i),scales="free_y",ncol=1)+
   #  scale_color_discrete(guide = "none") + 
-  labs(title= "", y = "Entries (n)", x = "", fill="",colour="")+#Selected data fields in the curated dataset
+  labs(title= "", y = "Entries (n)", x = "",colour="")+#Selected data fields in the curated dataset , fill=""
   theme_minimal()+
   scale_y_continuous(labels = scales::comma)+
   theme(legend.position="none",fill.position="bottom")+
   scale_color_brewer(type="qual", palette="Set1")+
-  scale_fill_brewer(type="qual", palette="Set1")+ 
+  #scale_fill_brewer(type="qual", palette="Set1")+ 
   ggforce::facet_row(vars(SP), scales = 'free_y', space = 'free')+ 
   ggforce::facet_col(~fct_reorder(grouping,i), scales = 'free_y', space = 'free')
 

@@ -24,7 +24,7 @@ library(nanoparquet)
 options(scipen=9999)
 
 # Read the data file.
-works_parq <- nanoparquet::read_parquet("../data/curated/enb_all_books.parquet")
+works_parq <- nanoparquet::read_parquet("../data/curated/enb_books.parquet")
 works <-  setDT(works_parq)
 rm(works_parq)
 

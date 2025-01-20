@@ -18,7 +18,7 @@ knit: (function(input, ...) {
 
 # Harmonizing publisher names
 
-Last data file 08-10-2024, last updated processing 16-01-2025.
+Last data file 2025-01-03, last updated processing 2025-01-16.
 
 ```{r setup,echo=F,include =F}
 #knitr::opts_knit$set(root.dir = rprojroot::find_rstudio_root_file())
@@ -34,7 +34,7 @@ suppressMessages(library(stringdist))
 
 
 # Read the parquet file and convert it into data.table. Remove the parquet instance.
-works_parq <- nanoparquet::read_parquet("../data/curated/enb_all_books.parquet")
+works_parq <- nanoparquet::read_parquet("../data/curated/enb_books.parquet")
 works <-  setDT(works_parq)
 rm(works_parq)
 
@@ -208,7 +208,7 @@ One of the most challenging aspects of data harmonization lies in publishers’ 
 
 In the rule-based approach, we crafted over 300 regular expressions to standardize publisher names. These patterns handled a range of tasks, such as removing common suffixes (e.g., ‘printing,’ ‘& co.’) and standardizing variants of prominent publishers. This application of rules successfully reduced variance in the publishers column by `r scales::percent((merged[,uniqueN(publisher_unlist)]-merged[,uniqueN(standardizing_name)])/merged[,uniqueN(publisher_unlist)],0.1)`, from `r scales::comma(merged[,uniqueN(publisher_unlist)])` unique entries to `r scales::comma(merged[,uniqueN(standardizing_name)])`. 
 
-For the second approach, we leveraged the rule-harmonized publisher names to create semantic embeddings. Using OpenAI’s text-embedding-3-small model (OpenAI 2023), we generated 1000-dimensional vectors for each name form. We then clustered publishers within each location based on cosine similarity, using harmonized place names as an anchor. Operating under the assumption that many publishers, particularly those contributing to data variability, are active in a single location, we set a relatively low cosine similarity threshold (0.7) to encourage more inclusive clustering. The vector-based grouping brought together similar publisher names in each location, regardless of length or language. This approach further reduced the variance in publishers by an additional `r scales::percent(unlist((merged[,uniqueN(publisher_unlist)]-bothmethods[,.(uniqueN(similarity_group))])/merged[,uniqueN(publisher_unlist)]-(merged[,uniqueN(publisher_unlist)]-merged[,uniqueN(standardizing_name)])/merged[,uniqueN(publisher_unlist)]),0.1)`, leaving `r scales::comma(unlist(bothmethods[,.(uniqueN(similarity_group))]))` unique names or `r scales::percent(unlist(bothmethods[,.(uniqueN(similarity_group))]/bothmethods[,.(uniqueN(publisher_unlist))]),1)` of the original number of unique entries.
+For the second approach, we leveraged the rule-harmonized publisher names to create semantic embeddings. Using OpenAI’s text-embedding-3-small model (OpenAI 2023), we generated 1000-dimensional vectors for each name form. We then clustered publishers within each location based on cosine similarity, using harmonized place names as an anchor. Operating under the assumption that many publishers, particularly those contributing to data variability, are active in a single location, we set a relatively low cosine similarity threshold (0.7) to encourage more inclusive clustering. The vector-based grouping brought together similar publisher names in each location, regardless of length or language. This approach further reduced the variance in publishers by an additional `r scales::percent(unlist((merged[,uniqueN(publisher_unlist)]-bothmethods[,.(uniqueN(similarity_group))])/merged[,uniqueN(publisher_unlist)]-(merged[,uniqueN(publisher_unlist)]-merged[,uniqueN(standardizing_name)])/merged[,uniqueN(publisher_unlist)]),0.1)`, leaving `r scales::comma(unlist(bothmethods[,.(uniqueN(similarity_group))]))` unique names or `r scales::percent(unlist(bothmethods[,.(uniqueN(similarity_group))]/bothmethods[,.(uniqueN(publisher_unlist))]),0.1)` of the original number of unique entries.
 
 
 To evaluate the workflow’s quality, we created a test set focused on one city in Estonia, Viljandi. The rule-based approach proved conservative but accurate, yielding `r rulebased_checked[selflink!=T,.N,useful_link][,N]` correct links and no errors across `r all_publishers[place_harmonized=="Viljandi"][,uniqueN(publisher_unlist)]` publisher names. The vector-based method contributed an additional `r sum(cluster_similarity_checked[,.N,useful_link][!is.na(useful_link)][,N])` links: `r cluster_similarity_checked[,.N,useful_link][!is.na(useful_link)][useful_link=="T",N]` were clearly correct, while `r cluster_similarity_checked[,.N,useful_link][!is.na(useful_link)][useful_link=="F",N]` were ambiguous or incorrect. The ambiguous links typically connected publishers with related meanings but distinct identities (e.g., societies from different professions within the same city). Table 1 shows examples of the links made in either approach. Whether these links are useful will depend on the analyst’s goals; we recommend that users manually review these connections to assess their relevance. 
