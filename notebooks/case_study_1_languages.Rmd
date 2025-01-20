@@ -28,10 +28,9 @@ works_parq <- nanoparquet::read_parquet("../data/curated/enb_books.parquet")
 works <-  setDT(works_parq)
 rm(works_parq)
 
-# Basic overview of the data file.
-nrow(works)
+# Basic overview of the data file. How many books have a date. What is the date range.
+nrow(works[!is.na(publication_date_cleaned)])
 works[,.(min(publication_date_cleaned,na.rm=T),max(publication_date_cleaned,na.rm=T))]
-names(works)
 
 
 # Color palettes used in the figures.
