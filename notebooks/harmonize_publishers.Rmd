@@ -45,19 +45,20 @@ places_harmonized <- fread("../config/places/places_harmonized.tsv",sep="\t")
 works4 <- merge(works,places_harmonized,by.x="publication_place",by.y="place_original",all.x=T)
 
 # Store the original name of the publisher.
-works4[,publisher_orig:=publisher]
+works4[,publisher_editing:=publisher]
 
 # We can remove one addition from the end already.
-works4[,publisher_orig:=str_replace(publisher_orig, ", levitaja", "")]
+works4[,publisher_editing:=str_replace(publisher_editing, ", levitaja", "")]
 
 # Sometimes there are several publishers separated by a semicolon, we make a table with one publisher name per row.
-unlist_publishers <- works4[,.(publisher_unlist=unlist(str_split(publisher_orig,";"))),id][,publisher_unlist:=trimws(publisher_unlist)]
+unlist_publishers <- works4[,.(publisher_unlist=unlist(str_split(publisher_editing,";"))),id][,publisher_unlist:=trimws(publisher_unlist)][publisher_unlist!=""]
 
 #Almost 6000 books have 2 or more publishers
 unlist_publishers[,.(.N,publisher_unlist),id][N>1][,uniqueN(id)]
 
 # We add extra information to the list.
 works5 <- merge(works4,unlist_publishers, by="id")
+#works5[id=="b47737566",.(publisher_unlist)]
 publishers <- unique(works5[,.N,.(publisher_unlist,publication_date_cleaned,place_harmonized)][,n_works:=sum(N,na.rm=T),publisher_unlist][,years_publisher:=.N,publisher_unlist][years_publisher>10,big_pub:=T][,min_time:=min(publication_date_cleaned,na.rm=T),publisher_unlist][,max_time:=max(publication_date_cleaned,na.rm=T),publisher_unlist][order(publisher_unlist,-years_publisher)][publisher_unlist!=""][,-c("publication_date_cleaned","N")])
 
 # And start with rules to clean up the publisher names. We create a column standardizing_name to work with and update.
@@ -129,16 +130,31 @@ merged[,count_standardized:=.N,.(standardizing_name,place_harmonized)]
 
 # For simplicity we reduce very long publisher names to their first 50 characters.
 merged[,standardizing_name:=substr(standardizing_name,0,50)]
-merged[,publisher_unlist:=substr(publisher_unlist,0,50)]
+#merged[,publisher_unlist:=substr(publisher_unlist,0,50)]
 
 # An external table was built on the basis of this that was used for the text embedding approach to look for further similarities between publisher names.
-fwrite(unique(merged[,.(publisher_original=publisher_unlist,publisher_harmonized=standardizing_name)]),"../config/publishers/publisher_harmonization_mapping.tsv",sep="\t")
+
 fwrite(merged[order(place_harmonized,publisher_harmonized=standardizing_name)],"../reports/publishers_overview_rulebased_harmonization.tsv",sep="\t")
+
+# Merge back with original data.
+
+#rulebased_mappings <- unique(merged[,.(publisher_unlist,publication_place_harmonized=place_harmonized,publisher_harmonized=standardizing_name)])
+#publisher_clusters <- fread("../config/publishers/publisher_similarity_groups.tsv",sep="\t",strip.white = F)
+#with_clusters <- merge(rulebased_mappings,unique(publisher_clusters[,.(publisher_harmonized,publisher_similarity_group)]),by=c("publisher_harmonized"),all.x=T)[,.SD[1],.(publisher_unlist,publisher_harmonized,publication_place_harmonized)]
+#with_clusters[is.na(publisher_similarity_group)&!is.na(publisher_harmonized),publisher_similarity_group:=publisher_harmonized]
+#backtogether <- merge(unique(works5[,.(id,publisher,publisher_unlist,publication_place_harmonized=place_harmonized)]),with_clusters,by=c("publisher_unlist","publication_place_harmonized"),all.x=T)
+#one_per_line_again <- backtogether[,.(publisher_harmonized_combined=paste0(publisher_harmonized,collapse="; "),publisher_similarity_group_combined=paste0(publisher_similarity_group,collapse="; ")),.(id,publisher)]
+
+
+fwrite(unique(merged[,.(publisher_original=publisher_unlist,publisher_harmonized=standardizing_name)]),"../config/publishers/publisher_harmonization_mapping.tsv",sep="\t")
+
+#fwrite(unique(one_per_line_again[,.(publisher,publisher_harmonized=publisher_harmonized_combined)]),"../config/publishers/publisher_harmonization_mapping_combined.tsv",sep="\t")
+#fwrite(unique(one_per_line_again[,.(publisher,publisher_similarity_group=publisher_similarity_group_combined)]),"../config/publishers/publisher_similarity_group_combined.tsv",sep="\t")
 
 
 # The results of the text embedding approach are read in here.
 publisher_clusters <- fread("../config/publishers/publisher_similarity_groups.tsv",sep="\t",strip.white = F)
-bothmethods <- unique(merge(unique(merged[,.(standardizing_name,publisher_unlist)]),publisher_clusters[,.(standardizing_name,similarity_group)],by.x=c("standardizing_name"),by.y=c("standardizing_name"),all=T))
+bothmethods <- unique(merge(unique(merged[,.(standardizing_name,publisher_unlist)]),publisher_clusters[,.(publisher_harmonized,similarity_group=publisher_similarity_group)],by.x=c("standardizing_name"),by.y=c("publisher_harmonized"),all=T))
 see <- bothmethods[is.na(publisher_unlist)]
 
 # Some basic statistics on both cases
