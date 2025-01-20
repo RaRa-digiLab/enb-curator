@@ -8,11 +8,11 @@ Included in this folder are stand-alone explorations of the data and modular add
 
 ## Processing
 
-- [`harmonize_places.Rmd`](harmonize_places.Rmd) - The pipeline to harmonize the place names relying on [rules](../config/places/places_rules.tsv) and geographical information. It generates the [`../config/places/places_harmonized.tsv`](mappings) between place name variants and harmonized names in the pipeline config.
-- [`harmonize_publishers.Rmd`](harmonize_publishers.Rmd) - The pipeline to harmonize the publisher names relying on [rules](../config/publishers/publisher_harmonize_rules.tsv) and [harmonized place names](../config/places/places_harmonized.tsv). It generates the [mappings](../config/publishers/publisher_harmonization_mapping.json) between publisher name variants and harmonized names).
+- [`harmonize_places.Rmd`](harmonize_places.Rmd) - The pipeline to harmonize the place names relying on [rules](../config/places/places_rules.tsv) and geographical information. It generates the [mappings](../config/places/places_harmonized.tsv) between place name variants and harmonized names in the pipeline config.
+- [`harmonize_publishers.Rmd`](harmonize_publishers.Rmd) - The pipeline to harmonize the publisher names relying on [rules](../config/publishers/publisher_harmonize_rules.tsv) and [harmonized place names](../config/places/places_harmonized.tsv). It generates the [mappings](../config/publishers/publisher_harmonization_mapping.tsv) between publisher name variants and harmonized names).
+- [`publisher_similarity_groups.ipynb`](publisher_similarity_groups.ipynb) - The pipeline for retrieving embeddings for harmonized publisher names and using them to create vector-based similarity [clusters](../config/publishers/publisher_similarity_groups.tsv).
 - [`adding_gender.ipynb`](adding_gender.ipynb) - The pipeline to add gender to person ids in the dataset.
 - [`linking_viaf_and_wikidata.ipynb`](linking_viaf_and_wikidata.ipynb) - The pipeline to link person ids with ids in viaf and wikidata.
-- [`experiments/filter-and-clean.ipynb`](experiments/filter-and-clean.ipynb) - Experiments in filtering and cleaning various bibliographic fields where the relevant parts have already been integrated into the main pipeline.
 
 ## Case studies
 
@@ -24,5 +24,5 @@ There are three case studies reported in the associated article. These explorati
 
 ## Experiments
 
-The experiments folder contains a notebook that was used to test different (rule-based) cleaning methods for the `books` dataset.
+- [`experiments/filter-and-clean.ipynb`](experiments/filter-and-clean.ipynb) - Experiments in filtering and cleaning various bibliographic fields where the relevant parts have already been integrated into the main pipeline.
 
