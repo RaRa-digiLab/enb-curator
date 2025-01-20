@@ -65,4 +65,4 @@ If you want to adapt the pipeline to your own dataset, you can try running the e
 
 We welcome contributions to improve the pipeline and the quality of the curated dataset! For smaller changes, such as correcting coordinates or updating mappings, it is easiest to make the changes directly in the relevant files located in the [`./config`](config) directory. This ensures the pipeline uses the correct data in subsequent runs.
 
-If you're familiar with GitHub, feel free to submit a pull request. If you're unsure how to do this, don't hesitate to reach out to us - we're happy to help!
+If you're familiar with GitHub, feel free to submit a pull request or open an issue. If you're unsure how to do this, don't hesitate to reach out to us - we're happy to help!
