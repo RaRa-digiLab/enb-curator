@@ -132,7 +132,8 @@ merged[,standardizing_name:=substr(standardizing_name,0,50)]
 merged[,publisher_unlist:=substr(publisher_unlist,0,50)]
 
 # An external table was built on the basis of this that was used for the text embedding approach to look for further similarities between publisher names.
-fwrite(merged[order(place_harmonized,standardizing_name)],"../reports/publishers_overview_rulebased_harmonization.tsv",sep="\t")
+fwrite(unique(merged[,.(publisher_original=publisher_unlist,publisher_harmonized=standardizing_name)]),"../config/publishers/publisher_harmonization_mapping.tsv",sep="\t")
+fwrite(merged[order(place_harmonized,publisher_harmonized=standardizing_name)],"../reports/publishers_overview_rulebased_harmonization.tsv",sep="\t")
 
 
 # The results of the text embedding approach are read in here.
