@@ -647,9 +647,31 @@ def get_coordinates(place_column):
     return coordinates_df
 
 def harmonize_publishers(publishers_column):
+    """
+    Harmonize publisher names in a column using the mapping in config.
+    """
+    # Load the harmonization mapping from the file
     harmonized_publishers = pd.read_csv(publisher_harmonization_file_path, sep="\t", encoding="utf8")
     mapping = dict(zip(harmonized_publishers["publisher_original"], harmonized_publishers["publisher_harmonized"]))
-    return publishers_column.map(mapping)
+
+    def harmonize_cell(cell):
+        # If it's NaN or not a string, return as-is (or return "" if you prefer).
+        if pd.isna(cell) or not isinstance(cell, str):
+            return cell
+
+        # Split, map, and join back
+        values = cell.split("; ")
+        harmonized_values = [mapping.get(value, value) for value in values]
+        # Keep only strings (removes values mapped to NaN)
+        harmonized_values = [value for value in harmonized_values if isinstance(value, str)]
+        try:
+            return "; ".join(harmonized_values)
+        except TypeError:
+            raise TypeError(f"Error harmonizing publisher: {cell} harmonized values {harmonized_values}")
+        
+
+    # Apply the harmonization function to the entire column
+    return publishers_column.apply(harmonize_cell)
 
 def group_publishers_by_similarity(df):
     groups_df = pd.read_csv(
@@ -659,14 +681,14 @@ def group_publishers_by_similarity(df):
         dtype=str
     )
 
-    counts = groups_df['similarity_group'].value_counts()
+    counts = groups_df['publisher_similarity_group'].value_counts()
     valid_similarity_groups = counts[counts >= 2].index
-    filtered_groups_df = groups_df[groups_df['similarity_group'].isin(valid_similarity_groups)]
+    filtered_groups_df = groups_df[groups_df['publisher_similarity_group'].isin(valid_similarity_groups)]
 
     location_publisher_to_group = {}
 
-    for location, group in filtered_groups_df.groupby('harm_name'):
-        publisher_to_group = dict(zip(group['standardizing_name'], group['similarity_group']))
+    for location, group in filtered_groups_df.groupby('publication_place_harmonized'):
+        publisher_to_group = dict(zip(group['publisher_harmonized'], group['publisher_similarity_group']))
         location_publisher_to_group[location] = publisher_to_group
 
     publisher_similarity_groups = []
@@ -907,11 +929,13 @@ def curate_books(df):
         df["publication_place_harmonized"] = harmonize_placenames(df["260$a"])
         df[["publication_place_latitude", "publication_place_longitude"]] = get_coordinates(df["publication_place_harmonized"])
 
+    ### Harmonize manufacturing places
     if "260$e" in df.columns:
         print("Harmonizing manufacturing places")
         df["manufacturing_place"] = harmonize_placenames(df["260$e"])
         df = df.drop("260$e", axis=1)
 
+    ### Harmonize publishers
     if "260$b" in df.columns:
         print("Harmonizing publishers")
         df["publisher_harmonized"] = harmonize_publishers(df["260$b"])
