@@ -6,7 +6,8 @@ A modular pipeline for transforming and curating the **Estonian National Bibliog
 > **Institution**: National Library of Estonia  
 > **License**: [MIT](https://mit-license.org/)
 
-Related publication: [TBA]
+Related publication: 
+- Kruusmaa, Krister; Tinits, Peeter; Nemvalts, Laura 2025. Curated Bibliographic Data: The Case of the Estonian National Bibliography. *Journal of Open Humanities Data*, 11(1). [https://doi.org/10.5334/johd.280](https://doi.org/10.5334/johd.280)
 
 #### If you just want to download the datasets:
 - **Books**: [https://doi.org/10.5281/zenodo.14083327](https://doi.org/10.5281/zenodo.14083327)
