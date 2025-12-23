@@ -718,19 +718,26 @@ def group_publishers_by_similarity(df):
 
 def get_viaf_and_wkp_ids(id_number):
     try:
-        jsonld_url = f'https://viaf.org/viaf/sourceID/ERRR|{id_number}/viaf.jsonld'
-        response = requests.get(jsonld_url)
+        url = f"https://www.viaf.org/viaf/sourceID/ERRR|{id_number}"
+        r = requests.get(url, headers={"Accept": "application/ld+json"})
+        r.raise_for_status()
 
-        if response.status_code == 200:
-            jsonld_data = response.json()
-            viaf_id = next((item.get('identifier', 'NA') for item in jsonld_data.get('@graph', []) if item.get('@type') == "schema:Person"), 'NA')
-            wkp_id = next((url.split('/')[-1] for item in jsonld_data.get('@graph', []) for url in item.get('sameAs', []) if 'wikidata.org' in url), 'NA')
-            return viaf_id, wkp_id
+        graph = r.json().get("@graph", [])
+        person = next(i for i in graph if i.get("@type") == "schema:Person")
 
-    except RequestException:
-        return None, None
-    
-    return None, None
+        viaf_id = person.get("http://purl.org/dc/terms/identifier", "NA")
+
+        wkp_id = "NA"
+        for s in person.get("schema:sameAs", []):
+            url = s.get("@id") if isinstance(s, dict) else s
+            if isinstance(url, str) and "wikidata.org/entity/" in url:
+                wkp_id = url.rsplit("/", 1)[-1]
+                break
+
+        return viaf_id, wkp_id
+
+    except (RequestException, StopIteration):
+        return "NA", "NA"
 
 def update_authority_and_df(input_df, strip_prefix=True):
     """
