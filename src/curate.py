@@ -747,44 +747,45 @@ def update_authority_and_df(input_df, strip_prefix=True):
     # Step 2: Filter input_df to only include ids not in the authority file
     missing_entries_df = input_df[~input_df['id'].isin(existing_ids)].copy()[['id']]
 
-    if missing_entries_df.empty:
-        print("VIAF and Wikidata linking: Person IDs authority file is up to date (no new persons found since last ingest).")
-        return input_df
+    updated_links = links
 
     # Initialize list to hold successful new entries
     new_entries = []
-    print(f"VIAF and Wikidata linking: Found {len(missing_entries_df)} new persons. Attempting to link.")
-
-    progress_bar = tqdm(
-    missing_entries_df.iterrows(),
-    total=len(missing_entries_df),
-    desc="Linking new persons (press Ctrl+C to skip)"
-    )
     interrupted = False
 
-    # Iterate through missing entries and update IDs using get_viaf_and_wkp_ids
-    for index, row in progress_bar:
-        if strip_prefix:
-            id_number = row['id'].lstrip("a")
-        else:
-            id_number = row['id']
-        try:
-            #print(id_number)
-            viaf_id, wkp_id = get_viaf_and_wkp_ids(id_number)
-            if viaf_id is not None and wkp_id is not None and (viaf_id != 'NA' or wkp_id != 'NA'):
-                new_entries.append({'rara_id': row['id'], 'viaf_id': viaf_id, 'wkp_id': wkp_id})
+    if missing_entries_df.empty:
+        print("VIAF and Wikidata linking: Person IDs authority file is up to date (no new persons found since last ingest).")
+    else:
+        print(f"VIAF and Wikidata linking: Found {len(missing_entries_df)} new persons. Attempting to link.")
+
+        progress_bar = tqdm(
+        missing_entries_df.iterrows(),
+        total=len(missing_entries_df),
+        desc="Linking new persons (press Ctrl+C to skip)"
+        )
+
+        # Iterate through missing entries and update IDs using get_viaf_and_wkp_ids
+        for index, row in progress_bar:
+            if strip_prefix:
+                id_number = row['id'].lstrip("a")
             else:
-                new_entries.append({'rara_id': row['id'], 'viaf_id': 'NA', 'wkp_id': 'NA'})
-        except KeyboardInterrupt:
-            print("VIAF and Wikidata linking: Linking interrupted by user.")
-            interrupted = True
-            progress_bar.close()
-            break
-        except Exception as e:
-            tqdm.write(f"VIAF and Wikidata linking: Error linking ID {id_number}: {e}")
+                id_number = row['id']
+            try:
+                #print(id_number)
+                viaf_id, wkp_id = get_viaf_and_wkp_ids(id_number)
+                if viaf_id is not None and wkp_id is not None and (viaf_id != 'NA' or wkp_id != 'NA'):
+                    new_entries.append({'rara_id': row['id'], 'viaf_id': viaf_id, 'wkp_id': wkp_id})
+                else:
+                    new_entries.append({'rara_id': row['id'], 'viaf_id': 'NA', 'wkp_id': 'NA'})
+            except KeyboardInterrupt:
+                print("VIAF and Wikidata linking: Linking interrupted by user.")
+                interrupted = True
+                progress_bar.close()
+                break
+            except Exception as e:
+                tqdm.write(f"VIAF and Wikidata linking: Error linking ID {id_number}: {e}")
 
     # Step 3: Append the new rows to the authority file and save it (only keep 'rara_id', 'viaf_id', 'wkp_id' columns)
-    updated_links = links  # Default to existing links in case no successful entries are found
     try:
         if new_entries:
             if interrupted:
@@ -794,7 +795,7 @@ def update_authority_and_df(input_df, strip_prefix=True):
                 updated_links = pd.concat([links, new_entries_df], ignore_index=True).fillna("NA")[['rara_id', 'viaf_id', 'wkp_id']]
                 updated_links.to_csv(persons_links_file_path, sep="\t", index=False, encoding="utf8")
                 print(f"VIAF and Wikidata linking: Successfully linked {len(new_entries)} new persons. Authority file updated.")
-        else:
+        elif not missing_entries_df.empty:
             print("VIAF and Wikidata linking: Linking failed for new persons. Some persons in the dataset will not have VIAF and/or Wikidata links.")
     except Exception as e:
         print(f"VIAF and Wikidata linking: Error updating authority file: {e}")
