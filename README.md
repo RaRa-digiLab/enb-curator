@@ -10,8 +10,8 @@ Related publication:
 - Kruusmaa, Krister; Tinits, Peeter; Nemvalts, Laura 2025. Curated Bibliographic Data: The Case of the Estonian National Bibliography. *Journal of Open Humanities Data*, 11(1). [https://doi.org/10.5334/johd.280](https://doi.org/10.5334/johd.280)
 
 #### If you just want to download the datasets:
-- **Books**: [https://doi.org/10.5281/zenodo.14083327](https://doi.org/10.5281/zenodo.14083327)
-- **Persons**: [https://doi.org/10.5281/zenodo.14094584](https://doi.org/10.5281/zenodo.14094584)
+- **Books**: [https://doi.org/10.5281/zenodo.14083326](https://doi.org/10.5281/zenodo.14083326)
+- **Persons**: [https://doi.org/10.5281/zenodo.14094583](https://doi.org/10.5281/zenodo.14094583)
 
 ## Overview
 
