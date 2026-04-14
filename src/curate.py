@@ -32,6 +32,7 @@ placenames_file_path = project_root / "config" / "places" / "places_harmonized.t
 coordinates_file_path = project_root / "config" / "places" / "places_coordinates.tsv"
 persons_links_file_path = project_root / "config" / "persons" / "persons_id_links.tsv"
 persons_gender_file_path = project_root / "config" / "persons" / "persons_gender.tsv"
+persons_dates_file_path = project_root / "config" / "persons" / "persons_dates.tsv"
 publisher_harmonization_file_path = project_root / "config" / "publishers" / "publisher_harmonization_mapping.tsv"
 publisher_similarity_groups_file_path = project_root / "config" / "publishers" / "publisher_similarity_groups.tsv"
 
@@ -821,11 +822,17 @@ def update_authority_and_df(input_df, strip_prefix=True):
     return input_df
 
 def apply_gender_mapping(id_column):
-    """Reads external gender data (combined from NLE, VIAF, Wikidata)and applies the mapping to the dataframe."""
+    """Reads external gender data (combined from NLE, VIAF, Wikidata) and applies the mapping to the dataframe."""
     gender_data = pd.read_csv(persons_gender_file_path, sep="\t", encoding="utf8")
     gender_mapping = dict(zip(gender_data["rara_id"], gender_data["gender"]))
     return id_column.map(gender_mapping)
 
+def apply_dates_mapping(id_column):
+    """Reads external dates data (from VIAF) and applies the mapping to the dataframe."""
+    dates_data = pd.read_csv(persons_dates_file_path, sep="\t", encoding="utf8")
+    birth_mapping = dict(zip(dates_data["rara_id"], dates_data["birth_date"]))
+    death_mapping = dict(zip(dates_data["rara_id"], dates_data["death_date"]))
+    return id_column.map(birth_mapping), id_column.map(death_mapping)
 
 def curate_books(df):
 
@@ -966,6 +973,12 @@ def curate_persons(df):
     df[["name", "birth_date", "death_date"]] = df["100"].apply(extract_person_info, args=(False,)).to_list()
     df["birth_date"] = df["birth_date"].astype("Int64", errors="ignore")
     df["death_date"] = df["death_date"].astype("Int64", errors="ignore")
+
+    ### Update birth and death dates from external sources where missing
+    print("Updating birth and death dates from external sources")
+    external_birth, external_death = apply_dates_mapping(df["id"])
+    df["birth_date"] = df["birth_date"].fillna(external_birth)
+    df["death_date"] = df["death_date"].fillna(external_death)
 
     ### 375$a: cleaning and harmonizing gender identities
     print("Cleaning and harmonizing gender identities")
