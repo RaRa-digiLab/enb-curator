@@ -831,6 +831,7 @@ Gratz	Graz
 Graz	Graz
 Great Britain	Great Britain
 Suurbritannia	Great Britain
+Suurbritannia?	Great Britain
 United Kingdom	Great Britain
 Greenacres, Australia	Greenacres, Australia
 Greifswald	Greifswald
@@ -1995,6 +1996,7 @@ Luige (Kiili vald)	Luige
 Luleå	Luleå
 Lund	Lund
 Lund?	Lund
+Lund 	Lund
 Lunenburg	Lunenburg
 Luoma	Luoma
 Lustivere	Lustivere
@@ -2617,6 +2619,7 @@ Pančevo	Pančevo
 Papsaare	Papsaare
 Pariisis	Paris
 Pariis	Paris
+Pariis?	Pariis
 Paris	Paris
 Paris [etc.]	Paris
 Paris?	Paris
@@ -3100,12 +3103,12 @@ Rezekne [Läti]	Rēzekne
 Rēzekne	Rēzekne
 Rēzekne [jne.]	Rēzekne
 Резекне	Rēzekne
-S.-Peterburg	S.-Peterburg
-S.-Petersburg	S.-Peterburg
-Saint-Petersburg	S.-Peterburg
-В Санктпетербурге	S.-Peterburg
-Санктпетербург	S.-Peterburg
-Спб	S.-Peterburg
+S.-Peterburg	Saint Petersburg
+S.-Petersburg	Saint Petersburg
+Saint-Petersburg	Saint Petersburg
+В Санктпетербурге	Saint Petersburg
+Санктпетербург	Saint Petersburg
+Спб	Saint Petersburg
 Saarbrücken	Saarbrücken
 Saarbrücken [Saksamaa]	Saarbrücken
 Saarbücken	Saarbrücken
@@ -3246,6 +3249,7 @@ Sankt Augustin	Sankt Augustin
 St. Gallen	Sankt Gallen
 Santa Ana	Santa Ana
 Santa Ana (Ameerika Ühendriigid)	Santa Ana
+Santa Ana (Cal.)	Santa Ana
 Santa Barbara (California)	Santa Barbara
 Santa Barbara (Kalifornia)	Santa Barbara
 Tenerife	Santa Cruz de Tenerife
@@ -4030,6 +4034,7 @@ Umbusi küla	Umbusi
 Umea	Umeå
 Umea [Rootsi]	Umeå
 Umeå	Umeå
+Umeẵ	Umeå
 Ungari	Ungari
 Ubsaliae	Uppsala
 Uppsala	Uppsala
@@ -4063,6 +4068,7 @@ Vaabina	Vaabina
 Vaasa	Vaasa
 Vasa	Vaasa
 Vadstena	Vadstena
+Vadstena 	Vadstena
 Vadstena (Rootsi)	Vadstena
 Wadstena	Vadstena
 Vaeküla	Vaeküla
@@ -4466,6 +4472,7 @@ Yerevan	Yerevan
 Евпатория	Yevpatoriya
 Heshan	Yiyang
 Yonkers (N.Y.)	Yonkers
+Yorktown, Virginia	Yorktown
 Yoshkar-Ola	Yoshkar-Ola
 Йошкар-Ола	Yoshkar-Ola
 Ystad	Ystad
@@ -4547,18 +4554,18 @@ Chile	Şile
 (	
 ?	
 Abo, 1973	
-S. l	
-S. l.	
-S. l. : s. n	
-S. l. : s.n	
-S. l. :s.n	
-S. l.] :[s.n.	
-S.l	
-S.l.	
+S. l	s.l.
+S. l.	s.l.
+S. l. : s. n	s.l.
+S. l. : s.n	s.l.
+S. l. :s.n	s.l.
+S. l.] :[s.n.	s.l.
+S.l	s.l.
+S.l.	s.l.
 c©2024	
-s. l	
-s.l	
-s.l.	
+s. l	s.l.
+s.l	s.l.
+s.l.	s.l.
 ©2007	
 ©2019	
 ©2020	
@@ -4571,13 +4578,13 @@ s.l.
 (  :	
 ( :	
 (:	
-Ilmumiskoht teadmata	
-T(Tallinn	
-T[allinn	
+Ilmumiskoht teadmata	s.l.
+T(Tallinn	Tallinn
+T[allinn	Tallinn
 Uus ja täiendatud väljaanne	
-e([Lohkva (Tartumaa)]	
-e([Põltsamaa]	
-*Таллин	
+e([Lohkva (Tartumaa)]	Lohkva
+e([Põltsamaa]	Põltsamaa
+*Таллин	Tallinn
 A. Mickwitz	
 A. Tõllasepp	
 Aadmal [Hiiumaa]	
@@ -4632,7 +4639,7 @@ C. Mattiesen
 CIMO	
 Canmore (Alberta)	
 Cardliff [etc.]	
-Catthorpe Manor (Suurbritannia)	
+Catthorpe Manor (Suurbritannia)	Catthorpe
 Cecis	
 Ch. Assafrey	
 Chadstone (Victoria)	
@@ -4641,7 +4648,7 @@ Champain (Ill.) [etc.]
 Charlottenburg	
 Chatham, Kent	
 Chichester	
-Cochrane (Wis.)	
+Cochrane (Wis.)	Cochrane
 Coxsackie	
 Cмоленск	
 DIYA USA Commercial Printing Company	
@@ -4652,11 +4659,11 @@ Darmstadt-Arheilgen
 Das	
 Diesdorf bei Gäbersdorf	
 Dongguan, Kiina	
-Dorpat :[Academia Gustaviana]	
-Dorpat] : [s.n.	
-Dorpat : J. Brendeken	
-Dorpat :fC. Mattiesen	
-Dorpat:b[s.n.]	
+Dorpat :[Academia Gustaviana]	Tartu
+Dorpat] : [s.n.	Tartu
+Dorpat : J. Brendeken	Tartu
+Dorpat :fC. Mattiesen	Tartu
+Dorpat:b[s.n.]	Tartu
 Dresden-Freital	
 Dromore, Ühendkuningriik, Põhja-Iirimaa	
 EMMTUI	
@@ -4702,22 +4709,22 @@ Gylling
 H. Heidemanni nim. trükikoda	
 H. Heidemanni nimeline trükikoda	
 H. Laakmann	
-Haapasalu	
+Haapasalu	Haapsalu
 Haasbek	
 Halle a. d. S	
 Hallistes [Viljandimaa]	
 Hampstead Gardens	
-Hapвa	
+Hapвa	Narva
 Hartwell, Vic	
-Hawthorn	
-Hawthorn [etc.]	
+Hawthorn	Hawthorn
+Hawthorn [etc.]	Hawthorn
 Heideheim (Brenz	
 Heidenheim/Brenz	
 Heidnheim/Brenz	
-Helsingissa	
-Helsiniki	
-Helsinki :fK. F. Puromiehen Kirjapaino	
-Helsinkki	
+Helsingissa	Helsinki
+Helsiniki	Helsinki
+Helsinki :fK. F. Puromiehen Kirjapaino	Helsinki
+Helsinkki	Helsinki
 Hildburghausen	
 Hollandi	
 [(Hong Kong])	
@@ -4740,8 +4747,8 @@ Iirimaa
 Iisrael	
 Ilmandu küla (Harjumaa)	
 Indoneesia	
-Iourieff	
-Iourieff (Dorpat)	
+Iourieff	Tartu
+Iourieff (Dorpat)	Tartu
 Israel	
 Italia	
 Italien	
@@ -4750,15 +4757,15 @@ Jahrgang
 Jelgawâ	
 Jenæ	
 Jg	
-Jourieff (Dorpat)	
-Jourrieff (Dorpat	
-Jujew (Dorpat)	
-Jujrev	
+Jourieff (Dorpat)	Tartu
+Jourrieff (Dorpat	Tartu
+Jujew (Dorpat)	Tartu
+Jujrev	Tartu
 Järjehoidja	
-Jôgeva (Eesti)	
-Jõekääru (Kanada)	
-Jõhv	
-[Jõhvi], Ida-Virumaa	
+Jôgeva (Eesti)	Jõgeva
+Jõekääru (Kanada)	Jõekääru
+Jõhv	Jõhvi
+[Jõhvi], Ida-Virumaa	Jõhvi
 K. Mattiesen	
 Kaaruka küla [Järvamaa]	
 Kaevere küla (Läänemaa)	
@@ -4782,7 +4789,7 @@ Koolibri
 Kooperatiiv	
 Korea	
 Корнталь	
-Kotka-Järve (Kanada)	
+Kotka-Järve (Kanada)	Kotkajärve
 Krakovā	
 Kreeka	
 Krei küla (Kose vald)	
@@ -4803,20 +4810,20 @@ Lahr/Schwardzwald
 Langley, B.C	
 Lavergne, TN	
 Leck, Saksamaa	
-Leeningraad [!]	
-Leeningrad [!]	
-Leeningradis [!]	
+Leeningraad [!]	Saint Petersburg
+Leeningrad [!]	Saint Petersburg
+Leeningradis [!]	Saint Petersburg
 Lehmja, Rae vald	
 Leiptsig	
-Leningraad [!]	
+Leningraad [!]	Saint Petersburg
 Lettland	
 Limbaschos	
 Linnumetsa (Harjumaa)	
 Litauen	
 Lithuania	
-Lohkna	
-Lohkva, Luunja vald	
-Lohkva, Tartumaa	
+Lohkna	Lohkva
+Lohkva, Luunja vald	Lohkva
+Lohkva, Tartumaa	Lohkva
 ([Lohkva)]	
 Loima	
 Loodus	
@@ -4845,7 +4852,7 @@ Meerkerk (Holland)
 Melle i. Hann	
 Menu	
 Metsakasti küla [Viimsi]	
-Mew York	
+Mew York	New York City
 Michigan	
 Middletown, [Delaware]	
 [Mikkeli,] Soome	
@@ -4853,15 +4860,15 @@ Mikolowo
 Mississauga, Ontario	
 Monte Cremasco (Itaalia)	
 Monte da Caparica	
-Moonstone (Kanada)	
+Moonstone (Kanada)	Moonstone
 Mulgimaa	
 Mulgimaa, [Abja-Paluoja]	
 Mustang (Okla)	
 Mänttä	
 Mänttä : Mäntän Kirjapaino	
-Märzfeldis [Saksamaa	
+Märzfeldis [Saksamaa	Märzfeld
 Mõnuka (Harjumaa)	
-München :fJ. G. Weiss'sche Buchdruckerei	
+München :fJ. G. Weiss'sche Buchdruckerei	Munich
 Münchenstein [Schweiz]	
 NSV Liit	
 Nacka	
@@ -4874,11 +4881,11 @@ New
 New York : Esto Printing Service	
 Newark, Delaware	
 Newport Beach (Calif.)	
-Niagaara Falls (Kanada)	
+Niagaara Falls (Kanada)	Niagara Falls
 Нижный Архыз	
 Noor	
 Norge	
-North Plympton (Australia)	
+North Plympton (Australia)	North Plympton
 North Ryda (New South Wales)	
 Norway	
 Nr	
@@ -4887,28 +4894,28 @@ Nõmme-Rahumäe [Tallinn
 Obinitsa ... [jne. (Võrumaa)]	
 Olion	
 Opladen / Rheinland	
-Oropos Attikis [Kreeka]	
+Oropos Attikis [Kreeka]	Oropos
 Orto	
 Ossipe [Võrumaa]	
 Osulas [Võrumaa	
 Otava Book Printing	
 Padstow, Cornwall	
-Paisley (Šotimaa)	
+Paisley (Šotimaa)	Paisley
 Pantheum	
-Parka (Soome)	
+Parka (Soome)	Parkano
 Partille (Rootsi)	
 Paulton	
 Paxton, Illinois	
 Pb	
-Pearland (Texas)	
+Pearland (Texas)	Pearland
 Peces	
-Peeterburi	
-Peeterburis [!]	
+Peeterburi	Saint Petersburg
+Peeterburis [!]	Saint Petersburg
 Perioodika	
 Pernaviae	
-Peterson (New Jersey)	
+Peterson (New Jersey)	Paterson
 Pieksamäki	
-Pierrefonds (Quebec)	
+Pierrefonds (Quebec)	Pierrefonds
 Polijā	
 Polonia	
 [(Poola])	
@@ -4942,14 +4949,14 @@ Rostochi[i]
 Rothenburg O/L	
 Russalka (Tallinn)	
 Ruudolstattis	
-Rîgâ	
-Rīgõ	
-Saaremaa, [Kuressaare]	
+Rîgâ	Riga
+Rīgõ	Riga
+Saaremaa, [Kuressaare]	Kuressaare
 Saksa Demokraatlik Vabariik	
 San Domenica [Italy]	
 Sangaste vald	
 Sankt	
-Santa Ana, California	
+Santa Ana, California	Santa Ana
 Sarasota, Florida	
 Sastamala	
 Saudi Araabia	
@@ -4959,7 +4966,7 @@ Schlieren [Switzerland]
 Schlock	
 Schnakenburg	
 Schongau/Oberbayern	
-Seedriorus [Kanada]	
+Seedriorus [Kanada]	Seedrioru
 Seli	
 Selja	
 Selters/Taunus	
@@ -4976,8 +4983,8 @@ Sloveenia
 Slovenia	
 Slovenien	
 Smedjebacken	
-Solna	
-Solna (Rootsi)	
+Solna	Solna
+Solna (Rootsi)	Solna
 [(Soome])	
 In Spain	
 Spausdino	
@@ -4986,22 +4993,22 @@ St. Augustin
 St. Lucia	
 St. Martin	
 St. Michael	
-St. Petersbrug	
-St.-Pétersboug[!	
-St.Pétersbourg	
-Stcokholm	
-Sto[c]kholm	
-Stocholm	
-Stockholm] : [s.n.	
-Stockholm] :[s.n.	
-Stockholm : I. Haggström	
-Stockholm : Repro Print	
-Strockholm	
-Suislepas [Viljandimaa]	
+St. Petersbrug	Saint Petersburg
+St.-Pétersboug[!	Saint Petersburg
+St.Pétersbourg	Saint Petersburg
+Stcokholm	Stockholm
+Sto[c]kholm	Stockholm
+Stocholm	Stockholm
+Stockholm] : [s.n.	Stockholm
+Stockholm] :[s.n.	Stockholm
+Stockholm : I. Haggström	Stockholm
+Stockholm : Repro Print	Stockholm
+Strockholm	Stockholm
+Suislepas [Viljandimaa]	Suislepa
 Sundbyberg	
 Suntero	
-Suurbritania	
-Suurupi, Estonia	
+Suurbritania	Great Britain
+Suurupi, Estonia	Suurupi
 Sveits	
 Swarzenbeck	
 Switzerland	
@@ -5016,47 +5023,47 @@ Taaratamme talu (Pärnumaa)
 Taibei (Taiwan)	
 Taimaa	
 Taivan	
-Tallinn ... [jne.]	
-Tallinn : EKP Keskkomitee Kirjastuse trükikoda	
-Tallinn : Lindforsi pärijad	
-Tallinn : M. Martna	
-Tallinn : Printon	
-Tallinn : Tallinna Raamatutrükikoda	
-[Tallinn] : Tallinna Raamatutrükikoda	
-Tallinn : Tallinna Tehnikaülikooli Kirjastuse trükikoda	
+Tallinn ... [jne.]	Tallinn
+Tallinn : EKP Keskkomitee Kirjastuse trükikoda	Tallinn
+Tallinn : Lindforsi pärijad	Tallinn
+Tallinn : M. Martna	Tallinn
+Tallinn : Printon	Tallinn
+Tallinn : Tallinna Raamatutrükikoda	Tallinn
+[Tallinn] : Tallinna Raamatutrükikoda	Tallinn
+Tallinn : Tallinna Tehnikaülikooli Kirjastuse trükikoda	Tallinn
 Tallinn : Tartu	
-Tallinn : Tööstustrükk	
-Tallinn : VÕT-i rotaprint	
-Tallinn :bPrinton	
-Tallinn :fKommunist	
-Tallinn :fOktoober	
-Tallinn EKP Keskkomitee Kirjastuse trükikoda	
-Tallinn Eestimaa sinodi trk.	
-Tallinn J. H. Gressel	
-Tallinn M. Schiffer ja M. Antje	
-Tallinn Trükisilm	
-Tallinn V. Ehrenpreis	
+Tallinn : Tööstustrükk	Tallinn
+Tallinn : VÕT-i rotaprint	Tallinn
+Tallinn :bPrinton	Tallinn
+Tallinn :fKommunist	Tallinn
+Tallinn :fOktoober	Tallinn
+Tallinn EKP Keskkomitee Kirjastuse trükikoda	Tallinn
+Tallinn Eestimaa sinodi trk.	Tallinn
+Tallinn J. H. Gressel	Tallinn
+Tallinn M. Schiffer ja M. Antje	Tallinn
+Tallinn Trükisilm	Tallinn
+Tallinn V. Ehrenpreis	Tallinn
 Tallinn, Nõmme	
-([(Tallinn)]	
-([Tallinn)]	
-Tallinna Raamatutrükikoda	
-Tallinni	
-Tallinnn	
-Tallinn}	
+([(Tallinn)]	Tallinn
+([Tallinn)]	Tallinn
+Tallinna Raamatutrükikoda	Tallinn
+Tallinni	Tallinn
+Tallinnn	Tallinn
+Tallinn}	Tallinn
 Talofka bei Ssaratow	
-Tarttu	
-Tartu : Bärthelson	
-Tartu : Tartu Trükikoda	
-Tartu : Tartu Ülikooli Kirjastuse trükikoda	
-(Tartu : Vanemuise mimeogr.)	
-Tartu : Vanemuise mimeogr.	
-Tartu :fH. Heidemanni nimeline trükikoda	
-Tartu H. Heidemanni nim. trükikoda	
-Tartu K. A. Hermann	
-Tartu Riiklik Ülikool	
-Tartu Schnakenburg	
-Tartu Ülikooli Kirjastuse trükikoda	
-Tartus :[s.n.]	
+Tarttu	Tartu
+Tartu : Bärthelson	Tartu
+Tartu : Tartu Trükikoda	Tartu
+Tartu : Tartu Ülikooli Kirjastuse trükikoda	Tartu
+(Tartu : Vanemuise mimeogr.)	Tartu
+Tartu : Vanemuise mimeogr.	Tartu
+Tartu :fH. Heidemanni nimeline trükikoda	Tartu
+Tartu H. Heidemanni nim. trükikoda	Tartu
+Tartu K. A. Hermann	Tartu
+Tartu Riiklik Ülikool	Tartu
+Tartu Schnakenburg	Tartu
+Tartu Ülikooli Kirjastuse trükikoda	Tartu
+Tartus :[s.n.]	Tartu
 Tarvastun [Viljandimaa]	
 Tatrtu	
 Teataja	
@@ -5069,13 +5076,13 @@ Trowbridge, Wilts
 Trånas	
 [Turu], Soome	
 Tyresö [Rootsi]	
-Täkumetsa, Ida-Virumaa	
+Täkumetsa, Ida-Virumaa	Täkumetsa
 Tõravare	
 Tõrvan	
 Tšehhi	
 Tšehhi Vabariik	
 Tšehhoslovakkia	
-Tарту	
+Tарту	Tartu
 USA, Charleston	
 Ukraina	
 Украина	
@@ -5121,8 +5128,8 @@ Võhma-Kabala (Viljandimaa)
 Vаhi	
 W. Volkmann	
 Wallin	
-Waterloo	
-Waterloo (Ont.)	
+Waterloo	Waterloo, Ont
+Waterloo (Ont.)	Waterloo, Ont
 Wedemark [Deutschland]	
 Weisenstein	
 Wetherill Park (Australia)	
@@ -5132,7 +5139,7 @@ Wilmersdorf
 Wiltshire	
 Wissenstein	
 Wissmar	
-Wittemberch [Wittenberg]	
+Wittemberch [Wittenberg]	Wittenberg Lutherstadt
 Vitembergiae	
 Wokingham [etc.]	
 XXVIII	
@@ -5150,31 +5157,31 @@ i.k.
 in Altenburg	
 in Berlin	
 in Braunschweig	
-in Dorpat	
+in Dorpat	Tartu
 in Erlangen	
 in Fellin	
 in Göttingen	
 in Innsbruck	
 in Metzingen	
 in Mitau	
-in Narva	
+in Narva	Narva
 in Offenbach	
 in Rudolstadt	
 in Saarbrücken	
 in Stuttgart	
-in Tartu (Dorpat	
+in Tartu (Dorpat	Tartu
 läti	
 painettu EU:ssa	
 s. n	
 s.n	
-stockholm	
-tTartu	
-tartu	
-{Pärnu	
+stockholm	Stockholm
+tTartu	Tartu
+tartu	Tartu
+{Pärnu	Pärnu
 Äratrükk	
 Åstrop	
 Ühiselu	
-à Tallinn	
+à Tallinn	Tallinn
 Ķīnā	
 Šanghai	
 А. Миквиц	
@@ -5183,73 +5190,73 @@ tartu
 Берлин-Шарлоттенбург	
 Вахи	
 Вахи (Tartumaa	
-Виймси	
-Вильниус	
-Вильно	
+Виймси	Viimsi
+Вильниус	Vilnius
+Вильно	Vilnius
 Естонія [Jädivere küla]	
-К.-Ярве	
+К.-Ярве	Kohtla-Järve
 Каэвур	
 Кл	
 Коммунист	
-Кохтла Ярве	
+Кохтла Ярве	Kohtla-Järve
 Лаади (Pärnumaa)	
 Латвия	
 Латия	
 Линдфорс	
 Литва	
 ([Лохква (Tartumaa)]	
-Лохква	
-Лохква (Tartumaa	
-Лохква (Tartumaa)	
-Москва : Красный пролетарий	
+Лохква	Lohkva
+Лохква (Tartumaa	Lohkva
+Лохква (Tartumaa)	Lohkva
+Москва : Красный пролетарий	Moscow
 Октообер	
 Отчет	
 Пеэтри (Harjumaa)	
 Прну	
 Птроград	
 Пунане тяхт	
-Пяpну	
+Пяpну	Pärnu
 Пярны	
 Ребиндер	
 Реведь	
 Ревел	
 Ревелв	
 Ревелъ	
-Ростов-на Дону	
+Ростов-на Дону	Rostov-na-Donu
 Ротапринт ТПИ	
 Ротапринт ЦБТИ СНХ ЭССР	
 С.-Петрбург	
 Санкт	
 Словакия	
-Суурупи	
-Суурупи [Харьюмаа	
-Тartu	
-Тaрту	
-ТАллин	
-Таpа	
+Суурупи	Suurupi
+Суурупи [Харьюмаа	Suurupi
+Тartu	Tartu
+Тaрту	Tartu
+ТАллин	Tallinn
+Таpа	Tapa
 Тайнинское	
-[Таллин : Горьковский государственный университет]	
+[Таллин : Горьковский государственный университет]	Tallinn
 Таллин-Москва	
-Таллини	
-Таллинн :fЮхисэлу	
-Таллиннн	
-Таллнн	
-Тарту :(	
-Тарту :(B	
-Тарту :fтипография имени Х. Хейдеманна	
-Тарту Коммунист	
-Татрту	
+Таллини	Tallinn
+Таллинн :fЮхисэлу	Tallinn
+Таллиннн	Tallinn
+Таллнн	Tallinn
+Тарту :(	Tartu
+Тарту :(B	Tartu
+Тарту :fтипография имени Х. Хейдеманна	Tartu
+Тарту Коммунист	Tartu
+Татрту	Tartu
 Тип. Управления Делами СМ ЭССР	
 Тип. им. Ханса Хейдеманна	
 Типография Издательства ЦК КП Эстонии	
 Типография Управления делами СМ ЭССР	
-([Тякуметса (Ида-Вирумаа)]	
-Тякуметса	
-Тякуметса (Ida-Virumaa	
-Тякуметса (Ида-Вирумаа	
+([Тякуметса (Ида-Вирумаа)]	Täkumetsa
+Тякуметса	Täkumetsa
+Тякуметса (Ida-Virumaa	Täkumetsa
+Тякуметса (Ида-Вирумаа	Täkumetsa
 Цикмä	
-Ыйхви	
+Ыйхви	Jõhvi
 Эстляндская губернская тип.	
 Юхисэлу	
-в Ревеле	
-таллин	
+в Ревеле	Tallinn
+таллин	Tallinn
